@@ -110,8 +110,8 @@
 <body>
     <div class="container">
         <header>
-            <h1>Microtonal Explorer Project</h1>
-            <p>A Computer Application to Explore 53-Tone Equal Temperament Harmonies Through Modal Interchange</p>
+            <h1>Microtonal Explorer</h1>
+            <p>A tool for exploring and creating microtonal music</p>
         </header>
 
         <section class="project-section">
@@ -148,41 +148,56 @@
         <section class="project-section">
             <h2>Download & Installation</h2>
             <p>Microtonal Explorer is currently available for macOS users.</p>
-        
+
             <div class="feature-card">
                 <h3>Download</h3>
-                <p><a href="https://github.com/fifty-three-tet/microtonal_explorer_project/releases/tag/v1.0.0" class="download-button">Download for Mac</a></p>
+                <p><a href="https://github.com/fifty-three-tet/microtonal_explorer_project/releases/tag/v1.0.0"
+                        class="download-button">Download ChromaFlow Interface v1.0.0 for Mac</a></p>
                 <p class="version-info">Version 1.0.0 - macOS only</p>
             </div>
-        
+
             <div class="feature-card">
-                <h3>Installation Instructions</h3>
+                <h3>Installation Instructions for Mac</h3>
                 <ol>
                     <li>Download the application file</li>
                     <li>Unzip the file if it's compressed</li>
-                    <li><strong>Important:</strong> When opening for the first time:
+                    <li><strong>Important:</strong> When you see the message "ChromaFlow_Interface_v1.0.0 is damaged and
+                        can't be opened":
+                        <ul>
+                            <li>Open Terminal (find it in Applications > Utilities)</li>
+                            <li>Copy and paste this exact command:</li>
+                            <li><code>xattr -cr ~/Desktop/ChromaFlow_Interface_v1.0.0.app</code></li>
+                        </ul>
+                    </li>
+                    <li>After running the Terminal command:
                         <ul>
                             <li>Right-click (or Control-click) on the app icon</li>
                             <li>Select "Open" from the context menu</li>
                             <li>Click "Open" in the security dialog</li>
                         </ul>
                     </li>
-                    <li>If prompted, allow any required permissions for:
-                        <ul>
-                            <li>MIDI access</li>
-                            <li>Audio access</li>
-                        </ul>
-                    </li>
+                </ol>
+                <div class="feature-card">
+                    <h3>Note</h3>
+                    <p>These steps are necessary because the app isn't signed with an Apple Developer certificate. This
+                        is a one-time process to tell macOS that you trust this application.</p>
+                </div>
+                <li>If prompted, allow any required permissions for:
+                    <ul>
+                        <li>MIDI access</li>
+                        <li>Audio access</li>
+                    </ul>
+                </li>
                 </ol>
             </div>
-        
+
             <div class="feature-card">
                 <h3>Why these steps?</h3>
-                <p>Since the app isn't from the Mac App Store, macOS's security features will initially block it. Using the
-                    right-click method tells macOS you trust this application. This is a standard security measure for apps
-                    distributed outside the App Store.</p>
+                <p>Since the app isn't from the Mac App Store, macOS's security features will initially block it. Using
+                    the right-click method tells macOS you trust this application. This is a standard security measure
+                    for apps distributed outside the App Store.</p>
             </div>
-        
+
             <style>
                 .download-button {
                     display: inline-block;
@@ -193,20 +208,20 @@
                     text-decoration: none;
                     margin: 10px 0;
                 }
-        
+
                 .download-button:hover {
                     background: var(--secondary-color);
                 }
-        
+
                 .version-info {
                     color: #666;
                     font-size: 0.9em;
                 }
-        
+
                 ol li {
                     margin-bottom: 10px;
                 }
-        
+
                 ul li {
                     margin: 5px 0;
                 }
