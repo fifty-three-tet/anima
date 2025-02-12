@@ -146,13 +146,71 @@
         </section>
 
         <section class="project-section">
-            <h2>Installation</h2>
-            <p>To get started with Microtonal Explorer, follow these steps:</p>
-            <div class="installation">
-                git clone https://github.com/fifty-three-tet/microtonal_explorer_project.git
-                cd microtonal_explorer_project
-                # Follow setup instructions in README.md
+            <h2>Download & Installation</h2>
+            <p>Microtonal Explorer is currently available for macOS users.</p>
+        
+            <div class="feature-card">
+                <h3>Download</h3>
+                <p><a href="path-to-your-app.zip" class="download-button">Download for Mac</a></p>
+                <p class="version-info">Version 1.0.0 - macOS only</p>
             </div>
+        
+            <div class="feature-card">
+                <h3>Installation Instructions</h3>
+                <ol>
+                    <li>Download the application file</li>
+                    <li>Unzip the file if it's compressed</li>
+                    <li><strong>Important:</strong> When opening for the first time:
+                        <ul>
+                            <li>Right-click (or Control-click) on the app icon</li>
+                            <li>Select "Open" from the context menu</li>
+                            <li>Click "Open" in the security dialog</li>
+                        </ul>
+                    </li>
+                    <li>If prompted, allow any required permissions for:
+                        <ul>
+                            <li>MIDI access</li>
+                            <li>Audio access</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+        
+            <div class="feature-card">
+                <h3>Why these steps?</h3>
+                <p>Since the app isn't from the Mac App Store, macOS's security features will initially block it. Using the
+                    right-click method tells macOS you trust this application. This is a standard security measure for apps
+                    distributed outside the App Store.</p>
+            </div>
+        
+            <style>
+                .download-button {
+                    display: inline-block;
+                    background: var(--primary-color);
+                    color: white;
+                    padding: 12px 24px;
+                    border-radius: 6px;
+                    text-decoration: none;
+                    margin: 10px 0;
+                }
+        
+                .download-button:hover {
+                    background: var(--secondary-color);
+                }
+        
+                .version-info {
+                    color: #666;
+                    font-size: 0.9em;
+                }
+        
+                ol li {
+                    margin-bottom: 10px;
+                }
+        
+                ul li {
+                    margin: 5px 0;
+                }
+            </style>
         </section>
 
         <section class="project-section">
