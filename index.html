@@ -291,7 +291,7 @@
     <script type="text/babel">
         const ChordProgressionGrid = () => {
             const [activeButtons, setActiveButtons] = React.useState(new Set());
-            const [audioCache] = React.useState(new Map());  // Changed from audioElements to audioCache
+            const [audioCache] = React.useState(new Map());
 
             const progressions = [
                 ['CvMvm7[I]', 'FvMvM7[IV]', 'Dm7[II]', 'Gvm7[V]', 'CvMvm9[I]'],
@@ -308,10 +308,28 @@
             React.useEffect(() => {
                 const uniqueChords = new Set(progressions.flat());
                 uniqueChords.forEach(chord => {
-                    const audio = new Audio(`audio/${chord}.wav`);
+                    // Encode the filename for URL
+                    const encodedChord = encodeURIComponent(chord);
+                    const audio = new Audio(`audio/${encodedChord}.wav`);
                     audio.preload = 'auto';
                     audioCache.set(chord, audio);
                 });
+
+                // Add error handling for audio loading
+                const handleAudioError = (e) => {
+                    console.error('Error loading audio file:', e.target.src);
+                };
+
+                audioCache.forEach(audio => {
+                    audio.addEventListener('error', handleAudioError);
+                });
+
+                // Cleanup
+                return () => {
+                    audioCache.forEach(audio => {
+                        audio.removeEventListener('error', handleAudioError);
+                    });
+                };
             }, []);
 
             const handleChordClick = async (chord, rowIndex, colIndex) => {
@@ -334,7 +352,10 @@
 
                 // Get cached audio element
                 const audio = audioCache.get(chord);
-                if (!audio) return;
+                if (!audio) {
+                    console.error('Audio not found for chord:', chord);
+                    return;
+                }
 
                 // Reset audio if it was played before
                 audio.currentTime = 0;
