@@ -292,6 +292,7 @@
         const ChordProgressionGrid = () => {
             const [activeButtons, setActiveButtons] = React.useState(new Set());
             const [audioCache] = React.useState(new Map());
+            const [loadingStatus, setLoadingStatus] = React.useState(new Map());
 
             const progressions = [
                 ['CvMvm7[I]', 'FvMvM7[IV]', 'Dm7[II]', 'Gvm7[V]', 'CvMvm9[I]'],
@@ -308,26 +309,29 @@
             React.useEffect(() => {
                 const uniqueChords = new Set(progressions.flat());
                 uniqueChords.forEach(chord => {
-                    // Encode the filename for URL
-                    const encodedChord = encodeURIComponent(chord);
-                    const audio = new Audio(`audio/${encodedChord}.wav`);
+                    const audio = new Audio(`./audio/${chord}.wav`);  // Use relative path with ./
                     audio.preload = 'auto';
+
+                    // Add load event listener
+                    audio.addEventListener('canplaythrough', () => {
+                        setLoadingStatus(prev => new Map(prev).set(chord, true));
+                    });
+
+                    // Add error handling
+                    audio.addEventListener('error', (e) => {
+                        console.error('Error loading audio file:', chord, e);
+                        setLoadingStatus(prev => new Map(prev).set(chord, false));
+                    });
+
                     audioCache.set(chord, audio);
-                });
-
-                // Add error handling for audio loading
-                const handleAudioError = (e) => {
-                    console.error('Error loading audio file:', e.target.src);
-                };
-
-                audioCache.forEach(audio => {
-                    audio.addEventListener('error', handleAudioError);
+                    setLoadingStatus(prev => new Map(prev).set(chord, 'loading'));
                 });
 
                 // Cleanup
                 return () => {
-                    audioCache.forEach(audio => {
-                        audio.removeEventListener('error', handleAudioError);
+                    audioCache.forEach((audio, chord) => {
+                        audio.removeEventListener('canplaythrough', () => { });
+                        audio.removeEventListener('error', () => { });
                     });
                 };
             }, []);
@@ -335,7 +339,6 @@
             const handleChordClick = async (chord, rowIndex, colIndex) => {
                 const buttonId = `${rowIndex}-${colIndex}`;
 
-                // If this button is already playing, stop it
                 if (activeButtons.has(buttonId)) {
                     const audio = audioCache.get(chord);
                     if (audio) {
@@ -350,14 +353,12 @@
                     return;
                 }
 
-                // Get cached audio element
                 const audio = audioCache.get(chord);
-                if (!audio) {
-                    console.error('Audio not found for chord:', chord);
+                if (!audio || loadingStatus.get(chord) !== true) {
+                    console.warn('Audio not ready for chord:', chord);
                     return;
                 }
 
-                // Reset audio if it was played before
                 audio.currentTime = 0;
 
                 setActiveButtons(prev => {
@@ -398,8 +399,11 @@
                                         className={`p-3 rounded flex-1 text-center transition-colors border border-blue-500 
                                         ${activeButtons.has(`${rowIndex}-${colIndex}`)
                                                 ? 'bg-blue-500 text-white hover:bg-blue-600'
-                                                : 'bg-white hover:bg-gray-50'
+                                                : loadingStatus.get(chord) === false
+                                                    ? 'bg-red-100 text-red-600'
+                                                    : 'bg-white hover:bg-gray-50'
                                             }`}
+                                        disabled={loadingStatus.get(chord) !== true}
                                     >
                                         {chord}
                                     </button>
