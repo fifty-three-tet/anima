@@ -323,12 +323,10 @@
                     const audio = new Audio(`https://fifty-three-tet.github.io/microtonal_explorer_project/audio/${encodeFileName(chord)}.wav`);
 
                     const handleCanPlay = () => {
-                        console.log('Successfully loaded:', chord);
                         setLoadingStatus(prev => new Map(prev).set(chord, true));
                     };
 
                     const handleError = (e) => {
-                        console.error('Failed to load:', chord);
                         setLoadingStatus(prev => new Map(prev).set(chord, false));
                     };
 
@@ -373,7 +371,6 @@
                 }
 
                 if (!audio || !audio.duration) {
-                    console.warn('Audio not ready for chord:', chord);
                     return;
                 }
 
@@ -406,7 +403,6 @@
                     }, Math.ceil(audio.duration * 1000) + 1000);
 
                 } catch (error) {
-                    console.error('Error playing audio:', error);
                     setActiveButtons(prev => {
                         const next = new Set(prev);
                         next.delete(buttonId);
@@ -417,7 +413,7 @@
 
             return (
                 <div className="p-6 bg-white rounded-lg shadow">
-                    <h2 className="text-2xl font-bold mb-4 text-blue-600">Chord Progression Explorer</h2>
+                    <h2 className="text-2xl font-bold mb-4 text-blue-600">Chord Progression Examples</h2>
                     <div className="grid gap-1">
                         {progressions.map((row, rowIndex) => (
                             <div key={rowIndex} className="flex gap-1 items-center">
