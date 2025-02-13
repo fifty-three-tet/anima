@@ -305,77 +305,104 @@
                 ['CvMvm7[I]', '^GvMvM7[V]', '^Em7[III]', '^Avm7[VI]', 'CvMvm9[I]']
             ];
 
-            // Pre-load all audio files
             React.useEffect(() => {
                 const uniqueChords = new Set(progressions.flat());
                 uniqueChords.forEach(chord => {
-                    const audio = new Audio(`./audio/${chord}.wav`);  // Use relative path with ./
+                    const audio = new Audio(`./audio/${chord}.wav`);
                     audio.preload = 'auto';
 
-                    // Add load event listener
-                    audio.addEventListener('canplaythrough', () => {
+                    // Add specific event handlers for each audio element
+                    const handleCanPlay = () => {
                         setLoadingStatus(prev => new Map(prev).set(chord, true));
-                    });
+                    };
 
-                    // Add error handling
-                    audio.addEventListener('error', (e) => {
+                    const handleError = (e) => {
                         console.error('Error loading audio file:', chord, e);
                         setLoadingStatus(prev => new Map(prev).set(chord, false));
-                    });
+                    };
+
+                    // Add the event listeners
+                    audio.addEventListener('canplaythrough', handleCanPlay);
+                    audio.addEventListener('error', handleError);
 
                     audioCache.set(chord, audio);
                     setLoadingStatus(prev => new Map(prev).set(chord, 'loading'));
+
+                    // Store event handlers for cleanup
+                    audio.handleCanPlay = handleCanPlay;
+                    audio.handleError = handleError;
                 });
 
-                // Cleanup
+                // Cleanup function
                 return () => {
-                    audioCache.forEach((audio, chord) => {
-                        audio.removeEventListener('canplaythrough', () => { });
-                        audio.removeEventListener('error', () => { });
+                    audioCache.forEach((audio) => {
+                        if (audio.handleCanPlay) {
+                            audio.removeEventListener('canplaythrough', audio.handleCanPlay);
+                        }
+                        if (audio.handleError) {
+                            audio.removeEventListener('error', audio.handleError);
+                        }
                     });
                 };
             }, []);
 
             const handleChordClick = async (chord, rowIndex, colIndex) => {
                 const buttonId = `${rowIndex}-${colIndex}`;
+                const audio = audioCache.get(chord);
 
+                // If this button is already playing, stop it
                 if (activeButtons.has(buttonId)) {
-                    const audio = audioCache.get(chord);
                     if (audio) {
                         audio.pause();
                         audio.currentTime = 0;
-                    }
-                    setActiveButtons(prev => {
-                        const next = new Set(prev);
-                        next.delete(buttonId);
-                        return next;
-                    });
-                    return;
-                }
 
-                const audio = audioCache.get(chord);
-                if (!audio || loadingStatus.get(chord) !== true) {
-                    console.warn('Audio not ready for chord:', chord);
-                    return;
-                }
-
-                audio.currentTime = 0;
-
-                setActiveButtons(prev => {
-                    const next = new Set(prev);
-                    next.add(buttonId);
-                    return next;
-                });
-
-                try {
-                    await audio.play();
-                    audio.onended = () => {
+                        // Make sure we remove the active state
                         setActiveButtons(prev => {
                             const next = new Set(prev);
                             next.delete(buttonId);
                             return next;
                         });
+                    }
+                    return;
+                }
+
+                if (!audio || !audio.duration) {
+                    console.warn('Audio not ready for chord:', chord);
+                    return;
+                }
+
+                try {
+                    audio.currentTime = 0;
+
+                    // Add active state before playing
+                    setActiveButtons(prev => {
+                        const next = new Set(prev);
+                        next.add(buttonId);
+                        return next;
+                    });
+
+                    // Play the audio
+                    await audio.play();
+
+                    // Set up the ended event handler
+                    const handleEnded = () => {
+                        setActiveButtons(prev => {
+                            const next = new Set(prev);
+                            next.delete(buttonId);
+                            return next;
+                        });
+                        audio.removeEventListener('ended', handleEnded);
                     };
+
+                    audio.addEventListener('ended', handleEnded);
+
+                    // Also set up a safety timeout
+                    setTimeout(() => {
+                        if (activeButtons.has(buttonId)) {
+                            handleEnded();
+                        }
+                    }, Math.ceil(audio.duration * 1000) + 1000); // Duration plus 1 second safety margin
+
                 } catch (error) {
                     console.error('Error playing audio:', error);
                     setActiveButtons(prev => {
