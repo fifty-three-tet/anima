@@ -307,18 +307,19 @@
 
             const encodeFileName = (name) => {
                 return name
-                    .replace(/#/g, '%23')  // Encode # as %23
-                    .replace(/\^/g, '%5E') // Encode ^ as %5E
-                    .replace(/\[/g, '%5B') // Encode [ as %5B
-                    .replace(/\]/g, '%5D') // Encode ] as %5D
-                    .replace(/ø/g, '%F8'); // Encode ø as %F8
+                    .replace(/#/g, '%23')    // Encode # as %23
+                    .replace(/\^/g, '%5E')   // Encode ^ as %5E
+                    .replace(/\[/g, '%5B')   // Encode [ as %5B
+                    .replace(/\]/g, '%5D')   // Encode ] as %5D
+                    .replace(/ø/g, 'o')      // Replace ø with o
+                    .replace(/Ø/g, 'o');     // Replace Ø with o
             };
 
             React.useEffect(() => {
                 const uniqueChords = new Set(progressions.flat());
                 uniqueChords.forEach(chord => {
                     const encodedFileName = encodeFileName(chord);
-                    const audio = new Audio(`./audio/${encodedFileName}.wav`);
+                    const audio = new Audio(`audio/${encodedFileName}.wav`);
 
                     const handleCanPlay = () => {
                         console.log('Successfully loaded:', chord);
