@@ -418,9 +418,9 @@
             return (
                 <div className="p-6 bg-white rounded-lg shadow">
                     <h2 className="text-2xl font-bold mb-4 text-blue-600">Chord Progression Explorer</h2>
-                    <div className="grid gap-4">
+                    <div className="grid gap-1">
                         {progressions.map((row, rowIndex) => (
-                            <div key={rowIndex} className="flex gap-4 items-center">
+                            <div key={rowIndex} className="flex gap-1 items-center">
                                 {row.chords.map((chord, colIndex) => (
                                     <button
                                         key={`${rowIndex}-${colIndex}`}
