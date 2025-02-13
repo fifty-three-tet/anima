@@ -294,7 +294,6 @@
             const [audioCache] = React.useState(new Map());
             const [loadingStatus, setLoadingStatus] = React.useState(new Map());
 
-            // Updated to match exact filenames
             const progressions = [
                 ['CvMvm7[I]', 'FvMvM7[IV]', 'Dm7[II]', 'Gvm7[V]', 'CvMvm9[I]'],
                 ['CvMvm7[I]', 'Fvm7[IV]', 'vDø^m7[II]', 'vG^m^m7[V]', 'CvMvm9[I]'],
@@ -306,16 +305,20 @@
                 ['CvMvm7[I]', '^GvMvM7[V]', '^Em7[III]', '^Avm7[VI]', 'CvMvm9[I]']
             ];
 
-            // Debug: Log the unique chords we're trying to load
-            React.useEffect(() => {
-                const uniqueChords = new Set(progressions.flat());
-                console.log('Attempting to load these chords:', Array.from(uniqueChords));
-            }, []);
+            const encodeFileName = (name) => {
+                return name
+                    .replace(/#/g, '%23')  // Encode # as %23
+                    .replace(/\^/g, '%5E') // Encode ^ as %5E
+                    .replace(/\[/g, '%5B') // Encode [ as %5B
+                    .replace(/\]/g, '%5D') // Encode ] as %5D
+                    .replace(/ø/g, '%F8'); // Encode ø as %F8
+            };
 
             React.useEffect(() => {
                 const uniqueChords = new Set(progressions.flat());
                 uniqueChords.forEach(chord => {
-                    const audio = new Audio(`./audio/${chord}.wav`);
+                    const encodedFileName = encodeFileName(chord);
+                    const audio = new Audio(`./audio/${encodedFileName}.wav`);
 
                     const handleCanPlay = () => {
                         console.log('Successfully loaded:', chord);
