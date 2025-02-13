@@ -304,15 +304,26 @@
                 ['CvMvm7[I]', '^GvMvM7[V]', '^Em7[III]', '^Avm7[VI]', 'CvMvm9[I]']
             ];
 
+
+            // Pre-load all audio files
+            useEffect(() => {
+                const uniqueChords = new Set(progressions.flat());
+                uniqueChords.forEach(chord => {
+                    const audio = new Audio(`audio/${chord}.wav`);
+                    audio.preload = 'auto';
+                    audioCache.set(chord, audio);
+                });
+            }, []);
+
             const handleChordClick = async (chord, rowIndex, colIndex) => {
                 const buttonId = `${rowIndex}-${colIndex}`;
 
+                // If this button is already playing, stop it
                 if (activeButtons.has(buttonId)) {
-                    const audio = audioElements.get(buttonId);
+                    const audio = audioCache.get(chord);
                     if (audio) {
                         audio.pause();
                         audio.currentTime = 0;
-                        audioElements.delete(buttonId);
                     }
                     setActiveButtons(prev => {
                         const next = new Set(prev);
@@ -322,8 +333,12 @@
                     return;
                 }
 
-                const audio = new Audio(`audio/${chord}.wav`);
-                audioElements.set(buttonId, audio);
+                // Get cached audio element
+                const audio = audioCache.get(chord);
+                if (!audio) return;
+
+                // Reset audio if it was played before
+                audio.currentTime = 0;
 
                 setActiveButtons(prev => {
                     const next = new Set(prev);
@@ -339,7 +354,6 @@
                             next.delete(buttonId);
                             return next;
                         });
-                        audioElements.delete(buttonId);
                     };
                 } catch (error) {
                     console.error('Error playing audio:', error);
@@ -348,7 +362,6 @@
                         next.delete(buttonId);
                         return next;
                     });
-                    audioElements.delete(buttonId);
                 }
             };
 
@@ -363,7 +376,7 @@
                                         key={`${rowIndex}-${colIndex}`}
                                         onClick={() => handleChordClick(chord, rowIndex, colIndex)}
                                         className={`p-3 rounded flex-1 text-center transition-colors border border-blue-500 
-                                                ${activeButtons.has(`${rowIndex}-${colIndex}`)
+                                    ${activeButtons.has(`${rowIndex}-${colIndex}`)
                                                 ? 'bg-blue-500 text-white hover:bg-blue-600'
                                                 : 'bg-white hover:bg-gray-50'
                                             }`}
