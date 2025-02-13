@@ -289,29 +289,34 @@
     </div>
     <!-- Add the React component script -->
     <script type="text/babel">
+        // Add Modal Interchange Info Component
         const ModalInterchangeInfo = () => {
-                return (
-                    <div className="mb-8 p-6 bg-gray-50 rounded-lg">
-                        <h2 className="text-2xl font-bold mb-4 text-blue-600">Understanding Modal Interchange</h2>
-                        <p className="mb-4">
-                            Modal interchange expands harmonic possibilities by borrowing chords from parallel
-                            or relative modes while maintaining connection to the original mode.
-                        </p>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div className="p-4 bg-white rounded shadow-sm">
-                                <h3 className="font-bold text-blue-500 mb-2">Parallel Interchange</h3>
-                                <p>Borrows chords from modes sharing the same root note. Example: While in C Ionian,
-                                    borrowing from C Aeolian.</p>
-                            </div>
-                            <div className="p-4 bg-white rounded shadow-sm">
-                                <h3 className="font-bold text-blue-500 mb-2">Relative Interchange</h3>
-                                <p>Treats the original root as a different scale degree in another mode. Example:
-                                    C in C Ionian functioning as the 6th degree of E♭ major.</p>
-                            </div>
+            return (
+                <div className="mb-8 p-6 bg-gray-50 rounded-lg">
+                    <h2 className="text-2xl font-bold mb-4 text-blue-600">Understanding Modal Interchange</h2>
+                    <p className="mb-4">
+                        Modal interchange expands harmonic possibilities by borrowing chords from parallel
+                        or relative modes while maintaining connection to the original mode.
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="p-4 bg-white rounded shadow-sm">
+                            <h3 className="font-bold text-blue-500 mb-2">Parallel Interchange</h3>
+                            <p>Borrows chords from modes sharing the same root note. Example: While in C Ionian,
+                                borrowing from C Aeolian.</p>
+                        </div>
+                        <div className="p-4 bg-white rounded shadow-sm">
+                            <h3 className="font-bold text-blue-500 mb-2">Relative Interchange</h3>
+                            <p>Treats the original root as a different scale degree in another mode. Example:
+                                C in C Ionian functioning as the 6th degree of E♭ major.</p>
                         </div>
                     </div>
-                );
-            };
+                </div>
+            );
+        };
+        const ChordProgressionGrid = () => {
+            const [activeButtons, setActiveButtons] = React.useState(new Set());
+            const [audioCache] = React.useState(new Map());
+            const [loadingStatus, setLoadingStatus] = React.useState(new Map());
 
             const progressions = [
                 { chords: ['CvMvm7[I]', 'FvMvM7[IV]', 'Dm7[II]', 'Gvm7[V]', 'CvMvm9[I]'], label: 'Original' },
