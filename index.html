@@ -5,6 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Microtonal Explorer Project</title>
+    <!-- Add React and other dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
     <style>
         :root {
             --primary-color: #2989ff;
@@ -151,6 +157,7 @@
                 meaningful connections to established modal frameworks.</p>
         </section>
 
+        <!-- Key Features -->
         <section class="project-section">
             <h2>Key Features</h2>
             <div class="features-grid">
@@ -177,143 +184,12 @@
             </div>
         </section>
 
-        <!-- Add this after the Key Features section -->
+        <!-- Add the chord progression section here -->
         <section class="project-section">
-            <h2>Chord Progression Explorer</h2>
-            <div class="progression-grid">
-                <div class="progression-row">
-                    <button class="chord-button" data-audio="CvMvm7[I]">CvMvm7[I]</button>
-                    <button class="chord-button" data-audio="FvMvM7[IV]">FvMvM7[IV]</button>
-                    <button class="chord-button" data-audio="Dm7[II]">Dm7[II]</button>
-                    <button class="chord-button" data-audio="Gvm7[V]">Gvm7[V]</button>
-                    <button class="chord-button" data-audio="CvMvm9[I]">CvMvm9[I]</button>
-                </div>
-                <div class="progression-row">
-                    <button class="chord-button" data-audio="CvMvm7[I]">CvMvm7[I]</button>
-                    <button class="chord-button" data-audio="Fvm7[IV]">Fvm7[IV]</button>
-                    <button class="chord-button" data-audio="vDø^m7[II]">vDø^m7[II]</button>
-                    <button class="chord-button" data-audio="vG^m^m7[V]">vG^m^m7[V]</button>
-                    <button class="chord-button" data-audio="CvMvm9[I]">CvMvm9[I]</button>
-                </div>
-                <div class="progression-row">
-                    <button class="chord-button" data-audio="CvMvm7[I]">CvMvm7[I]</button>
-                    <button class="chord-button" data-audio="F^m^m7[IV]">F^m^m7[IV]</button>
-                    <button class="chord-button" data-audio="C#vMvM7[II]">C#vMvM7[II]</button>
-                    <button class="chord-button" data-audio="vF#^Mmaj7[V]">vF#^Mmaj7[V]</button>
-                    <button class="chord-button" data-audio="CvMvm9[I]">CvMvm9[I]</button>
-                </div>
-                <div class="progression-row">
-                    <button class="chord-button" data-audio="CvMvm7[I]">CvMvm7[I]</button>
-                    <button class="chord-button" data-audio="^Fm7[IV]">^Fm7[IV]</button>
-                    <button class="chord-button" data-audio="vC#^Mmaj7[II]">vC#^Mmaj7[II]</button>
-                    <button class="chord-button" data-audio="Gø^m7[V]">Gø^m7[V]</button>
-                    <button class="chord-button" data-audio="CvMvm9[I]">CvMvm9[I]</button>
-                </div>
-                <div class="progression-row">
-                    <button class="chord-button" data-audio="CvMvm7[I]">CvMvm7[I]</button>
-                    <button class="chord-button" data-audio="vD#vMvM7[III]">vD#vMvM7[III]</button>
-                    <button class="chord-button" data-audio="Cm7[I]">Cm7[I]</button>
-                    <button class="chord-button" data-audio="Fvm7[IV]">Fvm7[IV]</button>
-                    <button class="chord-button" data-audio="CvMvm9[I]">CvMvm9[I]</button>
-                </div>
-                <div class="progression-row">
-                    <button class="chord-button" data-audio="CvMvm7[I]">CvMvm7[I]</button>
-                    <button class="chord-button" data-audio="C#vMvM7[II]">C#vMvM7[II]</button>
-                    <button class="chord-button" data-audio="^Bbm7[VII]">^Bbm7[VII]</button>
-                    <button class="chord-button" data-audio="D#vm7[III]">D#vm7[III]</button>
-                    <button class="chord-button" data-audio="CvMvm9[I]">CvMvm9[I]</button>
-                </div>
-                <div class="progression-row">
-                    <button class="chord-button" data-audio="CvMvm7[I]">CvMvm7[I]</button>
-                    <button class="chord-button" data-audio="G#vMvM7[VI]">G#vMvM7[VI]</button>
-                    <button class="chord-button" data-audio="^Fm7[IV]">^Fm7[IV]</button>
-                    <button class="chord-button" data-audio="^Bbvm7[VII]">^Bbvm7[VII]</button>
-                    <button class="chord-button" data-audio="CvMvm9[I]">CvMvm9[I]</button>
-                </div>
-                <div class="progression-row">
-                    <button class="chord-button" data-audio="CvMvm7[I]">CvMvm7[I]</button>
-                    <button class="chord-button" data-audio="^GvMvM7[V]">^GvMvM7[V]</button>
-                    <button class="chord-button" data-audio="^Em7[III]">^Em7[III]</button>
-                    <button class="chord-button" data-audio="^Avm7[VI]">^Avm7[VI]</button>
-                    <button class="chord-button" data-audio="CvMvm9[I]">CvMvm9[I]</button>
-                </div>
-            </div>
+            <div id="chord-progression-root"></div>
         </section>
-        
-        <style>
-            .progression-grid {
-                display: flex;
-                flex-direction: column;
-                gap: 1rem;
-            }
-        
-            .progression-row {
-                display: flex;
-                gap: 1rem;
-                justify-content: space-between;
-            }
-        
-            .chord-button {
-                flex: 1;
-                padding: 1rem;
-                background: var(--bg-color);
-                border: 1px solid var(--primary-color);
-                border-radius: 6px;
-                color: var(--text-color);
-                cursor: pointer;
-                transition: all 0.2s ease;
-            }
-        
-            .chord-button:hover {
-                background: var(--section-bg);
-            }
-        
-            .chord-button.playing {
-                background: var(--primary-color);
-                color: white;
-            }
-        </style>
-        
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const audioElements = new Map();
 
-                document.querySelectorAll('.chord-button').forEach(button => {
-                    button.addEventListener('click', function () {
-                        const chord = this.dataset.audio;
-
-                        // If already playing this chord, stop it
-                        if (this.classList.contains('playing')) {
-                            const audio = audioElements.get(chord);
-                            if (audio) {
-                                audio.pause();
-                                audio.currentTime = 0;
-                                audioElements.delete(chord);
-                            }
-                            this.classList.remove('playing');
-                            return;
-                        }
-
-                        // Play new chord
-                        const audio = new Audio(`audio/${chord}.wav`);
-                        audioElements.set(chord, audio);
-
-                        audio.addEventListener('ended', () => {
-                            this.classList.remove('playing');
-                            audioElements.delete(chord);
-                        });
-
-                        this.classList.add('playing');
-                        audio.play().catch(err => {
-                            console.error('Error playing audio:', err);
-                            this.classList.remove('playing');
-                            audioElements.delete(chord);
-                        });
-                    });
-                });
-            });
-        </script>
-
+        <!-- Download the app     -->
         <section class="project-section">
             <h2>Download & Installation</h2>
             <p>Microtonal Explorer is currently available for macOS users.</p>
@@ -411,6 +287,101 @@
                 repository for details.</p>
         </section>
     </div>
-</body>
+    <!-- Add the React component script -->
+    <script type="text/babel">
+        const ChordProgressionGrid = () => {
+            const [activeButtons, setActiveButtons] = React.useState(new Set());
+            const [audioElements] = React.useState(new Map());
 
+            const progressions = [
+                ['CvMvm7[I]', 'FvMvM7[IV]', 'Dm7[II]', 'Gvm7[V]', 'CvMvm9[I]'],
+                ['CvMvm7[I]', 'Fvm7[IV]', 'vDø^m7[II]', 'vG^m^m7[V]', 'CvMvm9[I]'],
+                ['CvMvm7[I]', 'F^m^m7[IV]', 'C#vMvM7[II]', 'vF#^Mmaj7[V]', 'CvMvm9[I]'],
+                ['CvMvm7[I]', '^Fm7[IV]', 'vC#^Mmaj7[II]', 'Gø^m7[V]', 'CvMvm9[I]'],
+                ['CvMvm7[I]', 'vD#vMvM7[III]', 'Cm7[I]', 'Fvm7[IV]', 'CvMvm9[I]'],
+                ['CvMvm7[I]', 'C#vMvM7[II]', '^Bbm7[VII]', 'D#vm7[III]', 'CvMvm9[I]'],
+                ['CvMvm7[I]', 'G#vMvM7[VI]', '^Fm7[IV]', '^Bbvm7[VII]', 'CvMvm9[I]'],
+                ['CvMvm7[I]', '^GvMvM7[V]', '^Em7[III]', '^Avm7[VI]', 'CvMvm9[I]']
+            ];
+
+            const handleChordClick = async (chord, rowIndex, colIndex) => {
+                const buttonId = `${rowIndex}-${colIndex}`;
+
+                if (activeButtons.has(buttonId)) {
+                    const audio = audioElements.get(buttonId);
+                    if (audio) {
+                        audio.pause();
+                        audio.currentTime = 0;
+                        audioElements.delete(buttonId);
+                    }
+                    setActiveButtons(prev => {
+                        const next = new Set(prev);
+                        next.delete(buttonId);
+                        return next;
+                    });
+                    return;
+                }
+
+                const audio = new Audio(`audio/${chord}.wav`);
+                audioElements.set(buttonId, audio);
+
+                setActiveButtons(prev => {
+                    const next = new Set(prev);
+                    next.add(buttonId);
+                    return next;
+                });
+
+                try {
+                    await audio.play();
+                    audio.onended = () => {
+                        setActiveButtons(prev => {
+                            const next = new Set(prev);
+                            next.delete(buttonId);
+                            return next;
+                        });
+                        audioElements.delete(buttonId);
+                    };
+                } catch (error) {
+                    console.error('Error playing audio:', error);
+                    setActiveButtons(prev => {
+                        const next = new Set(prev);
+                        next.delete(buttonId);
+                        return next;
+                    });
+                    audioElements.delete(buttonId);
+                }
+            };
+
+            return (
+                <div className="p-6 bg-white rounded-lg shadow">
+                    <h2 className="text-2xl font-bold mb-4 text-blue-600">Chord Progression Explorer</h2>
+                    <div className="grid gap-4">
+                        {progressions.map((row, rowIndex) => (
+                            <div key={rowIndex} className="flex gap-4">
+                                {row.map((chord, colIndex) => (
+                                    <button
+                                        key={`${rowIndex}-${colIndex}`}
+                                        onClick={() => handleChordClick(chord, rowIndex, colIndex)}
+                                        className={`p-3 rounded flex-1 text-center transition-colors border border-blue-500 
+                                                ${activeButtons.has(`${rowIndex}-${colIndex}`)
+                                                ? 'bg-blue-500 text-white hover:bg-blue-600'
+                                                : 'bg-white hover:bg-gray-50'
+                                            }`}
+                                    >
+                                        {chord}
+                                    </button>
+                                ))}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
+        };
+
+        // Mount the React component
+        const root = ReactDOM.createRoot(document.getElementById('chord-progression-root'));
+        root.render(<ChordProgressionGrid />);
+    </script>
+
+</body>
 </html>
