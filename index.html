@@ -469,7 +469,12 @@
 
         // Mount the React component
         const root = ReactDOM.createRoot(document.getElementById('chord-progression-root'));
-        root.render(<ChordProgressionGrid />);
+            root.render(
+                <React.Fragment>
+                    <ModalInterchangeInfo />
+                    <ChordProgressionGrid />
+                </React.Fragment>
+            );
     </script>
 
 </body>
