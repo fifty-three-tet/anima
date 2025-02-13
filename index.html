@@ -178,6 +178,94 @@
         </section>
 
         <section class="project-section">
+            <h2>Chord Progression Explorer</h2>
+            <div class="progression-grid">
+                <div class="progression-row">
+                    <button class="chord-button" data-audio="CvMvm7[I]">CvMvm7[I]</button>
+                    <button class="chord-button" data-audio="FvMvM7[IV]">FvMvM7[IV]</button>
+                    <button class="chord-button" data-audio="Dm7[II]">Dm7[II]</button>
+                    <button class="chord-button" data-audio="Gvm7[V]">Gvm7[V]</button>
+                    <button class="chord-button" data-audio="CvMvm9[I]">CvMvm9[I]</button>
+                </div>
+                <!-- Add remaining rows following the same pattern -->
+            </div>
+        </section>
+        
+        <style>
+            .progression-grid {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+            }
+        
+            .progression-row {
+                display: flex;
+                gap: 1rem;
+                justify-content: space-between;
+            }
+        
+            .chord-button {
+                flex: 1;
+                padding: 1rem;
+                background: var(--bg-color);
+                border: 1px solid var(--primary-color);
+                border-radius: 6px;
+                color: var(--text-color);
+                cursor: pointer;
+                transition: all 0.2s ease;
+            }
+        
+            .chord-button:hover {
+                background: var(--section-bg);
+            }
+        
+            .chord-button.playing {
+                background: var(--primary-color);
+                color: white;
+            }
+        </style>
+        
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const audioElements = new Map();
+
+                document.querySelectorAll('.chord-button').forEach(button => {
+                    button.addEventListener('click', function () {
+                        const chord = this.dataset.audio;
+
+                        // If already playing this chord, stop it
+                        if (this.classList.contains('playing')) {
+                            const audio = audioElements.get(chord);
+                            if (audio) {
+                                audio.pause();
+                                audio.currentTime = 0;
+                                audioElements.delete(chord);
+                            }
+                            this.classList.remove('playing');
+                            return;
+                        }
+
+                        // Play new chord
+                        const audio = new Audio(`audio/${chord}.wav`);
+                        audioElements.set(chord, audio);
+
+                        audio.addEventListener('ended', () => {
+                            this.classList.remove('playing');
+                            audioElements.delete(chord);
+                        });
+
+                        this.classList.add('playing');
+                        audio.play().catch(err => {
+                            console.error('Error playing audio:', err);
+                            this.classList.remove('playing');
+                            audioElements.delete(chord);
+                        });
+                    });
+                });
+            });
+        </script>
+
+        <section class="project-section">
             <h2>Download & Installation</h2>
             <p>Microtonal Explorer is currently available for macOS users.</p>
 
