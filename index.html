@@ -294,39 +294,36 @@
             const [audioCache] = React.useState(new Map());
             const [loadingStatus, setLoadingStatus] = React.useState(new Map());
 
+            // Updated to match exact filenames
             const progressions = [
                 ['CvMvm7[I]', 'FvMvM7[IV]', 'Dm7[II]', 'Gvm7[V]', 'CvMvm9[I]'],
                 ['CvMvm7[I]', 'Fvm7[IV]', 'vDø^m7[II]', 'vG^m^m7[V]', 'CvMvm9[I]'],
                 ['CvMvm7[I]', 'F^m^m7[IV]', 'C#vMvM7[II]', 'vF#^Mmaj7[V]', 'CvMvm9[I]'],
-                ['CvMvm7[I]', '^Fm7[IV]', 'vC#^Mmaj7[II]', 'Gø^m7[V]', 'CvMvm9[I]'],
-                ['CvMvm7[I]', 'vD#vMvM7[III]', 'Cm7[I]', 'Fvm7[IV]', 'CvMvm9[I]'],
+                ['CvMvm7[I]', '^Fm7[IV]', 'vC#Mmaj7[II]', 'Gø^m7[V]', 'CvMvm9[I]'],
+                ['CvMvm7[I]', 'vDvMvM7[III]', 'Cm7[I]', 'Fvm7[IV]', 'CvMvm9[I]'],
                 ['CvMvm7[I]', 'C#vMvM7[II]', '^Bbm7[VII]', 'D#vm7[III]', 'CvMvm9[I]'],
                 ['CvMvm7[I]', 'G#vMvM7[VI]', '^Fm7[IV]', '^Bbvm7[VII]', 'CvMvm9[I]'],
                 ['CvMvm7[I]', '^GvMvM7[V]', '^Em7[III]', '^Avm7[VI]', 'CvMvm9[I]']
             ];
 
-            // Function to safely encode filenames
-            const getAudioFileName = (chord) => {
-                // Replace problematic characters
-                return encodeURIComponent(chord)
-                    .replace(/%23/g, '#')  // Keep # in the filename
-                    .replace(/%5B/g, '[')  // Keep [ in the filename
-                    .replace(/%5D/g, ']')  // Keep ] in the filename
-                    .replace(/%5E/g, '^'); // Keep ^ in the filename
-            };
+            // Debug: Log the unique chords we're trying to load
+            React.useEffect(() => {
+                const uniqueChords = new Set(progressions.flat());
+                console.log('Attempting to load these chords:', Array.from(uniqueChords));
+            }, []);
 
             React.useEffect(() => {
                 const uniqueChords = new Set(progressions.flat());
                 uniqueChords.forEach(chord => {
-                    const fileName = getAudioFileName(chord);
-                    const audio = new Audio(`./audio/${fileName}.wav`);
+                    const audio = new Audio(`./audio/${chord}.wav`);
 
                     const handleCanPlay = () => {
+                        console.log('Successfully loaded:', chord);
                         setLoadingStatus(prev => new Map(prev).set(chord, true));
                     };
 
                     const handleError = (e) => {
-                        console.error('Error loading audio file:', chord, e);
+                        console.error('Failed to load:', chord);
                         setLoadingStatus(prev => new Map(prev).set(chord, false));
                     };
 
@@ -337,7 +334,6 @@
                     audioCache.set(chord, audio);
                     setLoadingStatus(prev => new Map(prev).set(chord, 'loading'));
 
-                    // Store handlers for cleanup
                     audio.handleCanPlay = handleCanPlay;
                     audio.handleError = handleError;
                 });
@@ -398,7 +394,6 @@
 
                     audio.addEventListener('ended', handleEnded);
 
-                    // Safety timeout
                     setTimeout(() => {
                         if (activeButtons.has(buttonId)) {
                             handleEnded();
