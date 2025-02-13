@@ -306,8 +306,18 @@
             ];
 
             const encodeFileName = (name) => {
-                return encodeURIComponent(name)
-                    .replace(/%C3%B8/g, '%F8');  // Proper encoding for ø in URLs
+                // Special case for files with ø
+                if (name.includes('ø')) {
+                    return name
+                        .replace(/ø/g, '%C3%B8')  // UTF-8 encoding for ø
+                        .replace(/#/g, '%23')
+                        .replace(/\^/g, '%5E')
+                        .replace(/\[/g, '%5B')
+                        .replace(/\]/g, '%5D');
+                }
+
+                // Normal encoding for other files
+                return encodeURIComponent(name);
             };
 
             React.useEffect(() => {
