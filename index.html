@@ -327,12 +327,12 @@
                     const audio = new Audio(`https://fifty-three-tet.github.io/microtonal_explorer_project/audio/${encodedFileName}.wav`);
 
                     const handleCanPlay = () => {
-                        <!-- console.log('Successfully loaded:', chord); -->
+                        
                         setLoadingStatus(prev => new Map(prev).set(chord, true));
                     };
 
                     const handleError = (e) => {
-                        console.error('Failed to load:', chord);
+                        
                         setLoadingStatus(prev => new Map(prev).set(chord, false));
                     };
 
