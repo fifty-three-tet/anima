@@ -295,44 +295,40 @@
             const [loadingStatus, setLoadingStatus] = React.useState(new Map());
 
             const progressions = [
-                ['CvMvm7[I]', 'FvMvM7[IV]', 'Dm7[II]', 'Gvm7[V]', 'CvMvm9[I]'],
-                ['CvMvm7[I]', 'Fvm7[IV]', 'vDø^m7[II]', 'vG^m^m7[V]', 'CvMvm9[I]'],
-                ['CvMvm7[I]', 'F^m^m7[IV]', 'C#vMvM7[II]', 'vF#^Mmaj7[V]', 'CvMvm9[I]'],
-                ['CvMvm7[I]', '^Fm7[IV]', 'vC#Mmaj7[II]', 'Gø^m7[V]', 'CvMvm9[I]'],
-                ['CvMvm7[I]', 'vDvMvM7[III]', 'Cm7[I]', 'Fvm7[IV]', 'CvMvm9[I]'],
-                ['CvMvm7[I]', 'C#vMvM7[II]', '^Bbm7[VII]', 'D#vm7[III]', 'CvMvm9[I]'],
-                ['CvMvm7[I]', 'G#vMvM7[VI]', '^Fm7[IV]', '^Bbvm7[VII]', 'CvMvm9[I]'],
-                ['CvMvm7[I]', '^GvMvM7[V]', '^Em7[III]', '^Avm7[VI]', 'CvMvm9[I]']
+                { chords: ['CvMvm7[I]', 'FvMvM7[IV]', 'Dm7[II]', 'Gvm7[V]', 'CvMvm9[I]'], label: 'Original' },
+                { chords: ['CvMvm7[I]', 'Fvm7[IV]', 'vDø^m7[II]', 'vG^m^m7[V]', 'CvMvm9[I]'], label: 'P: Dorian' },
+                { chords: ['CvMvm7[I]', 'F^m^m7[IV]', 'C#vMvM7[II]', 'vF#^Mmaj7[V]', 'CvMvm9[I]'], label: 'P: Phrygian' },
+                { chords: ['CvMvm7[I]', '^Fm7[IV]', 'vC#Mmaj7[II]', 'Gø^m7[V]', 'CvMvm9[I]'], label: 'P: Aeolian' },
+                { chords: ['CvMvm7[I]', 'vDvMvM7[III]', 'Cm7[I]', 'Fvm7[IV]', 'CvMvm9[I]'], label: 'R: Dorian' },
+                { chords: ['CvMvm7[I]', 'C#vMvM7[II]', '^Bbm7[VII]', 'D#vm7[III]', 'CvMvm9[I]'], label: 'R: Phrygian' },
+                { chords: ['CvMvm7[I]', 'G#vMvM7[VI]', '^Fm7[IV]', '^Bbvm7[VII]', 'CvMvm9[I]'], label: 'R: Aeolian' },
+                { chords: ['CvMvm7[I]', '^GvMvM7[V]', '^Em7[III]', '^Avm7[VI]', 'CvMvm9[I]'], label: 'R: Locrian' }
             ];
 
             const encodeFileName = (name) => {
-                // Special case for files with ø
                 if (name.includes('ø')) {
                     return name
-                        .replace(/ø/g, '%C3%B8')  // UTF-8 encoding for ø
+                        .replace(/ø/g, '%C3%B8')
                         .replace(/#/g, '%23')
                         .replace(/\^/g, '%5E')
                         .replace(/\[/g, '%5B')
                         .replace(/\]/g, '%5D');
                 }
-
-                // Normal encoding for other files
                 return encodeURIComponent(name);
             };
 
             React.useEffect(() => {
-                const uniqueChords = new Set(progressions.flat());
+                const uniqueChords = new Set(progressions.flatMap(row => row.chords));
                 uniqueChords.forEach(chord => {
-                    const encodedFileName = encodeFileName(chord);
-                    const audio = new Audio(`https://fifty-three-tet.github.io/microtonal_explorer_project/audio/${encodedFileName}.wav`);
+                    const audio = new Audio(`https://fifty-three-tet.github.io/microtonal_explorer_project/audio/${encodeFileName(chord)}.wav`);
 
                     const handleCanPlay = () => {
-                        
+                        console.log('Successfully loaded:', chord);
                         setLoadingStatus(prev => new Map(prev).set(chord, true));
                     };
 
                     const handleError = (e) => {
-                        
+                        console.error('Failed to load:', chord);
                         setLoadingStatus(prev => new Map(prev).set(chord, false));
                     };
 
@@ -424,8 +420,8 @@
                     <h2 className="text-2xl font-bold mb-4 text-blue-600">Chord Progression Explorer</h2>
                     <div className="grid gap-4">
                         {progressions.map((row, rowIndex) => (
-                            <div key={rowIndex} className="flex gap-4">
-                                {row.map((chord, colIndex) => (
+                            <div key={rowIndex} className="flex gap-4 items-center">
+                                {row.chords.map((chord, colIndex) => (
                                     <button
                                         key={`${rowIndex}-${colIndex}`}
                                         onClick={() => handleChordClick(chord, rowIndex, colIndex)}
@@ -441,6 +437,9 @@
                                         {chord}
                                     </button>
                                 ))}
+                                <div className="w-32 text-gray-600 font-medium">
+                                    {row.label}
+                                </div>
                             </div>
                         ))}
                     </div>
