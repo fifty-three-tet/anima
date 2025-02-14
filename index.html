@@ -18,6 +18,7 @@
             --text-color: #1f2937;
             --bg-color: #ffffff;
             --section-bg: #f3f4f6;
+            --button-active: #f9b116;
         }
     
         * {
@@ -464,15 +465,18 @@
                                     <button
                                         key={`${rowIndex}-${colIndex}`}
                                         onClick={() => handleChordClick(chord, rowIndex, colIndex)}
-                                        className={`p-2 rounded-xl flex-1 text-center transition-colors border border-gray-300 
+                                        className={`p-2 rounded-xl flex-1 text-center transition-colors border border-gray-300
                                                 ${chord === ''
                                                 ? 'border-none'
                                                 : activeButtons.has(`${rowIndex}-${colIndex}`)
-                                                    ? 'bg-amber-500 text-white hover:bg-amber-600'
-                                                    : loadingStatus.get(chord) === false
-                                                        ? 'bg-red-100 text-red-600'
-                                                        : 'bg-white hover:bg-gray-20'
+                                                ? 'text-white'
+                                                : loadingStatus.get(chord) === false
+                                                ? 'bg-red-100 text-red-600'
+                                                : 'bg-white hover:bg-gray-50'
                                             }`}
+                                        style={{
+                                            backgroundColor: activeButtons.has(`${rowIndex}-${colIndex}`) ? 'var(--button-active)' : ''
+                                        }}
                                         disabled={chord === '' || loadingStatus.get(chord) !== true}
                                     >
                                         {chord}
