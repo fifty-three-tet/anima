@@ -464,11 +464,11 @@
                                     <button
                                         key={`${rowIndex}-${colIndex}`}
                                         onClick={() => handleChordClick(chord, rowIndex, colIndex)}
-                                        className={`p-2 rounded-xl flex-1 text-center transition-colors border border-blue-500 
+                                        className={`p-2 rounded-xl flex-1 text-center transition-colors border border-gray-300 
                                                 ${chord === ''
                                                 ? 'border-none'
                                                 : activeButtons.has(`${rowIndex}-${colIndex}`)
-                                                    ? 'bg-blue-500 text-white hover:bg-blue-600'
+                                                    ? 'bg-red-100 text-white hover:bg-red-600'
                                                     : loadingStatus.get(chord) === false
                                                         ? 'bg-red-100 text-red-600'
                                                         : 'bg-white hover:bg-gray-50'
