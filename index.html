@@ -316,196 +316,177 @@
         };
         // Chord Progression Grid Component
         const ChordProgressionGrid = () => {
-                const [activeButtons, setActiveButtons] = React.useState(new Set());
-                const [audioCache] = React.useState(new Map());
-                const [loadingStatus, setLoadingStatus] = React.useState(new Map());
-                const activeAudioRef = React.useRef(null);
+            const [activeButtons, setActiveButtons] = React.useState(new Set());
+            const [audioCache] = React.useState(new Map());
+            const [loadingStatus, setLoadingStatus] = React.useState(new Map());
 
-                const progressions = [
-                    // First set of progressions (Ionian-based)
-                    { chords: ['Cmaj7[I]', 'Am7[VI]', 'Fmaj7[IV]', 'Dm7[II]', 'Cmaj9[I]'], label: 'Original' },
-                    { chords: ['Cmaj7[I]', 'Aø7[VI]', 'F7[IV]', 'Dm7[II]', 'Cmaj9[I]'], label: 'P: Dorian' },
-                    { chords: ['Cmaj7[I]', 'vG#maj7[VI]', 'Fm7[IV]', 'vC#maj7[II]', 'Cmaj9[I]'], label: 'P: Phrygian' },
-                    { chords: ['Cmaj7[I]', 'vG#maj7[VI]', 'Fm7[IV]', 'Dø7[II]', 'Cmaj9[I]'], label: 'P: Aeolian' },
-                    { chords: ['Cmaj7[I]', 'Gm7[V]', 'vD#maj7[III]', 'Cm7[I]', 'Cmaj9[I]'], label: 'R: Dorian' },
-                    { chords: ['Cmaj7[I]', 'Fm7[IV]', 'vC#maj7[II]', 'Bbm7[VII]', 'Cmaj9[I]'], label: 'R: Phrygian' },
-                    { chords: ['Cmaj7[I]', 'Cm7[I]', 'vG#maj7[VI]', 'Fm7[IV]', 'Cmaj9[I]'], label: 'R: Aeolian' },
-                    { chords: ['Cmaj7[I]', 'Bbm7[VII]', 'vF#maj7[V]', 'vD#m7[III]', 'Cmaj9[I]'], label: 'R: Locrian' },
+            const progressions = [
+                // First set of progressions (Ionian-based)
+                { chords: ['Cmaj7[I]', 'Am7[VI]', 'Fmaj7[IV]', 'Dm7[II]', 'Cmaj9[I]'], label: 'Original' },
+                { chords: ['Cmaj7[I]', 'Aø7[VI]', 'F7[IV]', 'Dm7[II]', 'Cmaj9[I]'], label: 'P: Dorian' },
+                { chords: ['Cmaj7[I]', 'vG#maj7[VI]', 'Fm7[IV]', 'vC#maj7[II]', 'Cmaj9[I]'], label: 'P: Phrygian' },
+                { chords: ['Cmaj7[I]', 'vG#maj7[VI]', 'Fm7[IV]', 'Dø7[II]', 'Cmaj9[I]'], label: 'P: Aeolian' },
+                { chords: ['Cmaj7[I]', 'Gm7[V]', 'vD#maj7[III]', 'Cm7[I]', 'Cmaj9[I]'], label: 'R: Dorian' },
+                { chords: ['Cmaj7[I]', 'Fm7[IV]', 'vC#maj7[II]', 'Bbm7[VII]', 'Cmaj9[I]'], label: 'R: Phrygian' },
+                { chords: ['Cmaj7[I]', 'Cm7[I]', 'vG#maj7[VI]', 'Fm7[IV]', 'Cmaj9[I]'], label: 'R: Aeolian' },
+                { chords: ['Cmaj7[I]', 'Bbm7[VII]', 'vF#maj7[V]', 'vD#m7[III]', 'Cmaj9[I]'], label: 'R: Locrian' },
 
-                    // Divider
-                    { chords: ['', '', '', '', ''], label: '' },
+                // Divider
+                { chords: ['', '', '', '', ''], label: '' },
 
-                    // Second set of progressions
-                    { chords: ['CvMvm7[I]', 'FvMvM7[IV]', 'Dm7[II]', 'Gvm7[V]', 'CvMvm9[I]'], label: 'Original' },
-                    { chords: ['CvMvm7[I]', 'Fvm7[IV]', 'vDø^m7[II]', 'vG^m^m7[V]', 'CvMvm9[I]'], label: 'P: Dorian' },
-                    { chords: ['CvMvm7[I]', 'F^m^m7[IV]', 'C#vMvM7[II]', 'vF#^Mmaj7[V]', 'CvMvm9[I]'], label: 'P: Phrygian' },
-                    { chords: ['CvMvm7[I]', '^Fm7[IV]', 'vC#Mmaj7[II]', 'Gø^m7[V]', 'CvMvm9[I]'], label: 'P: Aeolian' },
-                    { chords: ['CvMvm7[I]', 'vDvMvM7[III]', 'Cm7[I]', 'Fvm7[IV]', 'CvMvm9[I]'], label: 'R: Dorian' },
-                    { chords: ['CvMvm7[I]', 'C#vMvM7[II]', '^Bbm7[VII]', 'D#vm7[III]', 'CvMvm9[I]'], label: 'R: Phrygian' },
-                    { chords: ['CvMvm7[I]', 'G#vMvM7[VI]', '^Fm7[IV]', '^Bbvm7[VII]', 'CvMvm9[I]'], label: 'R: Aeolian' },
-                    { chords: ['CvMvm7[I]', '^GvMvM7[V]', '^Em7[III]', '^Avm7[VI]', 'CvMvm9[I]'], label: 'R: Locrian' }
-                ];
+                // Second set of progressions (original from code)
+                { chords: ['CvMvm7[I]', 'FvMvM7[IV]', 'Dm7[II]', 'Gvm7[V]', 'CvMvm9[I]'], label: 'Original' },
+                { chords: ['CvMvm7[I]', 'Fvm7[IV]', 'vDø^m7[II]', 'vG^m^m7[V]', 'CvMvm9[I]'], label: 'P: Dorian' },
+                { chords: ['CvMvm7[I]', 'F^m^m7[IV]', 'C#vMvM7[II]', 'vF#^Mmaj7[V]', 'CvMvm9[I]'], label: 'P: Phrygian' },
+                { chords: ['CvMvm7[I]', '^Fm7[IV]', 'vC#Mmaj7[II]', 'Gø^m7[V]', 'CvMvm9[I]'], label: 'P: Aeolian' },
+                { chords: ['CvMvm7[I]', 'vD#vMvM7[III]', 'Cm7[I]', 'Fvm7[IV]', 'CvMvm9[I]'], label: 'R: Dorian' },
+                { chords: ['CvMvm7[I]', 'C#vMvM7[II]', '^Bbm7[VII]', 'D#vm7[III]', 'CvMvm9[I]'], label: 'R: Phrygian' },
+                { chords: ['CvMvm7[I]', 'G#vMvM7[VI]', '^Fm7[IV]', '^Bbvm7[VII]', 'CvMvm9[I]'], label: 'R: Aeolian' },
+                { chords: ['CvMvm7[I]', '^GvMvM7[V]', '^Em7[III]', '^Avm7[VI]', 'CvMvm9[I]'], label: 'R: Locrian' }
+            ];
 
-                const encodeFileName = (name) => {
-                    if (name === '') return '';
-                    if (name.includes('ø')) {
-                        return name
-                            .replace(/ø/g, '%C3%B8')
-                            .replace(/#/g, '%23')
-                            .replace(/\^/g, '%5E')
-                            .replace(/\[/g, '%5B')
-                            .replace(/\]/g, '%5D');
-                    }
-                    return encodeURIComponent(name);
-                };
-
-                const loadAudio = async (chord) => {
-                    if (audioCache.has(chord)) {
-                        return audioCache.get(chord);
-                    }
-
-                    return new Promise((resolve, reject) => {
-                        const audio = new Audio();
-
-                        const handleCanPlay = () => {
-                            setLoadingStatus(prev => new Map(prev).set(chord, true));
-                            audio.removeEventListener('canplaythrough', handleCanPlay);
-                            resolve(audio);
-                        };
-
-                        const handleError = (e) => {
-                            setLoadingStatus(prev => new Map(prev).set(chord, false));
-                            audio.removeEventListener('error', handleError);
-                            reject(e);
-                        };
-
-                        audio.addEventListener('canplaythrough', handleCanPlay);
-                        audio.addEventListener('error', handleError);
-
-                        // Determine which folder to use based on the chord notation
-                        const folder = chord.includes('vM') || chord.includes('^') ? 'audio' : 'audio_2';
-                        audio.src = `https://fifty-three-tet.github.io/microtonal_explorer_project/${folder}/${encodeFileName(chord)}.wav`;
-
-                        audioCache.set(chord, audio);
-                        setLoadingStatus(prev => new Map(prev).set(chord, 'loading'));
-                    });
-                };
-
-                const handleChordClick = async (chord, rowIndex, colIndex) => {
-                    if (chord === '') return;
-
-                    const buttonId = `${rowIndex}-${colIndex}`;
-
-                    // If this button is already active, stop its playback
-                    if (activeButtons.has(buttonId)) {
-                        if (activeAudioRef.current) {
-                            activeAudioRef.current.pause();
-                            activeAudioRef.current.currentTime = 0;
-                        }
-                        setActiveButtons(prev => {
-                            const next = new Set(prev);
-                            next.delete(buttonId);
-                            return next;
-                        });
-                        return;
-                    }
-
-                    try {
-                        // Stop any currently playing audio
-                        if (activeAudioRef.current) {
-                            activeAudioRef.current.pause();
-                            activeAudioRef.current.currentTime = 0;
-                        }
-
-                        const audio = await loadAudio(chord);
-                        audio.currentTime = 0;
-                        activeAudioRef.current = audio;
-
-                        setActiveButtons(prev => {
-                            const next = new Set(prev);
-                            next.add(buttonId);
-                            return next;
-                        });
-
-                        await audio.play();
-
-                        const handleEnded = () => {
-                            setActiveButtons(prev => {
-                                const next = new Set(prev);
-                                next.delete(buttonId);
-                                return next;
-                            });
-                            audio.removeEventListener('ended', handleEnded);
-                            activeAudioRef.current = null;
-                        };
-
-                        audio.addEventListener('ended', handleEnded);
-
-                        // Cleanup timeout
-                        const timeoutId = setTimeout(() => {
-                            if (activeButtons.has(buttonId)) {
-                                handleEnded();
-                            }
-                        }, Math.ceil(audio.duration * 1000) + 100);
-
-                        return () => clearTimeout(timeoutId);
-
-                    } catch (error) {
-                        console.error('Error playing audio:', error);
-                        setActiveButtons(prev => {
-                            const next = new Set(prev);
-                            next.delete(buttonId);
-                            return next;
-                        });
-                        activeAudioRef.current = null;
-                    }
-                };
-
-                // Cleanup function
-                React.useEffect(() => {
-                    return () => {
-                        audioCache.forEach(audio => {
-                            audio.pause();
-                            audio.src = '';
-                        });
-                        audioCache.clear();
-                    };
-                }, []);
-
-                return (
-                    <div className="p-6 bg-white rounded-lg shadow">
-                        <h2 className="text-2xl font-bold mb-4 text-blue-600">Modal Interchange Examples</h2>
-                        <div className="grid gap-1">
-                            {progressions.map((row, rowIndex) => (
-                                <div key={rowIndex} className={`flex gap-1 items-center ${row.label === '' ? 'h-8' : ''}`}>
-                                    {row.chords.map((chord, colIndex) => (
-                                        <button
-                                            key={`${rowIndex}-${colIndex}`}
-                                            onClick={() => handleChordClick(chord, rowIndex, colIndex)}
-                                            className={`p-2 rounded-xl flex-1 text-center transition-colors border border-blue-500 
-                                ${chord === ''
-                                                    ? 'border-none'
-                                                    : activeButtons.has(`${rowIndex}-${colIndex}`)
-                                                        ? 'bg-blue-500 text-white hover:bg-blue-600'
-                                                        : loadingStatus.get(chord) === false
-                                                            ? 'bg-red-100 text-red-600'
-                                                            : 'bg-white hover:bg-gray-50'
-                                                }`}
-                                            disabled={chord === '' || loadingStatus.get(chord) !== true}
-                                        >
-                                            {chord}
-                                        </button>
-                                    ))}
-                                    <div className="w-32 text-gray-600 font-medium">
-                                        {row.label}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                );
+            const encodeFileName = (name) => {
+                if (name === '') return '';
+                if (name.includes('ø')) {
+                    return name
+                        .replace(/ø/g, '%C3%B8')
+                        .replace(/#/g, '%23')
+                        .replace(/\^/g, '%5E')
+                        .replace(/\[/g, '%5B')
+                        .replace(/\]/g, '%5D');
+                }
+                return encodeURIComponent(name);
             };
 
+            React.useEffect(() => {
+                const uniqueChords = new Set(progressions.flatMap(row => row.chords.filter(chord => chord !== '')));
+                uniqueChords.forEach(chord => {
+                    const audio = new Audio(`https://fifty-three-tet.github.io/microtonal_explorer_project/audio/${encodeFileName(chord)}.wav`);
+
+                    const handleCanPlay = () => {
+                        setLoadingStatus(prev => new Map(prev).set(chord, true));
+                    };
+
+                    const handleError = (e) => {
+                        setLoadingStatus(prev => new Map(prev).set(chord, false));
+                    };
+
+                    audio.addEventListener('canplaythrough', handleCanPlay);
+                    audio.addEventListener('error', handleError);
+                    audio.preload = 'auto';
+
+                    audioCache.set(chord, audio);
+                    setLoadingStatus(prev => new Map(prev).set(chord, 'loading'));
+
+                    audio.handleCanPlay = handleCanPlay;
+                    audio.handleError = handleError;
+                });
+
+                return () => {
+                    audioCache.forEach((audio) => {
+                        if (audio.handleCanPlay) {
+                            audio.removeEventListener('canplaythrough', audio.handleCanPlay);
+                        }
+                        if (audio.handleError) {
+                            audio.removeEventListener('error', audio.handleError);
+                        }
+                    });
+                };
+            }, []);
+
+            const handleChordClick = async (chord, rowIndex, colIndex) => {
+                if (chord === '') return;
+
+                const buttonId = `${rowIndex}-${colIndex}`;
+                const audio = audioCache.get(chord);
+
+                if (activeButtons.has(buttonId)) {
+                    if (audio) {
+                        audio.pause();
+                        audio.currentTime = 0;
+                        setActiveButtons(prev => {
+                            const next = new Set(prev);
+                            next.delete(buttonId);
+                            return next;
+                        });
+                    }
+                    return;
+                }
+
+                if (!audio || !audio.duration) {
+                    return;
+                }
+
+                try {
+                    audio.currentTime = 0;
+
+                    setActiveButtons(prev => {
+                        const next = new Set(prev);
+                        next.add(buttonId);
+                        return next;
+                    });
+
+                    await audio.play();
+
+                    const handleEnded = () => {
+                        setActiveButtons(prev => {
+                            const next = new Set(prev);
+                            next.delete(buttonId);
+                            return next;
+                        });
+                        audio.removeEventListener('ended', handleEnded);
+                    };
+
+                    audio.addEventListener('ended', handleEnded);
+
+                    setTimeout(() => {
+                        if (activeButtons.has(buttonId)) {
+                            handleEnded();
+                        }
+                    }, Math.ceil(audio.duration * 1000) + 1000);
+
+                } catch (error) {
+                    setActiveButtons(prev => {
+                        const next = new Set(prev);
+                        next.delete(buttonId);
+                        return next;
+                    });
+                }
+            };
+
+            return (
+                <div className="p-6 bg-white rounded-lg shadow">
+                    <h2 className="text-2xl font-bold mb-4 text-blue-600">Modal Interchange Examples</h2>
+                    <div className="grid gap-1">
+                        {progressions.map((row, rowIndex) => (
+                            <div key={rowIndex} className={`flex gap-1 items-center ${row.label === '' ? 'h-8' : ''}`}>
+                                {row.chords.map((chord, colIndex) => (
+                                    <button
+                                        key={`${rowIndex}-${colIndex}`}
+                                        onClick={() => handleChordClick(chord, rowIndex, colIndex)}
+                                        className={`p-2 rounded-xl flex-1 text-center transition-colors border border-blue-500 
+                                                ${chord === ''
+                                                ? 'border-none'
+                                                : activeButtons.has(`${rowIndex}-${colIndex}`)
+                                                    ? 'bg-blue-500 text-white hover:bg-blue-600'
+                                                    : loadingStatus.get(chord) === false
+                                                        ? 'bg-red-100 text-red-600'
+                                                        : 'bg-white hover:bg-gray-50'
+                                            }`}
+                                        disabled={chord === '' || loadingStatus.get(chord) !== true}
+                                    >
+                                        {chord}
+                                    </button>
+                                ))}
+                                <div className="w-32 text-gray-600 font-medium">
+                                    {row.label}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
+        };
 
         // Mount the React component
         const root = ReactDOM.createRoot(document.getElementById('chord-progression-root'));
