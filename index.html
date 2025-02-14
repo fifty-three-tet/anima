@@ -339,7 +339,7 @@
                 { chords: ['CvMvm7[I]', 'Fvm7[IV]', 'vDø^m7[II]', 'vG^m^m7[V]', 'CvMvm9[I]'], label: 'P: Dorian' },
                 { chords: ['CvMvm7[I]', 'F^m^m7[IV]', 'C#vMvM7[II]', 'vF#^Mmaj7[V]', 'CvMvm9[I]'], label: 'P: Phrygian' },
                 { chords: ['CvMvm7[I]', '^Fm7[IV]', 'vC#Mmaj7[II]', 'Gø^m7[V]', 'CvMvm9[I]'], label: 'P: Aeolian' },
-                { chords: ['CvMvm7[I]', 'vDvMvM7[III]', 'Cm7[I]', 'Fvm7[IV]', 'CvMvm9[I]'], label: 'R: Dorian' },
+                { chords: ['CvMvm7[I]', 'vD#vMvM7[III]', 'Cm7[I]', 'Fvm7[IV]', 'CvMvm9[I]'], label: 'R: Dorian' },
                 { chords: ['CvMvm7[I]', 'C#vMvM7[II]', '^Bbm7[VII]', 'D#vm7[III]', 'CvMvm9[I]'], label: 'R: Phrygian' },
                 { chords: ['CvMvm7[I]', 'G#vMvM7[VI]', '^Fm7[IV]', '^Bbvm7[VII]', 'CvMvm9[I]'], label: 'R: Aeolian' },
                 { chords: ['CvMvm7[I]', '^GvMvM7[V]', '^Em7[III]', '^Avm7[VI]', 'CvMvm9[I]'], label: 'R: Locrian' }
@@ -465,7 +465,7 @@
                                         key={`${rowIndex}-${colIndex}`}
                                         onClick={() => handleChordClick(chord, rowIndex, colIndex)}
                                         className={`p-2 rounded-xl flex-1 text-center transition-colors border border-blue-500 
-                            ${chord === ''
+                                                ${chord === ''
                                                 ? 'border-none'
                                                 : activeButtons.has(`${rowIndex}-${colIndex}`)
                                                     ? 'bg-blue-500 text-white hover:bg-blue-600'
