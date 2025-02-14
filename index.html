@@ -314,12 +314,27 @@
                 </div>
             );
         };
+        // Chord Progression Grid Component
         const ChordProgressionGrid = () => {
             const [activeButtons, setActiveButtons] = React.useState(new Set());
             const [audioCache] = React.useState(new Map());
             const [loadingStatus, setLoadingStatus] = React.useState(new Map());
 
             const progressions = [
+                // First set of progressions (Ionian-based)
+                { chords: ['Cmaj7[I]', 'Am7[VI]', 'Fmaj7[IV]', 'Dm7[II]', 'Cmaj9[I]'], label: 'Original' },
+                { chords: ['Cmaj7[I]', 'Aø7[VI]', 'F7[IV]', 'Dm7[II]', 'Cmaj9[I]'], label: 'P: Dorian' },
+                { chords: ['Cmaj7[I]', 'vG#maj7[VI]', 'Fm7[IV]', 'vC#maj7[II]', 'Cmaj9[I]'], label: 'P: Phrygian' },
+                { chords: ['Cmaj7[I]', 'vG#maj7[VI]', 'Fm7[IV]', 'Dø7[II]', 'Cmaj9[I]'], label: 'P: Aeolian' },
+                { chords: ['Cmaj7[I]', 'Gm7[V]', 'vD#maj7[III]', 'Cm7[I]', 'Cmaj9[I]'], label: 'R: Dorian' },
+                { chords: ['Cmaj7[I]', 'Fm7[IV]', 'vC#maj7[II]', 'Bbm7[VII]', 'Cmaj9[I]'], label: 'R: Phrygian' },
+                { chords: ['Cmaj7[I]', 'Cm7[I]', 'vG#maj7[VI]', 'Fm7[IV]', 'Cmaj9[I]'], label: 'R: Aeolian' },
+                { chords: ['Cmaj7[I]', 'Bbm7[VII]', 'vF#maj7[V]', 'vD#m7[III]', 'Cmaj9[I]'], label: 'R: Locrian' },
+
+                // Divider
+                { chords: ['', '', '', '', ''], label: '' },
+
+                // Second set of progressions (original from code)
                 { chords: ['CvMvm7[I]', 'FvMvM7[IV]', 'Dm7[II]', 'Gvm7[V]', 'CvMvm9[I]'], label: 'Original' },
                 { chords: ['CvMvm7[I]', 'Fvm7[IV]', 'vDø^m7[II]', 'vG^m^m7[V]', 'CvMvm9[I]'], label: 'P: Dorian' },
                 { chords: ['CvMvm7[I]', 'F^m^m7[IV]', 'C#vMvM7[II]', 'vF#^Mmaj7[V]', 'CvMvm9[I]'], label: 'P: Phrygian' },
@@ -331,6 +346,7 @@
             ];
 
             const encodeFileName = (name) => {
+                if (name === '') return '';
                 if (name.includes('ø')) {
                     return name
                         .replace(/ø/g, '%C3%B8')
@@ -343,7 +359,7 @@
             };
 
             React.useEffect(() => {
-                const uniqueChords = new Set(progressions.flatMap(row => row.chords));
+                const uniqueChords = new Set(progressions.flatMap(row => row.chords.filter(chord => chord !== '')));
                 uniqueChords.forEach(chord => {
                     const audio = new Audio(`https://fifty-three-tet.github.io/microtonal_explorer_project/audio/${encodeFileName(chord)}.wav`);
 
@@ -379,6 +395,8 @@
             }, []);
 
             const handleChordClick = async (chord, rowIndex, colIndex) => {
+                if (chord === '') return;
+
                 const buttonId = `${rowIndex}-${colIndex}`;
                 const audio = audioCache.get(chord);
 
@@ -441,19 +459,21 @@
                     <h2 className="text-2xl font-bold mb-4 text-blue-600">Modal Interchange Examples</h2>
                     <div className="grid gap-1">
                         {progressions.map((row, rowIndex) => (
-                            <div key={rowIndex} className="flex gap-1 items-center">
+                            <div key={rowIndex} className={`flex gap-1 items-center ${row.label === '' ? 'h-8' : ''}`}>
                                 {row.chords.map((chord, colIndex) => (
                                     <button
                                         key={`${rowIndex}-${colIndex}`}
                                         onClick={() => handleChordClick(chord, rowIndex, colIndex)}
                                         className={`p-2 rounded-xl flex-1 text-center transition-colors border border-blue-500 
-                                        ${activeButtons.has(`${rowIndex}-${colIndex}`)
-                                                ? 'bg-blue-500 text-white hover:bg-blue-600'
-                                                : loadingStatus.get(chord) === false
-                                                    ? 'bg-red-100 text-red-600'
-                                                    : 'bg-white hover:bg-gray-50'
+                            ${chord === ''
+                                                ? 'border-none'
+                                                : activeButtons.has(`${rowIndex}-${colIndex}`)
+                                                    ? 'bg-blue-500 text-white hover:bg-blue-600'
+                                                    : loadingStatus.get(chord) === false
+                                                        ? 'bg-red-100 text-red-600'
+                                                        : 'bg-white hover:bg-gray-50'
                                             }`}
-                                        disabled={loadingStatus.get(chord) !== true}
+                                        disabled={chord === '' || loadingStatus.get(chord) !== true}
                                     >
                                         {chord}
                                     </button>
