@@ -329,6 +329,9 @@
             );
         };
         // Chord Progression Grid Component
+        // Updated Chord Progression Grid Component with enhanced audio loading
+        // Return unique filenames (remove duplicates)
+        // Updated Chord Progression Grid Component with enhanced audio loading
         const ChordProgressionGrid = () => {
             const [activeButtons, setActiveButtons] = React.useState(new Set());
             const [audioCache] = React.useState(new Map());
@@ -362,14 +365,14 @@
                 { chords: ['', '', '', '', ''], label: '' },
 
                 // Third set of progressions (new addition)
-                { chords: ['C^M^M7[I]', 'C^M^M7_^E[I]', 'FM^M7[IV]', 'G^Mm7[V]', 'C^M^M7[I]'], label: 'Original' },
-                { chords: ['C^M^M7[I]', 'Cm7_vD#[I]', 'F^Mm7[IV]', 'Gm7[V]', 'C^M^M9[I]'], label: 'P: Dorian' },
-                { chords: ['C^M^M7[I]', 'Cvmvm7_vvD#[I]', 'vFm7[IV]', 'Gvmvm7[V]', 'C^M^M9[I]'], label: 'P: Phrygian' },
-                { chords: ['C^M^M7[I]', 'Cm7_vD#[I]', 'Fm7[IV]', '^Gvmvm7[V]', 'C^M^M9[I]'], label: 'P: Aeolian' },
-                { chords: ['C^M^M7[I]', 'Bb^M^M7_^D[VII]', 'vD#M^M7[III]', 'F^Mm7[IV]', 'C^M^M9[I]'], label: 'R: Dorian' },
-                { chords: ['C^M^M7[I]', 'vvG#^M^M7_C[VI]', 'vvC#M^M7[II]', 'vvD#^Mm7[III]', 'C^M^M9[I]'], label: 'R: Phrygian' },
-                { chords: ['C^M^M7[I]', 'vD#^M^M7_^G[III]', 'vG#M^M7[VI]', 'Bb^Mm7[VII]', 'C^M^M9[I]'], label: 'R: Aeolian' },
-                { chords: ['C^M^M7[I]', 'vvC#^M^M7_F[II]', 'vvF#M^M7[V]', 'vvG#^Mm7[VI]', 'C^M^M9[I]'], label: 'R: Locrian' }
+                { chords: ['C^M^M7[I]', 'C^M^M7/^E[I]', 'FM^M7[IV]', 'G^Mm7[V]', 'C^M^M7[I]'], label: 'Original' },
+                { chords: ['C^M^M7[I]', 'Cm7/vD#[I]', 'F^Mm7[IV]', 'Gm7[V]', 'C^M^M9[I]'], label: 'P: Dorian' },
+                { chords: ['C^M^M7[I]', 'Cvmvm7/vvD#[I]', 'vFm7[IV]', 'Gvmvm7[V]', 'C^M^M9[I]'], label: 'P: Phrygian' },
+                { chords: ['C^M^M7[I]', 'Cm7/vD#[I]', 'Fm7[IV]', '^Gvmvm7[V]', 'C^M^M9[I]'], label: 'P: Aeolian' },
+                { chords: ['C^M^M7[I]', 'Bb^M^M7/^D[VII]', 'vD#M^M7[III]', 'F^Mm7[IV]', 'C^M^M9[I]'], label: 'R: Dorian' },
+                { chords: ['C^M^M7[I]', 'vvG#^M^M7/C[VI]', 'vvC#M^M7[II]', 'vvD#^Mm7[III]', 'C^M^M9[I]'], label: 'R: Phrygian' },
+                { chords: ['C^M^M7[I]', 'vD#^M^M7/^G[III]', 'vG#M^M7[VI]', 'Bb^Mm7[VII]', 'C^M^M9[I]'], label: 'R: Aeolian' },
+                { chords: ['C^M^M7[I]', 'vvC#^M^M7/F[II]', 'vvF#M^M7[V]', 'vvG#^Mm7[VI]', 'C^M^M9[I]'], label: 'R: Locrian' }
             ];
 
             // Function to try multiple encodings for a chord name
@@ -390,17 +393,39 @@
                     // 4. Without chord position and URL encoded
                     encodeURIComponent(chord.replace(/\[[^\]]+\]/g, '')),
 
-                    // 5. For slash chords - try replacing slash with hyphen
-                    chord.replace(/\//g, '-'),
+                    // 5. For slash chords - try replacing slash with underscore
+                    chord.replace(/\//g, '_'),
 
                     // 6. Custom encoding for specific characters
                     chord
-                        .replace(/\//g, '%2F')
+                        .replace(/\//g, '_')
                         .replace(/ø/g, '%C3%B8')
                         .replace(/#/g, '%23')
                         .replace(/\^/g, '%5E')
                         .replace(/\[/g, '%5B')
-                        .replace(/\]/g, '%5D')
+                        .replace(/\]/g, '%5D'),
+
+                    // 7. Special handling for chords with leading caret (^)
+                    chord.startsWith('^') ? 'sup' + chord.substring(1) : chord,
+
+                    // 8. Replace carets and vs with sup/sub notation
+                    chord
+                        .replace(/\^/g, "sup")
+                        .replace(/v/g, "sub")
+                        .replace(/\[/g, "_")
+                        .replace(/\]/g, "_"),
+
+                    // 9. Simplified form with no special characters
+                    chord
+                        .replace(/\^/g, "")
+                        .replace(/v/g, "")
+                        .replace(/\[/g, "")
+                        .replace(/\]/g, ""),
+
+                    // 10. Special case for ^Gvmvm7[V]-type chords
+                    chord === "^Gvmvm7[V]" ? "supGvmvm7_V_" : chord,
+                    chord === "^Gvmvm7[V]" ? "supGsubmsubm7V" : chord,
+                    chord === "^Gvmvm7[V]" ? "Gmm7V" : chord
                 ];
 
                 // Return unique filenames (remove duplicates)
