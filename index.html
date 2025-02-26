@@ -374,13 +374,15 @@
 
             // Function to get the correct filename for a chord
             const getFileName = (chord) => {
-                // Handle slash chords by replacing / with _
+                // For slash chords, replace / with _ first (before any other encoding)
+                let fileName = chord;
                 if (chord.includes('/')) {
-                    return chord.replace(/\//g, '_') + '.wav';
+                    fileName = chord.replace(/\//g, '_');
                 }
 
-                // For all other chords, just add .wav extension
-                return chord + '.wav';
+                // No need to URL encode the entire filename - the Audio element will handle that
+                // Just add the .wav extension
+                return fileName + '.wav';
             };
 
             // Enhanced audio loading function
@@ -397,20 +399,53 @@
 
                 // Get the filename for this chord
                 const fileName = getFileName(chord);
-                const audioUrl = `https://fifty-three-tet.github.io/microtonal_explorer_project/audio/${fileName}`;
 
-                const audio = new Audio(audioUrl);
+                // For debugging - log the exact file being requested
+                console.log(`Loading audio for chord: ${chord}, file: ${fileName}`);
+
+                // Create the URL - this should trigger the browser's automatic URL encoding
+                const baseUrl = 'https://fifty-three-tet.github.io/microtonal_explorer_project/audio/';
+                const audio = new Audio(baseUrl + fileName);
 
                 audio.addEventListener('canplaythrough', () => {
                     // Success! Audio loaded
+                    console.log(`Successfully loaded: ${fileName}`);
                     audioCache.set(chord, audio);
                     setLoadingStatus(prev => new Map(prev).set(chord, true));
                 });
 
-                audio.addEventListener('error', () => {
+                audio.addEventListener('error', (e) => {
                     // Failed to load
-                    setLoadingStatus(prev => new Map(prev).set(chord, false));
-                    console.error(`Failed to load audio for chord: ${chord}`);
+                    console.error(`Failed to load audio for chord: ${chord}, file: ${fileName}`);
+
+                    // Try a fall-back approach for problematic chords
+                    if (chord.includes('#') || chord.includes('^')) {
+                        // Try with a special encoding for problematic characters
+                        const encodedFileName = fileName
+                            .replace(/#/g, '%23')
+                            .replace(/\^/g, '%5E')
+                            .replace(/\[/g, '%5B')
+                            .replace(/\]/g, '%5D');
+
+                        console.log(`Trying fallback: ${encodedFileName}`);
+
+                        const fallbackAudio = new Audio(baseUrl + encodedFileName);
+
+                        fallbackAudio.addEventListener('canplaythrough', () => {
+                            console.log(`Fallback succeeded: ${encodedFileName}`);
+                            audioCache.set(chord, fallbackAudio);
+                            setLoadingStatus(prev => new Map(prev).set(chord, true));
+                        });
+
+                        fallbackAudio.addEventListener('error', () => {
+                            console.error(`Fallback also failed: ${encodedFileName}`);
+                            setLoadingStatus(prev => new Map(prev).set(chord, false));
+                        });
+
+                        fallbackAudio.load();
+                    } else {
+                        setLoadingStatus(prev => new Map(prev).set(chord, false));
+                    }
                 });
 
                 // Start loading
