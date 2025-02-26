@@ -374,6 +374,11 @@
 
             // Function to get the correct filename for a chord
             const getFileName = (chord) => {
+                // Special case for the problematic chord
+                if (chord === "^Gvmvm7[V]") {
+                    return "upGvmvm7[V].wav";
+                }
+
                 // For slash chords, replace / with _ first (before any other encoding)
                 let fileName = chord;
                 if (chord.includes('/')) {
