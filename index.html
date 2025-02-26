@@ -332,105 +332,68 @@
         // Updated Chord Progression Grid Component with enhanced audio loading
         // Return unique filenames (remove duplicates)
         // Updated Chord Progression Grid Component with enhanced audio loading
-        const ChordProgressionGrid = () => {
-            const [activeButtons, setActiveButtons] = React.useState(new Set());
-            const [audioCache] = React.useState(new Map());
-            const [loadingStatus, setLoadingStatus] = React.useState(new Map());
+        // Updated Chord Progression Grid Component with enhanced audio loading
+            const ChordProgressionGrid = () => {
+                const [activeButtons, setActiveButtons] = React.useState(new Set());
+                const [audioCache] = React.useState(new Map());
+                const [loadingStatus, setLoadingStatus] = React.useState(new Map());
 
-            const progressions = [
-                // First set of progressions (Ionian-based)
-                { chords: ['Cmaj7[I]', 'Am7[VI]', 'Fmaj7[IV]', 'Dm7[II]', 'Cmaj9[I]'], label: 'Original' },
-                { chords: ['Cmaj7[I]', 'Aø7[VI]', 'F7[IV]', 'Dm7[II]', 'Cmaj9[I]'], label: 'P: Dorian' },
-                { chords: ['Cmaj7[I]', 'vG#maj7[VI]', 'Fm7[IV]', 'vC#maj7[II]', 'Cmaj9[I]'], label: 'P: Phrygian' },
-                { chords: ['Cmaj7[I]', 'vG#maj7[VI]', 'Fm7[IV]', 'Dø7[II]', 'Cmaj9[I]'], label: 'P: Aeolian' },
-                { chords: ['Cmaj7[I]', 'Gm7[V]', 'vD#maj7[III]', 'Cm7[I]', 'Cmaj9[I]'], label: 'R: Dorian' },
-                { chords: ['Cmaj7[I]', 'Fm7[IV]', 'vC#maj7[II]', 'Bbm7[VII]', 'Cmaj9[I]'], label: 'R: Phrygian' },
-                { chords: ['Cmaj7[I]', 'Cm7[I]', 'vG#maj7[VI]', 'Fm7[IV]', 'Cmaj9[I]'], label: 'R: Aeolian' },
-                { chords: ['Cmaj7[I]', 'Bbm7[VII]', 'vF#maj7[V]', 'vD#m7[III]', 'Cmaj9[I]'], label: 'R: Locrian' },
+                const progressions = [
+                    // First set of progressions (Ionian-based)
+                    { chords: ['Cmaj7[I]', 'Am7[VI]', 'Fmaj7[IV]', 'Dm7[II]', 'Cmaj9[I]'], label: 'Original' },
+                    { chords: ['Cmaj7[I]', 'Aø7[VI]', 'F7[IV]', 'Dm7[II]', 'Cmaj9[I]'], label: 'P: Dorian' },
+                    { chords: ['Cmaj7[I]', 'vG#maj7[VI]', 'Fm7[IV]', 'vC#maj7[II]', 'Cmaj9[I]'], label: 'P: Phrygian' },
+                    { chords: ['Cmaj7[I]', 'vG#maj7[VI]', 'Fm7[IV]', 'Dø7[II]', 'Cmaj9[I]'], label: 'P: Aeolian' },
+                    { chords: ['Cmaj7[I]', 'Gm7[V]', 'vD#maj7[III]', 'Cm7[I]', 'Cmaj9[I]'], label: 'R: Dorian' },
+                    { chords: ['Cmaj7[I]', 'Fm7[IV]', 'vC#maj7[II]', 'Bbm7[VII]', 'Cmaj9[I]'], label: 'R: Phrygian' },
+                    { chords: ['Cmaj7[I]', 'Cm7[I]', 'vG#maj7[VI]', 'Fm7[IV]', 'Cmaj9[I]'], label: 'R: Aeolian' },
+                    { chords: ['Cmaj7[I]', 'Bbm7[VII]', 'vF#maj7[V]', 'vD#m7[III]', 'Cmaj9[I]'], label: 'R: Locrian' },
 
-                // Divider
-                { chords: ['', '', '', '', ''], label: '' },
+                    // Divider
+                    { chords: ['', '', '', '', ''], label: '' },
 
-                // Second set of progressions (original from code)
-                { chords: ['CvMvm7[I]', 'FvMvM7[IV]', 'Dm7[II]', 'Gvm7[V]', 'CvMvm9[I]'], label: 'Original' },
-                { chords: ['CvMvm7[I]', 'Fvm7[IV]', 'vDø^m7[II]', 'vG^m^m7[V]', 'CvMvm9[I]'], label: 'P: Dorian' },
-                { chords: ['CvMvm7[I]', 'F^m^m7[IV]', 'C#vMvM7[II]', 'vF#^Mmaj7[V]', 'CvMvm9[I]'], label: 'P: Phrygian' },
-                { chords: ['CvMvm7[I]', '^Fm7[IV]', 'vC#Mmaj7[II]', 'Gø^m7[V]', 'CvMvm9[I]'], label: 'P: Aeolian' },
-                { chords: ['CvMvm7[I]', 'vD#vMvM7[III]', 'Cm7[I]', 'Fvm7[IV]', 'CvMvm9[I]'], label: 'R: Dorian' },
-                { chords: ['CvMvm7[I]', 'C#vMvM7[II]', '^Bbm7[VII]', 'D#vm7[III]', 'CvMvm9[I]'], label: 'R: Phrygian' },
-                { chords: ['CvMvm7[I]', 'G#vMvM7[VI]', '^Fm7[IV]', '^Bbvm7[VII]', 'CvMvm9[I]'], label: 'R: Aeolian' },
-                { chords: ['CvMvm7[I]', '^GvMvM7[V]', '^Em7[III]', '^Avm7[VI]', 'CvMvm9[I]'], label: 'R: Locrian' },
+                    // Second set of progressions (original from code)
+                    { chords: ['CvMvm7[I]', 'FvMvM7[IV]', 'Dm7[II]', 'Gvm7[V]', 'CvMvm9[I]'], label: 'Original' },
+                    { chords: ['CvMvm7[I]', 'Fvm7[IV]', 'vDø^m7[II]', 'vG^m^m7[V]', 'CvMvm9[I]'], label: 'P: Dorian' },
+                    { chords: ['CvMvm7[I]', 'F^m^m7[IV]', 'C#vMvM7[II]', 'vF#^Mmaj7[V]', 'CvMvm9[I]'], label: 'P: Phrygian' },
+                    { chords: ['CvMvm7[I]', '^Fm7[IV]', 'vC#Mmaj7[II]', 'Gø^m7[V]', 'CvMvm9[I]'], label: 'P: Aeolian' },
+                    { chords: ['CvMvm7[I]', 'vD#vMvM7[III]', 'Cm7[I]', 'Fvm7[IV]', 'CvMvm9[I]'], label: 'R: Dorian' },
+                    { chords: ['CvMvm7[I]', 'C#vMvM7[II]', '^Bbm7[VII]', 'D#vm7[III]', 'CvMvm9[I]'], label: 'R: Phrygian' },
+                    { chords: ['CvMvm7[I]', 'G#vMvM7[VI]', '^Fm7[IV]', '^Bbvm7[VII]', 'CvMvm9[I]'], label: 'R: Aeolian' },
+                    { chords: ['CvMvm7[I]', '^GvMvM7[V]', '^Em7[III]', '^Avm7[VI]', 'CvMvm9[I]'], label: 'R: Locrian' },
 
-                // Divider
-                { chords: ['', '', '', '', ''], label: '' },
+                    // Divider
+                    { chords: ['', '', '', '', ''], label: '' },
 
-                // Third set of progressions (new addition)
-                { chords: ['C^M^M7[I]', 'C^M^M7/^E[I]', 'FM^M7[IV]', 'G^Mm7[V]', 'C^M^M7[I]'], label: 'Original' },
-                { chords: ['C^M^M7[I]', 'Cm7/vD#[I]', 'F^Mm7[IV]', 'Gm7[V]', 'C^M^M9[I]'], label: 'P: Dorian' },
-                { chords: ['C^M^M7[I]', 'Cvmvm7/vvD#[I]', 'vFm7[IV]', 'Gvmvm7[V]', 'C^M^M9[I]'], label: 'P: Phrygian' },
-                { chords: ['C^M^M7[I]', 'Cm7/vD#[I]', 'Fm7[IV]', "^Gvmvm7[V]", 'C^M^M9[I]'], label: 'P: Aeolian' },
-                { chords: ['C^M^M7[I]', 'Bb^M^M7/^D[VII]', 'vD#M^M7[III]', 'F^Mm7[IV]', 'C^M^M9[I]'], label: 'R: Dorian' },
-                { chords: ['C^M^M7[I]', 'vvG#^M^M7/C[VI]', 'vvC#M^M7[II]', 'vvD#^Mm7[III]', 'C^M^M9[I]'], label: 'R: Phrygian' },
-                { chords: ['C^M^M7[I]', 'vD#^M^M7/^G[III]', 'vG#M^M7[VI]', 'Bb^Mm7[VII]', 'C^M^M9[I]'], label: 'R: Aeolian' },
-                { chords: ['C^M^M7[I]', 'vvC#^M^M7/F[II]', 'vvF#M^M7[V]', 'vvG#^Mm7[VI]', 'C^M^M9[I]'], label: 'R: Locrian' }
-            ];
-
-            // Function to try multiple encodings for a chord name
-            const generateFileNames = (chord) => {
-                if (chord === '') return [];
-
-                // An array of possible filenames to try
-                const fileNames = [
-                    // 1. Original chord name
-                    chord,
-
-                    // 2. With URL encoding
-                    encodeURIComponent(chord),
-
-                    // 3. Without the chord position notation [I], [V], etc.
-                    chord.replace(/\[[^\]]+\]/g, ''),
-
-                    // 4. Without chord position and URL encoded
-                    encodeURIComponent(chord.replace(/\[[^\]]+\]/g, '')),
-
-                    // 5. For slash chords - try replacing slash with underscore
-                    chord.replace(/\//g, '_'),
-
-                    // 6. Custom encoding for specific characters
-                    chord
-                        .replace(/\//g, '_')
-                        .replace(/ø/g, '%C3%B8')
-                        .replace(/#/g, '%23')
-                        .replace(/\^/g, '%5E')
-                        .replace(/\[/g, '%5B')
-                        .replace(/\]/g, '%5D'),
-
-                    // 7. Special handling for chords with leading caret (^)
-                    chord.startsWith('^') ? 'sup' + chord.substring(1) : chord,
-
-                    // 8. Replace carets and vs with sup/sub notation
-                    chord
-                        .replace(/\^/g, "sup")
-                        .replace(/v/g, "sub")
-                        .replace(/\[/g, "_")
-                        .replace(/\]/g, "_"),
-
-                    // 9. Simplified form with no special characters
-                    chord
-                        .replace(/\^/g, "")
-                        .replace(/v/g, "")
-                        .replace(/\[/g, "")
-                        .replace(/\]/g, ""),
-
-                    // 10. Special case for ^Gvmvm7[V]-type chords
-                    chord === "^Gvmvm7[V]" ? "supGvmvm7_V_" : chord,
-                    chord === "^Gvmvm7[V]" ? "supGsubmsubm7V" : chord,
-                    chord === "^Gvmvm7[V]" ? "Gmm7V" : chord
+                    // Third set of progressions (new addition)
+                    { chords: ['C^M^M7[I]', 'C^M^M7/^E[I]', 'FM^M7[IV]', 'G^Mm7[V]', 'C^M^M7[I]'], label: 'Original' },
+                    { chords: ['C^M^M7[I]', 'Cm7/vD#[I]', 'F^Mm7[IV]', 'Gm7[V]', 'C^M^M9[I]'], label: 'P: Dorian' },
+                    { chords: ['C^M^M7[I]', 'Cvmvm7/vvD#[I]', 'vFm7[IV]', 'Gvmvm7[V]', 'C^M^M9[I]'], label: 'P: Phrygian' },
+                    { chords: ['C^M^M7[I]', 'Cm7/vD#[I]', 'Fm7[IV]', '^Gvmvm7[V]', 'C^M^M9[I]'], label: 'P: Aeolian' },
+                    { chords: ['C^M^M7[I]', 'Bb^M^M7/^D[VII]', 'vD#M^M7[III]', 'F^Mm7[IV]', 'C^M^M9[I]'], label: 'R: Dorian' },
+                    { chords: ['C^M^M7[I]', 'vvG#^M^M7/C[VI]', 'vvC#M^M7[II]', 'vvD#^Mm7[III]', 'C^M^M9[I]'], label: 'R: Phrygian' },
+                    { chords: ['C^M^M7[I]', 'vD#^M^M7/^G[III]', 'vG#M^M7[VI]', 'Bb^Mm7[VII]', 'C^M^M9[I]'], label: 'R: Aeolian' },
+                    { chords: ['C^M^M7[I]', 'vvC#^M^M7/F[II]', 'vvF#M^M7[V]', 'vvG#^Mm7[VI]', 'C^M^M9[I]'], label: 'R: Locrian' }
                 ];
+
+                // Function to get the correct filename for a chord
+                const getFileName = (chord) => {
+                    // Handle slash chords by replacing / with _
+                    if (chord.includes('/')) {
+                        return chord.replace(/\//g, '_') + '.wav';
+                    }
+
+                    // For all other chords, just add .wav extension
+                    return chord + '.wav';
+                };
 
                 // Return unique filenames (remove duplicates)
                 return [...new Set(fileNames)];
             };
+
+            // Return unique filenames (remove duplicates)
+            return [...new Set(fileNames)];
+    };
 
             // Enhanced audio loading function
             const loadAudio = (chord) => {
@@ -444,39 +407,26 @@
                 // Set initial loading status
                 setLoadingStatus(prev => new Map(prev).set(chord, 'loading'));
 
-                // Get possible filenames to try
-                const fileNames = generateFileNames(chord);
+                // Get the filename for this chord
+                const fileName = getFileName(chord);
+                const audioUrl = `https://fifty-three-tet.github.io/microtonal_explorer_project/audio/${fileName}`;
 
-                // Try to load audio with different filename variations
-                const tryNextFilename = (index) => {
-                    if (index >= fileNames.length) {
-                        // We've tried all possibilities and failed
-                        setLoadingStatus(prev => new Map(prev).set(chord, false));
-                        return;
-                    }
+                const audio = new Audio(audioUrl);
 
-                    const fileName = fileNames[index];
-                    const audioUrl = `https://fifty-three-tet.github.io/microtonal_explorer_project/audio/${fileName}.wav`;
+                audio.addEventListener('canplaythrough', () => {
+                    // Success! Audio loaded
+                    audioCache.set(chord, audio);
+                    setLoadingStatus(prev => new Map(prev).set(chord, true));
+                });
 
-                    const audio = new Audio(audioUrl);
+                audio.addEventListener('error', () => {
+                    // Failed to load
+                    setLoadingStatus(prev => new Map(prev).set(chord, false));
+                    console.error(`Failed to load audio for chord: ${chord}`);
+                });
 
-                    audio.addEventListener('canplaythrough', () => {
-                        // Success! This filename worked
-                        audioCache.set(chord, audio);
-                        setLoadingStatus(prev => new Map(prev).set(chord, true));
-                    });
-
-                    audio.addEventListener('error', () => {
-                        // This filename didn't work, try the next one
-                        tryNextFilename(index + 1);
-                    });
-
-                    // Start loading
-                    audio.load();
-                };
-
-                // Start trying filenames
-                tryNextFilename(0);
+                // Start loading
+                audio.load();
             };
 
             // Load all audio files when component mounts
@@ -560,7 +510,7 @@
                                         key={`${rowIndex}-${colIndex}`}
                                         onClick={() => handleChordClick(chord, rowIndex, colIndex)}
                                         className={`p-2 rounded-xl flex-1 text-center transition-colors border border-gray-300
-                                    ${chord === ''
+                                        ${chord === ''
                                                 ? 'border-none'
                                                 : activeButtons.has(`${rowIndex}-${colIndex}`)
                                                     ? 'text-white'
