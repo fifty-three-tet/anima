@@ -254,10 +254,7 @@
 
             // Special mapping for chord names to their correct filenames
             const chordToFileMapping = {
-                // Special case
                 "^Gvmvm7[V]": "upGvmvm7[V].wav",
-
-                // Slash chord mappings with underscore notation
                 "BbvMvM7/vD[VII]": "_BbvMvM7_vD[VII].wav",
                 "C#vMvM7/F[II]": "_C#vMvM7_F[II].wav",
                 "C^m^m7/D#[I]": "_C^m^m7_D#[I].wav",
@@ -265,8 +262,6 @@
                 "CvMvM7/vE[I]": "_CvMvM7_vE[I].wav",
                 "D#vMvM7/G[III]": "_D#vMvM7_G[III].wav",
                 "G#vMvM7/C[VI]": "_G#vMvM7_C[VI].wav",
-
-                // Files with underscore prefixes
                 "CvMvM7[I]": "_CvMvM7[I].wav",
                 "CvMvM9[I]": "_CvMvM9[I].wav",
                 "Dm7[II]": "_Dm7[II].wav",
@@ -285,17 +280,27 @@
             };
 
             // Function to get the correct filename for a chord
-            // Revised getFileName function:
             const getFileName = (chord, isThirdGroup = false) => {
                 if (!chord) return '';
+
+                // If this chord has a known mapping, use it.
+                if (chordToFileMapping.hasOwnProperty(chord)) {
+                    return chordToFileMapping[chord];
+                }
+
+                // Otherwise, start with the original chord name.
                 let fileName = chord;
-                // List any chord names that should not get a leading underscore
-                const noUnderscoreExceptions = new Set(["Dø7[II]"]);
-                if (isThirdGroup && fileName[0] !== '_' && !noUnderscoreExceptions.has(fileName)) {
+
+                // For third-group chords, decide if you need to add a leading underscore.
+                // For example, if the chord does not contain "ø" (which you want to preserve),
+                // then prepend the underscore.
+                if (isThirdGroup && fileName[0] !== '_' && !fileName.includes('ø')) {
                     fileName = '_' + fileName;
                 }
-                // Replace slashes with underscores
+
+                // Replace any slashes with underscores.
                 fileName = fileName.replace(/\//g, '_');
+
                 return fileName + '.wav';
             };
 
@@ -309,15 +314,15 @@
                 }
                 setLoadingStatus(prev => new Map(prev).set(chord, 'loading'));
 
-                // Get the normalized filename.
+                // Use the getFileName function with the proper flag.
                 const fileName = getFileName(chord, isThirdGroup);
-                // Build the final URL by encoding the fileName once.
                 const baseUrl = 'https://fifty-three-tet.github.io/microtonal_explorer_project/audio/';
+
+                // Encode the filename exactly once.
                 const finalUrl = baseUrl + encodeURIComponent(fileName);
                 console.log(`Loading audio for chord: ${chord}, finalUrl: ${finalUrl}`);
 
                 const audio = new Audio(finalUrl);
-
                 audio.addEventListener('canplaythrough', () => {
                     console.log(`Successfully loaded: ${fileName}`);
                     audioCache.set(chord, audio);
@@ -329,7 +334,7 @@
                     console.error(`Failed to load audio for chord: ${chord}, file: ${fileName}`, e);
                     setLoadingStatus(prev => new Map(prev).set(chord, false));
                     setDebugInfo(`Failed to load: ${chord} -> ${fileName}`);
-                    // Optionally, you could add a fallback here if desired.
+                    // Optionally, add a fallback if needed.
                 });
 
                 audio.load();
