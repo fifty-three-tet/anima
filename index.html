@@ -289,15 +289,15 @@
             const getFileName = (chord, isThirdGroup = false) => {
                 if (!chord) return '';
                 let fileName = chord;
-                // For chords in the third progression, ensure a leading underscore.
-                if (isThirdGroup && fileName[0] !== '_') {
+                // List any chord names that should not get a leading underscore
+                const noUnderscoreExceptions = new Set(["Dø7[II]"]);
+                if (isThirdGroup && fileName[0] !== '_' && !noUnderscoreExceptions.has(fileName)) {
                     fileName = '_' + fileName;
                 }
-                // Replace all slashes with underscores.
+                // Replace slashes with underscores
                 fileName = fileName.replace(/\//g, '_');
                 return fileName + '.wav';
             };
-
 
             // Enhanced audio loading function with better error handling
             const loadAudio = (chord, isThirdGroup = false) => {
