@@ -372,20 +372,47 @@
                 // Divider
                 { chords: ['', '', '', '', ''], label: '' },
 
-                // Third set of progressions (new addition)
-                { chords: ['C^M^M7[I]', 'C^M^M7/^E[I]', 'FM^M7[IV]', 'G^Mm7[V]', 'C^M^M7[I]'], label: 'Original' },
-                { chords: ['C^M^M7[I]', 'Cm7/vD#[I]', 'F^Mm7[IV]', 'Gm7[V]', 'C^M^M9[I]'], label: 'P: Dorian' },
-                { chords: ['C^M^M7[I]', 'Cvmvm7/vvD#[I]', 'vFm7[IV]', 'Gvmvm7[V]', 'C^M^M9[I]'], label: 'P: Phrygian' },
-                { chords: ['C^M^M7[I]', 'Cm7/vD#[I]', 'Fm7[IV]', '^Gvmvm7[V]', 'C^M^M9[I]'], label: 'P: Aeolian' },
-                { chords: ['C^M^M7[I]', 'Bb^M^M7/^D[VII]', 'vD#M^M7[III]', 'F^Mm7[IV]', 'C^M^M9[I]'], label: 'R: Dorian' },
-                { chords: ['C^M^M7[I]', 'vvG#^M^M7/C[VI]', 'vvC#M^M7[II]', 'vvD#^Mm7[III]', 'C^M^M9[I]'], label: 'R: Phrygian' },
-                { chords: ['C^M^M7[I]', 'vD#^M^M7/^G[III]', 'vG#M^M7[VI]', 'Bb^Mm7[VII]', 'C^M^M9[I]'], label: 'R: Aeolian' },
-                { chords: ['C^M^M7[I]', 'vvC#^M^M7/F[II]', 'vvF#M^M7[V]', 'vvG#^Mm7[VI]', 'C^M^M9[I]'], label: 'R: Locrian' }
+                // NEW Third set of progressions
+                { chords: ['CvMvM7[I]', 'CvMvM7/vE[I]', 'FvMvM7[IV]', 'Dm7[II]', 'CvMvM7[I]'], label: 'Original' },
+                { chords: ['CvMvM7[I]', 'Cm7/vD#[I]', 'FvMm7[IV]', 'vD^m^m7[II]', 'CvMvM9[I]'], label: 'P: Dorian' },
+                { chords: ['CvMvM7[I]', 'C^m^m7/D#[I]', 'F^m^m7[IV]', 'C#vMvM7[II]', 'CvMvM9[I]'], label: 'P: Phrygian' },
+                { chords: ['CvMvM7[I]', 'C^m^m7/D#[I]', '^Fm7[IV]', 'Dø7[II]', 'CvMvM9[I]'], label: 'P: Aeolian' },
+                { chords: ['CvMvM7[I]', 'BbvMvM7/vD[VII]', 'vD#vMvM7[III]', 'Cm7[I]', 'CvMvM9[I]'], label: 'R: Dorian' },
+                { chords: ['CvMvM7[I]', 'G#vMvM7/C[VI]', 'C#vMvM7[II]', '^Bbm7[VII]', 'CvMvM9[I]'], label: 'R: Phrygian' },
+                { chords: ['CvMvM7[I]', 'D#vMvM7/G[III]', 'G#vMvM7[VI]', '^Fm7[IV]', 'CvMvM9[I]'], label: 'R: Aeolian' },
+                { chords: ['CvMvM7[I]', 'C#vMvM7/F[II]', 'F#vMvM7[V]', 'D#m7[III]', 'CvMvM9[I]'], label: 'R: Locrian' }
             ];
 
             // Special mapping for chord names that don't follow the standard pattern
             const chordToFileMapping = {
-                "^Gvmvm7[V]": "upGvmvm7[V].wav"  // Uses 'up' prefix instead of ^ 
+                // Special case mappings
+                "^Gvmvm7[V]": "upGvmvm7[V].wav",
+
+                // New third set mappings with underscore prefix
+                "CvMvM7[I]": "_CvMvM7[I].wav",
+                "CvMvM9[I]": "_CvMvM9[I].wav",
+                "Cm7[I]": "_Cm7[I].wav",
+                "F^m^m7[IV]": "_F^m^m7[IV].wav",
+                "FvMm7[IV]": "_FvMm7[IV].wav",
+                "FvMvM7[IV]": "_FvMvM7[IV].wav",
+                "C#vMvM7[II]": "_C#vMvM7[II].wav",
+                "F#vMvM7[V]": "_F#vMvM7[V].wav",
+                "G#vMvM7[VI]": "_G#vMvM7[VI].wav",
+                "D#m7[III]": "_D#m7[III].wav",
+                "Dm7[II]": "_Dm7[II].wav",
+                "^Fm7[IV]": "_^Fm7[IV].wav",
+                "^Bbm7[VII]": "_^Bbm7[VII].wav",
+                "vD^m^m7[II]": "_vD^m^m7[II].wav",
+                "vD#vMvM7[III]": "_vD#vMvM7[III].wav",
+
+                // Slash chord mappings with special handling
+                "CvMvM7/vE[I]": "_CvMvM7_vE[I].wav",
+                "Cm7/vD#[I]": "*Cm7*vD#[I].wav",
+                "C^m^m7/D#[I]": "*C^m^m7*D#[I].wav",
+                "BbvMvM7/vD[VII]": "*BbvMvM7*vD[VII].wav",
+                "G#vMvM7/C[VI]": "*G#vMvM7*C[VI].wav",
+                "D#vMvM7/G[III]": "*D#vMvM7*G[III].wav",
+                "C#vMvM7/F[II]": "*C#vMvM7*F[II].wav"
             };
 
             // Function to get the correct filename for a chord
