@@ -362,21 +362,32 @@
 
             // Load all audio files when component mounts
             React.useEffect(() => {
-                // Get a unique list of all chords
-                const uniqueChords = new Set();
-                progressions.forEach(row => {
+                // Compute group boundaries (using your existing logic)
+                const dividerIndices = progressions.reduce((indices, row, index) => {
+                    if (row.label === '') indices.push(index);
+                    return indices;
+                }, []);
+                const groupStartIndices = [0, ...dividerIndices.map(idx => idx + 1)];
+
+                // Build a map from chord name to whether it appears in group three.
+                // (If a chord appears in group three anywhere, treat it as third-group.)
+                const chordGroupMap = new Map();
+                progressions.forEach((row, rowIndex) => {
+                    // If rowIndex is greater than or equal to groupStartIndices[2], it is in group 3.
+                    const isThirdGroup = groupStartIndices.length > 2 && rowIndex >= groupStartIndices[2];
                     row.chords.forEach(chord => {
-                        if (chord !== '') {
-                            uniqueChords.add(chord);
-                        }
+                        if (chord === '') return;
+                        // If already present, flag as third if it ever appears in group three.
+                        chordGroupMap.set(chord, chordGroupMap.has(chord) ? chordGroupMap.get(chord) || isThirdGroup : isThirdGroup);
                     });
                 });
 
-                // Load each unique chord
-                uniqueChords.forEach(chord => {
-                    loadAudio(chord);
+                // Preload each chord with its proper flag.
+                chordGroupMap.forEach((isThirdGroup, chord) => {
+                    loadAudio(chord, isThirdGroup);
                 });
             }, []);
+
 
             const handleChordClick = async (chord, rowIndex, colIndex, isThirdGroup) => {
                 if (chord === '') return;
