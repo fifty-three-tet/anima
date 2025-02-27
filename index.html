@@ -339,7 +339,7 @@
             );
         };
         // Chord Progression Grid Component
-        // Finally correctly fixed Chord Progression Grid Component
+    // Correctly fixed Chord Progression Grid Component
         const ChordProgressionGrid = () => {
             const [activeButtons, setActiveButtons] = React.useState(new Set());
             const [audioCache] = React.useState(new Map());
@@ -384,13 +384,12 @@
                 { chords: ['CvMvM7[I]', 'C#vMvM7/F[II]', 'F#vMvM7[V]', 'D#m7[III]', 'CvMvM9[I]'], label: 'R: Locrian' }
             ];
 
-            // Special mapping for the third progression's chord names
+            // Special mapping for chord names to their correct filenames
             const chordToFileMapping = {
-                // Previous special case
+                // Special case from previous version
                 "^Gvmvm7[V]": "upGvmvm7[V].wav",
 
-                // For the third progression, all files start with "_"
-                // Regular chords in third progression
+                // Third set chords with underscore prefix
                 "CvMvM7[I]": "_CvMvM7[I].wav",
                 "CvMvM9[I]": "_CvMvM9[I].wav",
                 "Dm7[II]": "_Dm7[II].wav",
@@ -407,26 +406,26 @@
                 "vD^m^m7[II]": "_vD^m^m7[II].wav",
                 "vD#vMvM7[III]": "_vD#vMvM7[III].wav",
 
-                // Slash chords in third progression (also start with "_")
+                // Slash chord mappings with underscore notation
                 "CvMvM7/vE[I]": "_CvMvM7_vE[I].wav",
-                "Cm7/vD#[I]": "_Cm7_vD#[I].wav",
-                "C^m^m7/D#[I]": "_C^m^m7_D#[I].wav",
-                "BbvMvM7/vD[VII]": "_BbvMvM7_vD[VII].wav",
-                "G#vMvM7/C[VI]": "_G#vMvM7_C[VI].wav",
-                "D#vMvM7/G[III]": "_D#vMvM7_G[III].wav",
-                "C#vMvM7/F[II]": "_C#vMvM7_F[II].wav"
+                "Cm7/vD#[I]": "Cm7_vD#[I].wav",
+                "C^m^m7/D#[I]": "C^m^m7_D#[I].wav",
+                "BbvMvM7/vD[VII]": "BbvMvM7_vD[VII].wav",
+                "G#vMvM7/C[VI]": "G#vMvM7_C[VI].wav",
+                "D#vMvM7/G[III]": "D#vMvM7_G[III].wav",
+                "C#vMvM7/F[II]": "C#vMvM7_F[II].wav"
             };
 
             // Function to get the correct filename for a chord
             const getFileName = (chord) => {
                 if (chord === '') return '';
 
-                // Check if this chord has a special mapping for the third progression
+                // Check if this chord has a special mapping
                 if (chordToFileMapping[chord]) {
                     return chordToFileMapping[chord];
                 }
 
-                // For slash chords in the first two progressions, replace / with _
+                // For slash chords, replace / with _
                 let fileName = chord;
                 if (chord.includes('/')) {
                     fileName = chord.replace(/\//g, '_');
@@ -497,33 +496,22 @@
                 audio.load();
             };
 
-            // Load all audio files when component mounts - MODIFIED to load sequentially
+            // Load all audio files when component mounts
             React.useEffect(() => {
                 // Get a unique list of all chords
-                const uniqueChords = [];
+                const uniqueChords = new Set();
                 progressions.forEach(row => {
                     row.chords.forEach(chord => {
-                        if (chord !== '' && !uniqueChords.includes(chord)) {
-                            uniqueChords.push(chord);
+                        if (chord !== '') {
+                            uniqueChords.add(chord);
                         }
                     });
                 });
 
-                // Load one chord at a time with a delay to prevent server overload
-                let index = 0;
-
-                function loadNext() {
-                    if (index >= uniqueChords.length) return;
-
-                    loadAudio(uniqueChords[index]);
-                    index++;
-
-                    // Load next file after 1 second
-                    setTimeout(loadNext, 1000);
-                }
-
-                // Start loading sequence
-                loadNext();
+                // Load each unique chord
+                uniqueChords.forEach(chord => {
+                    loadAudio(chord);
+                });
             }, []);
 
             const handleChordClick = async (chord, rowIndex, colIndex) => {
@@ -642,7 +630,6 @@
                 </div>
             );
         };
-    
 
         // Mount the React component
         const root = ReactDOM.createRoot(document.getElementById('chord-progression-root'));
