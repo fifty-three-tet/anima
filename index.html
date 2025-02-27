@@ -669,8 +669,8 @@
 
                     {/* First progression group */}
                     <div className="mb-8">
-                        <div className="progression-note mb-4 p-3 bg-white rounded-lg shadow-sm">
-                            <p>{progressionNotes[0]}</p>
+                        <div className="bg-white p-3 rounded-lg shadow-sm mb-4">
+                            <p className="text-sm">{progressionNotes[0]}</p>
                         </div>
                         <div className="flex flex-col md:flex-row gap-4">
                             <div className="flex-1">
@@ -681,7 +681,7 @@
                                                 <button
                                                     key={`${rowIndex}-${colIndex}`}
                                                     onClick={() => handleChordClick(chord, rowIndex, colIndex)}
-                                                    className={`chord-button p-1 rounded-xl flex-1 text-center transition-colors border border-gray-300
+                                                    className={`text-xs p-1 rounded-xl flex-1 text-center transition-colors border border-gray-300
                                             ${chord === ''
                                                             ? 'border-none'
                                                             : activeButtons.has(`${rowIndex}-${colIndex}`)
@@ -698,14 +698,14 @@
                                                     {chord}
                                                 </button>
                                             ))}
-                                            <div className="w-24 text-gray-600 font-medium text-sm">
+                                            <div className="w-24 text-gray-600 font-medium text-xs">
                                                 {row.label}
                                             </div>
                                         </div>
                                     ))}
                                 </div>
                             </div>
-                            <div className="progression-image-container">
+                            <div className="md:w-2/5">
                                 <img src="figures/first_example.png" alt="Scale visualization" className="w-full rounded-lg shadow-sm" />
                             </div>
                         </div>
@@ -713,8 +713,8 @@
 
                     {/* Second progression group */}
                     <div className="mb-8">
-                        <div className="progression-note mb-4 p-3 bg-white rounded-lg shadow-sm">
-                            <p>{progressionNotes[1]}</p>
+                        <div className="bg-white p-3 rounded-lg shadow-sm mb-4">
+                            <p className="text-sm">{progressionNotes[1]}</p>
                         </div>
                         <div className="flex flex-col md:flex-row gap-4">
                             <div className="flex-1">
@@ -727,7 +727,7 @@
                                                     <button
                                                         key={`${adjustedRowIndex}-${colIndex}`}
                                                         onClick={() => handleChordClick(chord, adjustedRowIndex, colIndex)}
-                                                        className={`chord-button p-1 rounded-xl flex-1 text-center transition-colors border border-gray-300
+                                                        className={`text-xs p-1 rounded-xl flex-1 text-center transition-colors border border-gray-300
                                                 ${chord === ''
                                                                 ? 'border-none'
                                                                 : activeButtons.has(`${adjustedRowIndex}-${colIndex}`)
@@ -744,7 +744,7 @@
                                                         {chord}
                                                     </button>
                                                 ))}
-                                                <div className="w-24 text-gray-600 font-medium text-sm">
+                                                <div className="w-24 text-gray-600 font-medium text-xs">
                                                     {row.label}
                                                 </div>
                                             </div>
@@ -752,7 +752,7 @@
                                     })}
                                 </div>
                             </div>
-                            <div className="progression-image-container">
+                            <div className="md:w-2/5">
                                 <img src="figures/second_example.png" alt="Scale visualization" className="w-full rounded-lg shadow-sm" />
                             </div>
                         </div>
@@ -760,8 +760,8 @@
 
                     {/* Third progression group */}
                     <div>
-                        <div className="progression-note mb-4 p-3 bg-white rounded-lg shadow-sm">
-                            <p>{progressionNotes[2]}</p>
+                        <div className="bg-white p-3 rounded-lg shadow-sm mb-4">
+                            <p className="text-sm">{progressionNotes[2]}</p>
                         </div>
                         <div className="flex flex-col md:flex-row gap-4">
                             <div className="flex-1">
@@ -774,7 +774,7 @@
                                                     <button
                                                         key={`${adjustedRowIndex}-${colIndex}`}
                                                         onClick={() => handleChordClick(chord, adjustedRowIndex, colIndex)}
-                                                        className={`chord-button p-1 rounded-xl flex-1 text-center transition-colors border border-gray-300
+                                                        className={`text-xs p-1 rounded-xl flex-1 text-center transition-colors border border-gray-300
                                                 ${chord === ''
                                                                 ? 'border-none'
                                                                 : activeButtons.has(`${adjustedRowIndex}-${colIndex}`)
@@ -791,7 +791,7 @@
                                                         {chord}
                                                     </button>
                                                 ))}
-                                                <div className="w-24 text-gray-600 font-medium text-sm">
+                                                <div className="w-24 text-gray-600 font-medium text-xs">
                                                     {row.label}
                                                 </div>
                                             </div>
@@ -799,7 +799,7 @@
                                     })}
                                 </div>
                             </div>
-                            <div className="progression-image-container">
+                            <div className="md:w-2/5">
                                 <img src="figures/third_example.png" alt="Scale visualization" className="w-full rounded-lg shadow-sm" />
                             </div>
                         </div>
