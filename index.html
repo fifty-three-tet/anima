@@ -288,101 +288,78 @@
             // Revised getFileName function:
             const getFileName = (chord, isThirdGroup = false) => {
                 if (!chord) return '';
-
                 let fileName = chord;
-
-                // 1. For chords in the third progression, ensure a leading underscore.
+                // For chords in the third progression, ensure a leading underscore.
                 if (isThirdGroup && fileName[0] !== '_') {
                     fileName = '_' + fileName;
                 }
-
-                // 2. Replace all slashes with underscores.
+                // Replace all slashes with underscores.
                 fileName = fileName.replace(/\//g, '_');
-
-                // 3. Replace special characters '#' and '^' with their percent-encoded values.
-                //    (Adjust these replacements if you’d prefer a different scheme.)
-                fileName = fileName.replace(/#/g, '%23').replace(/\^/g, '%5E');
-
                 return fileName + '.wav';
             };
 
 
             // Enhanced audio loading function with better error handling
-            const loadAudio = (chord) => {
+            const loadAudio = (chord, isThirdGroup = false) => {
                 if (chord === '') return;
 
-                // If we already have this chord in the cache and it's loaded, do nothing
+                // If already loaded, do nothing.
                 if (audioCache.has(chord) && loadingStatus.get(chord) === true) {
                     return;
                 }
-
-                // Set initial loading status
                 setLoadingStatus(prev => new Map(prev).set(chord, 'loading'));
 
-                // Get the filename for this chord
-                const fileName = getFileName(chord);
-
-                // For debugging - log the exact file being requested
-                console.log(`Loading audio for chord: ${chord}, file: ${fileName}`);
-
-                // Create the URL
+                // Get the normalized filename.
+                const fileName = getFileName(chord, isThirdGroup);
+                // Build the final URL by encoding the fileName once.
                 const baseUrl = 'https://fifty-three-tet.github.io/microtonal_explorer_project/audio/';
-                const audio = new Audio(baseUrl + fileName);
+                const finalUrl = baseUrl + encodeURIComponent(fileName);
+                console.log(`Loading audio for chord: ${chord}, finalUrl: ${finalUrl}`);
+
+                const audio = new Audio(finalUrl);
 
                 audio.addEventListener('canplaythrough', () => {
-                    // Success! Audio loaded
                     console.log(`Successfully loaded: ${fileName}`);
                     audioCache.set(chord, audio);
                     setLoadingStatus(prev => new Map(prev).set(chord, true));
-                    setDebugInfo(null); // Clear any previous error message
+                    setDebugInfo(null);
                 });
 
                 audio.addEventListener('error', (e) => {
-                    // Failed to load the audio
                     console.error(`Failed to load audio for chord: ${chord}, file: ${fileName}`, e);
                     setLoadingStatus(prev => new Map(prev).set(chord, false));
                     setDebugInfo(`Failed to load: ${chord} -> ${fileName}`);
-
-                    // Try to load with a URL-encoded filename as fallback
-                    const encodedFileName = encodeURIComponent(fileName);
-                    console.log(`Trying with encoded filename: ${encodedFileName}`);
-
-                    const fallbackAudio = new Audio(baseUrl + encodedFileName);
-
-                    fallbackAudio.addEventListener('canplaythrough', () => {
-                        console.log(`Successfully loaded with encoded filename: ${encodedFileName}`);
-                        audioCache.set(chord, fallbackAudio);
-                        setLoadingStatus(prev => new Map(prev).set(chord, true));
-                        setDebugInfo(null); // Clear error message on success
-                    });
-
-                    fallbackAudio.addEventListener('error', () => {
-                        console.error(`Fallback load also failed for: ${chord}`);
-                        // Keep the error status
-                    });
-
-                    fallbackAudio.load();
+                    // Optionally, you could add a fallback here if desired.
                 });
 
-                // Start loading
                 audio.load();
             };
 
             // Load all audio files when component mounts
             React.useEffect(() => {
-                // Get a unique list of all chords
-                const uniqueChords = new Set();
-                progressions.forEach(row => {
+                // First, find divider indices.
+                const dividerIndices = progressions.reduce((indices, row, index) => {
+                    if (row.label === '') indices.push(index);
+                    return indices;
+                }, []);
+                const groupStartIndices = [0, ...dividerIndices.map(idx => idx + 1)];
+
+                // Build a Map: chord -> true if it appears in group three, false otherwise.
+                const chordGroupMap = new Map();
+                progressions.forEach((row, rowIndex) => {
+                    // If groupStartIndices[2] exists, rows with index >= that belong to the third group.
+                    const isThirdGroup = groupStartIndices.length > 2 && rowIndex >= groupStartIndices[2];
                     row.chords.forEach(chord => {
                         if (chord !== '') {
-                            uniqueChords.add(chord);
+                            // Once flagged as true, always true.
+                            chordGroupMap.set(chord, chordGroupMap.has(chord) ? (chordGroupMap.get(chord) || isThirdGroup) : isThirdGroup);
                         }
                     });
                 });
 
-                // Load each unique chord
-                uniqueChords.forEach(chord => {
-                    loadAudio(chord);
+                // Preload each unique chord with the proper third-group flag.
+                chordGroupMap.forEach((isThirdGroup, chord) => {
+                    loadAudio(chord, isThirdGroup);
                 });
             }, []);
 
