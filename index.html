@@ -384,7 +384,7 @@
                 const baseUrl = 'https://fifty-three-tet.github.io/microtonal_explorer_project/audio/';
 
                 // Encode the filename exactly once.
-                const finalUrl = baseUrl + safeEncodeFilename(fileName) + '?cb=' + Date.now();
+                const finalUrl = baseUrl + safeEncodeFilename(fileName);
                 console.log(`Loading audio for chord: ${chord}, finalUrl: ${finalUrl}`);
 
                 const audio = new Audio(finalUrl);
