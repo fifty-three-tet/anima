@@ -361,6 +361,13 @@
 
                 return fileName + '.wav';
             };
+            const safeEncodeFilename = (fileName) => {
+                // First, use encodeURI to encode the string, which leaves [ and ] alone.
+                let encoded = encodeURI(fileName);
+                // Then, manually replace any '#' with its percent-encoded version.
+                encoded = encoded.replace(/#/g, '%23');
+                return encoded;
+            };
 
             // Enhanced audio loading function with better error handling
             const loadAudio = (chord, isThirdGroup = false) => {
@@ -377,7 +384,7 @@
                 const baseUrl = 'https://fifty-three-tet.github.io/microtonal_explorer_project/audio/';
 
                 // Encode the filename exactly once.
-                const finalUrl = baseUrl + encodeURIComponent(fileName);
+                const finalUrl = baseUrl + safeEncodeFilename(fileName);
                 console.log(`Loading audio for chord: ${chord}, finalUrl: ${finalUrl}`);
 
                 const audio = new Audio(finalUrl);
