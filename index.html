@@ -285,23 +285,27 @@
             };
 
             // Function to get the correct filename for a chord
-            const getFileName = (chord) => {
-                if (chord === '') return '';
+            // Revised getFileName function:
+            const getFileName = (chord, isThirdGroup = false) => {
+                if (!chord) return '';
 
-                // Check if this chord has a special mapping
-                if (chordToFileMapping[chord]) {
-                    return chordToFileMapping[chord];
-                }
-
-                // For slash chords, replace / with _
                 let fileName = chord;
-                if (chord.includes('/')) {
-                    fileName = chord.replace(/\//g, '_');
+
+                // 1. For chords in the third progression, ensure a leading underscore.
+                if (isThirdGroup && fileName[0] !== '_') {
+                    fileName = '_' + fileName;
                 }
 
-                // Add .wav extension
+                // 2. Replace all slashes with underscores.
+                fileName = fileName.replace(/\//g, '_');
+
+                // 3. Replace special characters '#' and '^' with their percent-encoded values.
+                //    (Adjust these replacements if you’d prefer a different scheme.)
+                fileName = fileName.replace(/#/g, '%23').replace(/\^/g, '%5E');
+
                 return fileName + '.wav';
             };
+
 
             // Enhanced audio loading function with better error handling
             const loadAudio = (chord) => {
