@@ -308,65 +308,57 @@
 
 
             // Enhanced audio loading function with better error handling
-            const loadAudio = (chord) => {
+            const loadAudio = (chord, isThirdGroup = false) => {
                 if (chord === '') return;
 
-                // If we already have this chord in the cache and it's loaded, do nothing
+                // If we already have this chord loaded, do nothing.
                 if (audioCache.has(chord) && loadingStatus.get(chord) === true) {
                     return;
                 }
 
-                // Set initial loading status
                 setLoadingStatus(prev => new Map(prev).set(chord, 'loading'));
 
-                // Get the filename for this chord
-                const fileName = getFileName(chord);
-
-                // For debugging - log the exact file being requested
+                // Use the updated getFileName and pass whether this chord is in the third group.
+                const fileName = getFileName(chord, isThirdGroup);
                 console.log(`Loading audio for chord: ${chord}, file: ${fileName}`);
 
-                // Create the URL
                 const baseUrl = 'https://fifty-three-tet.github.io/microtonal_explorer_project/audio/';
                 const audio = new Audio(baseUrl + fileName);
 
+                // Add event listeners and error handling as before...
                 audio.addEventListener('canplaythrough', () => {
-                    // Success! Audio loaded
                     console.log(`Successfully loaded: ${fileName}`);
                     audioCache.set(chord, audio);
                     setLoadingStatus(prev => new Map(prev).set(chord, true));
-                    setDebugInfo(null); // Clear any previous error message
+                    setDebugInfo(null);
                 });
 
                 audio.addEventListener('error', (e) => {
-                    // Failed to load the audio
                     console.error(`Failed to load audio for chord: ${chord}, file: ${fileName}`, e);
                     setLoadingStatus(prev => new Map(prev).set(chord, false));
                     setDebugInfo(`Failed to load: ${chord} -> ${fileName}`);
 
-                    // Try to load with a URL-encoded filename as fallback
-                    const encodedFileName = encodeURIComponent(fileName);
+                    // Fallback: try with an explicitly URL-encoded filename.
+                    const fallbackFileName = getFileName(chord, isThirdGroup);
+                    const encodedFileName = encodeURIComponent(fallbackFileName);
                     console.log(`Trying with encoded filename: ${encodedFileName}`);
 
                     const fallbackAudio = new Audio(baseUrl + encodedFileName);
-
                     fallbackAudio.addEventListener('canplaythrough', () => {
                         console.log(`Successfully loaded with encoded filename: ${encodedFileName}`);
                         audioCache.set(chord, fallbackAudio);
                         setLoadingStatus(prev => new Map(prev).set(chord, true));
-                        setDebugInfo(null); // Clear error message on success
+                        setDebugInfo(null);
                     });
-
                     fallbackAudio.addEventListener('error', () => {
                         console.error(`Fallback load also failed for: ${chord}`);
-                        // Keep the error status
                     });
-
                     fallbackAudio.load();
                 });
 
-                // Start loading
                 audio.load();
             };
+
 
             // Load all audio files when component mounts
             React.useEffect(() => {
@@ -386,7 +378,7 @@
                 });
             }, []);
 
-            const handleChordClick = async (chord, rowIndex, colIndex) => {
+            const handleChordClick = async (chord, rowIndex, colIndex, isThirdGroup) => {
                 if (chord === '') return;
 
                 const buttonId = `${rowIndex}-${colIndex}`;
@@ -485,7 +477,7 @@
                                             {row.chords.map((chord, colIndex) => (
                                                 <button
                                                     key={`${rowIndex}-${colIndex}`}
-                                                    onClick={() => handleChordClick(chord, rowIndex, colIndex)}
+                                                    onClick={() => handleChordClick(chord, rowIndex, colIndex, false)}
                                                     className={`text-xs p-1 rounded-xl flex-1 text-center transition-colors border border-gray-300
                                             ${chord === ''
                                                             ? 'border-none'
@@ -531,7 +523,7 @@
                                                 {row.chords.map((chord, colIndex) => (
                                                     <button
                                                         key={`${adjustedRowIndex}-${colIndex}`}
-                                                        onClick={() => handleChordClick(chord, adjustedRowIndex, colIndex)}
+                                                        onClick={() => handleChordClick(chord, adjustedRowIndex, colIndex, false)}
                                                         className={`text-xs p-1 rounded-xl flex-1 text-center transition-colors border border-gray-300
                                                 ${chord === ''
                                                                 ? 'border-none'
@@ -578,7 +570,7 @@
                                                 {row.chords.map((chord, colIndex) => (
                                                     <button
                                                         key={`${adjustedRowIndex}-${colIndex}`}
-                                                        onClick={() => handleChordClick(chord, adjustedRowIndex, colIndex)}
+                                                        onClick={() => handleChordClick(chord, adjustedRowIndex, colIndex, true)}
                                                         className={`text-xs p-1 rounded-xl flex-1 text-center transition-colors border border-gray-300
                                                 ${chord === ''
                                                                 ? 'border-none'
