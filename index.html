@@ -211,6 +211,15 @@
                 width: 40%; /* Larger percentage on desktop */
             }
         }
+        .image-container {
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .image-container {
+                width: 35%; /* You can adjust this percentage to your liking */
+            }
+        }
     </style>
 </head>
 
@@ -705,7 +714,7 @@
                                     ))}
                                 </div>
                             </div>
-                            <div className="md:w-2/5">
+                            <div className="image-container">
                                 <img src="figures/first_example.png" alt="Scale visualization" className="w-full rounded-lg shadow-sm" />
                             </div>
                         </div>
@@ -752,7 +761,7 @@
                                     })}
                                 </div>
                             </div>
-                            <div className="md:w-2/5">
+                            <div className="image-container">
                                 <img src="figures/second_example.png" alt="Scale visualization" className="w-full rounded-lg shadow-sm" />
                             </div>
                         </div>
@@ -799,7 +808,7 @@
                                     })}
                                 </div>
                             </div>
-                            <div className="md:w-2/5">
+                            <div className="image-container">
                                 <img src="figures/third_example.png" alt="Scale visualization" className="w-full rounded-lg shadow-sm" />
                             </div>
                         </div>
