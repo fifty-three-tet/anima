@@ -164,6 +164,38 @@
                 font-size: 2rem;
             }
         }
+        .progression-header {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            gap: 1.5rem;
+        }
+
+        .progression-note {
+            flex: 1;
+            padding: 1rem;
+            background-color: var(--bg-color);
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-size: 0.8rem;
+        }
+
+        .progression-image {
+            width: 40%;
+            min-width: 250px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .progression-header {
+                flex-direction: column;
+            }
+            
+            .progression-image {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 
@@ -338,6 +370,19 @@
                 </div>
             );
         };
+        
+        // ProgressionHeader Component for displaying explanation and image
+        const ProgressionHeader = ({ imageUrl, noteText }) => {
+            return (
+                <div className="progression-header">
+                    <div className="progression-note">
+                        <p>{noteText}</p>
+                    </div>
+                    <img src={imageUrl} alt="Scale visualization" className="progression-image" />
+                </div>
+            );
+        };
+
         // Chord Progression Grid Component
         // Correctly fixed Chord Progression Grid Component
         const ChordProgressionGrid = () => {
@@ -345,6 +390,13 @@
             const [audioCache] = React.useState(new Map());
             const [loadingStatus, setLoadingStatus] = React.useState(new Map());
             const [debugInfo, setDebugInfo] = React.useState(null);
+            
+            // Notes for each progression set
+            const progressionNotes = [
+                "This progression uses the distribution of note distances [0, 9, 9, 4, 9, 9, 9, 4] which corresponds to the standard tuning of 12-TET, [Cmaj7, Dm7, Em7, Fmaj7, G7, Am7, Bø7, Cmaj7]. The progression used is I, vi, IV, ii, I",
+                "The second example is composed of the note distances [0, 9, 8, 5, 9, 8, 4, 10], which produces the chords [CvMvm7, Dm7, vEø^m7, FvMvM7, Gvm7, vA^m^m7, vBb^Mmaj7, CvMvm7]. The progression used is I, IV, II, V, I (the major or minor notations are not encoded as intermediate colors are included)",
+                "The third example is composed of the note distances [0, 9, 8, 5, 9, 8, 9, 5], which produces the chords [CvMvM7, Dm7, vE^m^m7, FvMvM7, GvMm7, vA^m^m7, vBbø7, CvMvM7]. The progression used is I, I/3rd, IV, II, I"
+            ];
 
             const progressions = [
                 // First set of progressions (Ionian-based)
@@ -586,18 +638,33 @@
                 }
             };
 
+            // Find the indices where we have dividers (blank rows)
+            const dividerIndices = progressions.reduce((indices, row, index) => {
+                if (row.label === '') indices.push(index);
+                return indices;
+            }, []);
+
+            // This will give us the starting index for each group
+            const groupStartIndices = [0, ...dividerIndices.map(idx => idx + 1)];
+
             return (
                 <div className="p-6 bg-white rounded-lg shadow">
                     <h2 className="text-2xl font-bold mb-4 text-blue-600">Modal Interchange Examples</h2>
-                    <div className="grid gap-1">
-                        {progressions.map((row, rowIndex) => (
-                            <div key={rowIndex} className={`flex gap-1 items-center ${row.label === '' ? 'h-8' : ''}`}>
+
+                    {/* First progression group with header */}
+                    <ProgressionHeader
+                        imageUrl="figures/first_example.png"
+                        noteText={progressionNotes[0]}
+                    />
+                    <div className="grid gap-1 mb-8">
+                        {progressions.slice(groupStartIndices[0], dividerIndices[0]).map((row, rowIndex) => (
+                            <div key={rowIndex} className="flex gap-1 items-center">
                                 {row.chords.map((chord, colIndex) => (
                                     <button
                                         key={`${rowIndex}-${colIndex}`}
                                         onClick={() => handleChordClick(chord, rowIndex, colIndex)}
                                         className={`p-2 rounded-xl flex-1 text-center transition-colors border border-gray-300
-                                ${chord === ''
+                                    ${chord === ''
                                                 ? 'border-none'
                                                 : activeButtons.has(`${rowIndex}-${colIndex}`)
                                                     ? 'text-white'
@@ -619,6 +686,87 @@
                             </div>
                         ))}
                     </div>
+
+                    {/* Second progression group with header */}
+                    <ProgressionHeader
+                        imageUrl="figures/second_example.png"
+                        noteText={progressionNotes[1]}
+                    />
+                    <div className="grid gap-1 mb-8">
+                        {progressions.slice(groupStartIndices[1], dividerIndices[1]).map((row, rowIndex) => {
+                            // Adjust the rowIndex for the button IDs to be unique
+                            const adjustedRowIndex = rowIndex + groupStartIndices[1];
+                            return (
+                                <div key={adjustedRowIndex} className="flex gap-1 items-center">
+                                    {row.chords.map((chord, colIndex) => (
+                                        <button
+                                            key={`${adjustedRowIndex}-${colIndex}`}
+                                            onClick={() => handleChordClick(chord, adjustedRowIndex, colIndex)}
+                                            className={`p-2 rounded-xl flex-1 text-center transition-colors border border-gray-300
+                                        ${chord === ''
+                                                    ? 'border-none'
+                                                    : activeButtons.has(`${adjustedRowIndex}-${colIndex}`)
+                                                        ? 'text-white'
+                                                        : loadingStatus.get(chord) === false
+                                                            ? 'bg-red-100 text-red-600'
+                                                            : 'bg-white hover:bg-gray-200'
+                                                }`}
+                                            style={{
+                                                backgroundColor: activeButtons.has(`${adjustedRowIndex}-${colIndex}`) ? 'var(--button-active)' : ''
+                                            }}
+                                            disabled={chord === '' || loadingStatus.get(chord) !== true}
+                                        >
+                                            {chord}
+                                        </button>
+                                    ))}
+                                    <div className="w-32 text-gray-600 font-medium">
+                                        {row.label}
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+
+                    {/* Third progression group with header */}
+                    <ProgressionHeader
+                        imageUrl="figures/third_example.png"
+                        noteText={progressionNotes[2]}
+                    />
+                    <div className="grid gap-1">
+                        {progressions.slice(groupStartIndices[2]).map((row, rowIndex) => {
+                            // Adjust the rowIndex for the button IDs
+                            const adjustedRowIndex = rowIndex + groupStartIndices[2];
+                            return (
+                                <div key={adjustedRowIndex} className="flex gap-1 items-center">
+                                    {row.chords.map((chord, colIndex) => (
+                                        <button
+                                            key={`${adjustedRowIndex}-${colIndex}`}
+                                            onClick={() => handleChordClick(chord, adjustedRowIndex, colIndex)}
+                                            className={`p-2 rounded-xl flex-1 text-center transition-colors border border-gray-300
+                                        ${chord === ''
+                                                    ? 'border-none'
+                                                    : activeButtons.has(`${adjustedRowIndex}-${colIndex}`)
+                                                        ? 'text-white'
+                                                        : loadingStatus.get(chord) === false
+                                                            ? 'bg-red-100 text-red-600'
+                                                            : 'bg-white hover:bg-gray-200'
+                                                }`}
+                                            style={{
+                                                backgroundColor: activeButtons.has(`${adjustedRowIndex}-${colIndex}`) ? 'var(--button-active)' : ''
+                                            }}
+                                            disabled={chord === '' || loadingStatus.get(chord) !== true}
+                                        >
+                                            {chord}
+                                        </button>
+                                    ))}
+                                    <div className="w-32 text-gray-600 font-medium">
+                                        {row.label}
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+
                     <div className="mt-4 text-sm text-gray-500">
                         Note: Click on any chord to hear it.
                     </div>
@@ -639,6 +787,35 @@
                     <ChordProgressionGrid />
                 </React.Fragment>
             );
+
+        // Add placeholder image handling
+            window.addEventListener('DOMContentLoaded', () => {
+                // This function will attempt to preload images
+                // and provide a fallback if they don't exist
+                const checkImageExists = (url) => {
+                    return new Promise((resolve) => {
+                        const img = new Image();
+                        img.onload = () => resolve(true);
+                        img.onerror = () => resolve(false);
+                        img.src = url;
+                    });
+                };
+
+                // Check all progression image URLs
+                const imageUrls = [
+                    'figures/first_example.png',
+                    'figures/second_example.png',
+                    'figures/third_example.png'
+                ];
+
+                imageUrls.forEach(async (url) => {
+                    const exists = await checkImageExists(url);
+                    if (!exists) {
+                        console.warn(`Image not found: ${url}`);
+                        // Images that don't load will display with alt text
+                    }
+                });
+            });
     </script>
 
 </body>
