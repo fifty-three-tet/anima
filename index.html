@@ -340,298 +340,403 @@
         };
         // Chord Progression Grid Component
         // Finally correctly fixed Chord Progression Grid Component
-            const ChordProgressionGrid = () => {
-                const [activeButtons, setActiveButtons] = React.useState(new Set());
-                const [audioCache] = React.useState(new Map());
-                const [loadingStatus, setLoadingStatus] = React.useState(new Map());
-                const [debugInfo, setDebugInfo] = React.useState(null);
+    const ChordProgressionGrid = () => {
+            const [activeButtons, setActiveButtons] = React.useState(new Set());
+            const [audioCache] = React.useState(new Map());
+            const [loadingStatus, setLoadingStatus] = React.useState(new Map());
+            const [debugInfo, setDebugInfo] = React.useState("Initializing audio...");
+            const [loadedCount, setLoadedCount] = React.useState(0);
 
-                const progressions = [
-                    // First set of progressions (Ionian-based)
-                    { chords: ['Cmaj7[I]', 'Am7[VI]', 'Fmaj7[IV]', 'Dm7[II]', 'Cmaj9[I]'], label: 'Original' },
-                    { chords: ['Cmaj7[I]', 'Aø7[VI]', 'F7[IV]', 'Dm7[II]', 'Cmaj9[I]'], label: 'P: Dorian' },
-                    { chords: ['Cmaj7[I]', 'vG#maj7[VI]', 'Fm7[IV]', 'vC#maj7[II]', 'Cmaj9[I]'], label: 'P: Phrygian' },
-                    { chords: ['Cmaj7[I]', 'vG#maj7[VI]', 'Fm7[IV]', 'Dø7[II]', 'Cmaj9[I]'], label: 'P: Aeolian' },
-                    { chords: ['Cmaj7[I]', 'Gm7[V]', 'vD#maj7[III]', 'Cm7[I]', 'Cmaj9[I]'], label: 'R: Dorian' },
-                    { chords: ['Cmaj7[I]', 'Fm7[IV]', 'vC#maj7[II]', 'Bbm7[VII]', 'Cmaj9[I]'], label: 'R: Phrygian' },
-                    { chords: ['Cmaj7[I]', 'Cm7[I]', 'vG#maj7[VI]', 'Fm7[IV]', 'Cmaj9[I]'], label: 'R: Aeolian' },
-                    { chords: ['Cmaj7[I]', 'Bbm7[VII]', 'vF#maj7[V]', 'vD#m7[III]', 'Cmaj9[I]'], label: 'R: Locrian' },
+            const progressions = [
+                // First set of progressions (Ionian-based)
+                { chords: ['Cmaj7[I]', 'Am7[VI]', 'Fmaj7[IV]', 'Dm7[II]', 'Cmaj9[I]'], label: 'Original' },
+                { chords: ['Cmaj7[I]', 'Aø7[VI]', 'F7[IV]', 'Dm7[II]', 'Cmaj9[I]'], label: 'P: Dorian' },
+                { chords: ['Cmaj7[I]', 'vG#maj7[VI]', 'Fm7[IV]', 'vC#maj7[II]', 'Cmaj9[I]'], label: 'P: Phrygian' },
+                { chords: ['Cmaj7[I]', 'vG#maj7[VI]', 'Fm7[IV]', 'Dø7[II]', 'Cmaj9[I]'], label: 'P: Aeolian' },
+                { chords: ['Cmaj7[I]', 'Gm7[V]', 'vD#maj7[III]', 'Cm7[I]', 'Cmaj9[I]'], label: 'R: Dorian' },
+                { chords: ['Cmaj7[I]', 'Fm7[IV]', 'vC#maj7[II]', 'Bbm7[VII]', 'Cmaj9[I]'], label: 'R: Phrygian' },
+                { chords: ['Cmaj7[I]', 'Cm7[I]', 'vG#maj7[VI]', 'Fm7[IV]', 'Cmaj9[I]'], label: 'R: Aeolian' },
+                { chords: ['Cmaj7[I]', 'Bbm7[VII]', 'vF#maj7[V]', 'vD#m7[III]', 'Cmaj9[I]'], label: 'R: Locrian' },
 
-                    // Divider
-                    { chords: ['', '', '', '', ''], label: '' },
+                // Divider
+                { chords: ['', '', '', '', ''], label: '' },
 
-                    // Second set of progressions (original from code)
-                    { chords: ['CvMvm7[I]', 'FvMvM7[IV]', 'Dm7[II]', 'Gvm7[V]', 'CvMvm9[I]'], label: 'Original' },
-                    { chords: ['CvMvm7[I]', 'Fvm7[IV]', 'vDø^m7[II]', 'vG^m^m7[V]', 'CvMvm9[I]'], label: 'P: Dorian' },
-                    { chords: ['CvMvm7[I]', 'F^m^m7[IV]', 'C#vMvM7[II]', 'vF#^Mmaj7[V]', 'CvMvm9[I]'], label: 'P: Phrygian' },
-                    { chords: ['CvMvm7[I]', '^Fm7[IV]', 'vC#Mmaj7[II]', 'Gø^m7[V]', 'CvMvm9[I]'], label: 'P: Aeolian' },
-                    { chords: ['CvMvm7[I]', 'vD#vMvM7[III]', 'Cm7[I]', 'Fvm7[IV]', 'CvMvm9[I]'], label: 'R: Dorian' },
-                    { chords: ['CvMvm7[I]', 'C#vMvM7[II]', '^Bbm7[VII]', 'D#vm7[III]', 'CvMvm9[I]'], label: 'R: Phrygian' },
-                    { chords: ['CvMvm7[I]', 'G#vMvM7[VI]', '^Fm7[IV]', '^Bbvm7[VII]', 'CvMvm9[I]'], label: 'R: Aeolian' },
-                    { chords: ['CvMvm7[I]', '^GvMvM7[V]', '^Em7[III]', '^Avm7[VI]', 'CvMvm9[I]'], label: 'R: Locrian' },
+                // Second set of progressions (original from code)
+                { chords: ['CvMvm7[I]', 'FvMvM7[IV]', 'Dm7[II]', 'Gvm7[V]', 'CvMvm9[I]'], label: 'Original' },
+                { chords: ['CvMvm7[I]', 'Fvm7[IV]', 'vDø^m7[II]', 'vG^m^m7[V]', 'CvMvm9[I]'], label: 'P: Dorian' },
+                { chords: ['CvMvm7[I]', 'F^m^m7[IV]', 'C#vMvM7[II]', 'vF#^Mmaj7[V]', 'CvMvm9[I]'], label: 'P: Phrygian' },
+                { chords: ['CvMvm7[I]', '^Fm7[IV]', 'vC#Mmaj7[II]', 'Gø^m7[V]', 'CvMvm9[I]'], label: 'P: Aeolian' },
+                { chords: ['CvMvm7[I]', 'vD#vMvM7[III]', 'Cm7[I]', 'Fvm7[IV]', 'CvMvm9[I]'], label: 'R: Dorian' },
+                { chords: ['CvMvm7[I]', 'C#vMvM7[II]', '^Bbm7[VII]', 'D#vm7[III]', 'CvMvm9[I]'], label: 'R: Phrygian' },
+                { chords: ['CvMvm7[I]', 'G#vMvM7[VI]', '^Fm7[IV]', '^Bbvm7[VII]', 'CvMvm9[I]'], label: 'R: Aeolian' },
+                { chords: ['CvMvm7[I]', '^GvMvM7[V]', '^Em7[III]', '^Avm7[VI]', 'CvMvm9[I]'], label: 'R: Locrian' },
 
-                    // Divider
-                    { chords: ['', '', '', '', ''], label: '' },
+                // Divider
+                { chords: ['', '', '', '', ''], label: '' },
 
-                    // NEW Third set of progressions
-                    { chords: ['CvMvM7[I]', 'CvMvM7/vE[I]', 'FvMvM7[IV]', 'Dm7[II]', 'CvMvM7[I]'], label: 'Original' },
-                    { chords: ['CvMvM7[I]', 'Cm7/vD#[I]', 'FvMm7[IV]', 'vD^m^m7[II]', 'CvMvM9[I]'], label: 'P: Dorian' },
-                    { chords: ['CvMvM7[I]', 'C^m^m7/D#[I]', 'F^m^m7[IV]', 'C#vMvM7[II]', 'CvMvM9[I]'], label: 'P: Phrygian' },
-                    { chords: ['CvMvM7[I]', 'C^m^m7/D#[I]', '^Fm7[IV]', 'Dø7[II]', 'CvMvM9[I]'], label: 'P: Aeolian' },
-                    { chords: ['CvMvM7[I]', 'BbvMvM7/vD[VII]', 'vD#vMvM7[III]', 'Cm7[I]', 'CvMvM9[I]'], label: 'R: Dorian' },
-                    { chords: ['CvMvM7[I]', 'G#vMvM7/C[VI]', 'C#vMvM7[II]', '^Bbm7[VII]', 'CvMvM9[I]'], label: 'R: Phrygian' },
-                    { chords: ['CvMvM7[I]', 'D#vMvM7/G[III]', 'G#vMvM7[VI]', '^Fm7[IV]', 'CvMvM9[I]'], label: 'R: Aeolian' },
-                    { chords: ['CvMvM7[I]', 'C#vMvM7/F[II]', 'F#vMvM7[V]', 'D#m7[III]', 'CvMvM9[I]'], label: 'R: Locrian' }
-                ];
+                // Third set of progressions
+                { chords: ['CvMvM7[I]', 'CvMvM7/vE[I]', 'FvMvM7[IV]', 'Dm7[II]', 'CvMvM7[I]'], label: 'Original' },
+                { chords: ['CvMvM7[I]', 'Cm7/vD#[I]', 'FvMm7[IV]', 'vD^m^m7[II]', 'CvMvM9[I]'], label: 'P: Dorian' },
+                { chords: ['CvMvM7[I]', 'C^m^m7/D#[I]', 'F^m^m7[IV]', 'C#vMvM7[II]', 'CvMvM9[I]'], label: 'P: Phrygian' },
+                { chords: ['CvMvM7[I]', 'C^m^m7/D#[I]', '^Fm7[IV]', 'Dø7[II]', 'CvMvM9[I]'], label: 'P: Aeolian' },
+                { chords: ['CvMvM7[I]', 'BbvMvM7/vD[VII]', 'vD#vMvM7[III]', 'Cm7[I]', 'CvMvM9[I]'], label: 'R: Dorian' },
+                { chords: ['CvMvM7[I]', 'G#vMvM7/C[VI]', 'C#vMvM7[II]', '^Bbm7[VII]', 'CvMvM9[I]'], label: 'R: Phrygian' },
+                { chords: ['CvMvM7[I]', 'D#vMvM7/G[III]', 'G#vMvM7[VI]', '^Fm7[IV]', 'CvMvM9[I]'], label: 'R: Aeolian' },
+                { chords: ['CvMvM7[I]', 'C#vMvM7/F[II]', 'F#vMvM7[V]', 'D#m7[III]', 'CvMvM9[I]'], label: 'R: Locrian' }
+            ];
 
-                // Special mapping for the third progression's chord names
-                const chordToFileMapping = {
-                    // Previous special case
-                    "^Gvmvm7[V]": "upGvmvm7[V].wav",
+            // Updated chord to file mapping with correct prefix and underscore format for slash chords
+            const chordToFileMapping = {
+                // Normal chords
+                "^GvMvM7[V]": "^GvMvM7[V].wav",
+                "vG#maj7[VI]": "vG#maj7[VI].wav",
+                "vC#maj7[II]": "vC#maj7[II].wav",
+                "vD#maj7[III]": "vD#maj7[III].wav",
 
-                    // For the third progression, all files start with "_"
-                    // Regular chords in third progression
-                    "CvMvM7[I]": "_CvMvM7[I].wav",
-                    "CvMvM9[I]": "_CvMvM9[I].wav",
-                    "Dm7[II]": "_Dm7[II].wav",
-                    "Cm7[I]": "_Cm7[I].wav",
-                    "C#vMvM7[II]": "_C#vMvM7[II].wav",
-                    "D#m7[III]": "_D#m7[III].wav",
-                    "F#vMvM7[V]": "_F#vMvM7[V].wav",
-                    "F^m^m7[IV]": "_F^m^m7[IV].wav",
-                    "FvMm7[IV]": "_FvMm7[IV].wav",
-                    "FvMvM7[IV]": "_FvMvM7[IV].wav",
-                    "G#vMvM7[VI]": "_G#vMvM7[VI].wav",
-                    "^Bbm7[VII]": "_^Bbm7[VII].wav",
-                    "^Fm7[IV]": "_^Fm7[IV].wav",
-                    "vD^m^m7[II]": "_vD^m^m7[II].wav",
-                    "vD#vMvM7[III]": "_vD#vMvM7[III].wav",
+                // Third progression chords - all with underscore prefix and underscore for slash
+                "CvMvM7[I]": "_CvMvM7[I].wav",
+                "CvMvM9[I]": "_CvMvM9[I].wav",
+                "Dm7[II]": "_Dm7[II].wav",
+                "Cm7[I]": "_Cm7[I].wav",
+                "C#vMvM7[II]": "_C#vMvM7[II].wav",
+                "D#m7[III]": "_D#m7[III].wav",
+                "F#vMvM7[V]": "_F#vMvM7[V].wav",
+                "F^m^m7[IV]": "_F^m^m7[IV].wav",
+                "FvMm7[IV]": "_FvMm7[IV].wav",
+                "FvMvM7[IV]": "_FvMvM7[IV].wav",
+                "G#vMvM7[VI]": "_G#vMvM7[VI].wav",
+                "^Bbm7[VII]": "_^Bbm7[VII].wav",
+                "^Fm7[IV]": "_^Fm7[IV].wav",
+                "vD^m^m7[II]": "_vD^m^m7[II].wav",
+                "vD#vMvM7[III]": "_vD#vMvM7[III].wav",
 
-                    // Slash chords in third progression (also start with "_")
-                    "CvMvM7/vE[I]": "_CvMvM7_vE[I].wav",
-                    "Cm7/vD#[I]": "_Cm7_vD#[I].wav",
-                    "C^m^m7/D#[I]": "_C^m^m7_D#[I].wav",
-                    "BbvMvM7/vD[VII]": "_BbvMvM7_vD[VII].wav",
-                    "G#vMvM7/C[VI]": "_G#vMvM7_C[VI].wav",
-                    "D#vMvM7/G[III]": "_D#vMvM7_G[III].wav",
-                    "C#vMvM7/F[II]": "_C#vMvM7_F[II].wav"
-                };
+                // Slash chords with underscore prefix and underscore replacing the slash
+                "CvMvM7/vE[I]": "_CvMvM7_vE[I].wav",
+                "Cm7/vD#[I]": "_Cm7_vD#[I].wav",
+                "C^m^m7/D#[I]": "_C^m^m7_D#[I].wav",
+                "BbvMvM7/vD[VII]": "_BbvMvM7_vD[VII].wav",
+                "G#vMvM7/C[VI]": "_G#vMvM7_C[VI].wav",
+                "D#vMvM7/G[III]": "_D#vMvM7_G[III].wav",
+                "C#vMvM7/F[II]": "_C#vMvM7_F[II].wav"
+            };
 
-                // Function to get the correct filename for a chord
-                const getFileName = (chord) => {
-                    if (chord === '') return '';
+            // Function to get the correct filename for a chord
+            const getFileName = (chord) => {
+                if (chord === '') return '';
 
-                    // Check if this chord has a special mapping for the third progression
-                    if (chordToFileMapping[chord]) {
-                        return chordToFileMapping[chord];
-                    }
+                // First check if chord has a special mapping
+                if (chordToFileMapping[chord]) {
+                    return chordToFileMapping[chord];
+                }
 
-                    // For slash chords in the first two progressions, replace / with _
-                    let fileName = chord;
-                    if (chord.includes('/')) {
-                        fileName = chord.replace(/\//g, '_');
-                    }
+                // For slash chords without special mapping, replace / with _
+                let fileName = chord;
+                if (chord.includes('/')) {
+                    fileName = fileName.replace(/\//g, '_');
+                }
 
-                    // Add .wav extension
-                    return fileName + '.wav';
-                };
+                // Add .wav extension if needed
+                if (!fileName.endsWith('.wav')) {
+                    fileName = fileName + '.wav';
+                }
 
-                // Enhanced audio loading function with better error handling
-                const loadAudio = (chord) => {
-                    if (chord === '') return;
+                // Add underscore prefix for third progression chords
+                // Check if this is from the third progression (rows 19-26)
+                // We can detect this by checking if the chord contains "vMvM" since most third progression chords have this
+                if (chord.includes('vMvM') && !fileName.startsWith('_')) {
+                    fileName = '_' + fileName;
+                }
 
-                    // If we already have this chord in the cache and it's loaded, do nothing
-                    if (audioCache.has(chord) && loadingStatus.get(chord) === true) {
-                        return;
-                    }
+                return fileName;
+            };
 
-                    // Set initial loading status
-                    setLoadingStatus(prev => new Map(prev).set(chord, 'loading'));
+            // Load audio function with enhanced error handling and fallbacks
+            const loadAudio = (chord) => {
+                if (chord === '') return;
 
-                    // Get the filename for this chord
-                    const fileName = getFileName(chord);
+                // If already loaded successfully, do nothing
+                if (audioCache.has(chord) && loadingStatus.get(chord) === true) {
+                    return;
+                }
 
-                    // For debugging - log the exact file being requested
-                    console.log(`Loading audio for chord: ${chord}, file: ${fileName}`);
+                // Set initial loading status
+                setLoadingStatus(prev => new Map(prev).set(chord, 'loading'));
 
-                    // Create the URL
-                    const baseUrl = 'https://fifty-three-tet.github.io/microtonal_explorer_project/audio/';
-                    const audio = new Audio(baseUrl + fileName);
+                // Get the filename for this chord
+                const fileName = getFileName(chord);
 
-                    audio.addEventListener('canplaythrough', () => {
-                        // Success! Audio loaded
-                        console.log(`Successfully loaded: ${fileName}`);
-                        audioCache.set(chord, audio);
-                        setLoadingStatus(prev => new Map(prev).set(chord, true));
-                        setDebugInfo(null); // Clear any previous error message
-                    });
+                // Create the URL - base URL for audio files
+                const baseUrl = 'https://fifty-three-tet.github.io/microtonal_explorer_project/audio/';
 
-                    audio.addEventListener('error', (e) => {
-                        // Failed to load the audio
-                        console.error(`Failed to load audio for chord: ${chord}, file: ${fileName}`, e);
-                        setLoadingStatus(prev => new Map(prev).set(chord, false));
-                        setDebugInfo(`Failed to load: ${chord} -> ${fileName}`);
+                console.log(`Loading audio for chord: ${chord}, file: ${fileName}`);
 
-                        // Try to load with a URL-encoded filename as fallback
-                        const encodedFileName = encodeURIComponent(fileName);
-                        console.log(`Trying with encoded filename: ${encodedFileName}`);
+                // Try to load the audio
+                const audio = new Audio(baseUrl + fileName);
 
-                        const fallbackAudio = new Audio(baseUrl + encodedFileName);
+                audio.addEventListener('canplaythrough', () => {
+                    // Success! Update the cache and status
+                    console.log(`Successfully loaded: ${fileName}`);
+                    audioCache.set(chord, audio);
+                    setLoadingStatus(prev => new Map(prev).set(chord, true));
+                    setLoadedCount(prev => prev + 1);
+                    // Dispatch custom event that a chord was loaded
+                    const event = new Event('chordLoaded');
+                    document.dispatchEvent(event);
+                });
 
-                        fallbackAudio.addEventListener('canplaythrough', () => {
-                            console.log(`Successfully loaded with encoded filename: ${encodedFileName}`);
-                            audioCache.set(chord, fallbackAudio);
+                audio.addEventListener('error', () => {
+                    console.error(`Failed to load audio for chord: ${chord}, file: ${fileName}`);
+
+                    // Try alternative 1: Try without underscore if it has one
+                    if (fileName.startsWith('_')) {
+                        const noUnderscoreFileName = fileName.substring(1);
+                        console.log(`Trying without underscore: ${noUnderscoreFileName}`);
+
+                        const altAudio = new Audio(baseUrl + noUnderscoreFileName);
+
+                        altAudio.addEventListener('canplaythrough', () => {
+                            console.log(`Successfully loaded without underscore: ${noUnderscoreFileName}`);
+                            audioCache.set(chord, altAudio);
                             setLoadingStatus(prev => new Map(prev).set(chord, true));
-                            setDebugInfo(null); // Clear error message on success
+                            setLoadedCount(prev => prev + 1);
+                            const event = new Event('chordLoaded');
+                            document.dispatchEvent(event);
                         });
 
-                        fallbackAudio.addEventListener('error', () => {
-                            console.error(`Fallback load also failed for: ${chord}`);
-                            // Keep the error status
+                        altAudio.addEventListener('error', () => {
+                            // Try alternative 2: URL encode the filename
+                            const encodedFileName = encodeURIComponent(fileName);
+                            console.log(`Trying with URL-encoded filename: ${encodedFileName}`);
+
+                            const encodedAudio = new Audio(baseUrl + encodedFileName);
+
+                            encodedAudio.addEventListener('canplaythrough', () => {
+                                console.log(`Successfully loaded with URL encoding: ${encodedFileName}`);
+                                audioCache.set(chord, encodedAudio);
+                                setLoadingStatus(prev => new Map(prev).set(chord, true));
+                                setLoadedCount(prev => prev + 1);
+                                const event = new Event('chordLoaded');
+                                document.dispatchEvent(event);
+                            });
+
+                            encodedAudio.addEventListener('error', () => {
+                                // All attempts failed, mark as failed
+                                console.error(`All loading attempts failed for chord: ${chord}`);
+                                setLoadingStatus(prev => new Map(prev).set(chord, false));
+                            });
+
+                            encodedAudio.load();
                         });
 
-                        fallbackAudio.load();
+                        altAudio.load();
+                    } else {
+                        // Try URL encoding directly if no underscore to remove
+                        const encodedFileName = encodeURIComponent(fileName);
+                        console.log(`Trying with URL-encoded filename: ${encodedFileName}`);
+
+                        const encodedAudio = new Audio(baseUrl + encodedFileName);
+
+                        encodedAudio.addEventListener('canplaythrough', () => {
+                            console.log(`Successfully loaded with URL encoding: ${encodedFileName}`);
+                            audioCache.set(chord, encodedAudio);
+                            setLoadingStatus(prev => new Map(prev).set(chord, true));
+                            setLoadedCount(prev => prev + 1);
+                            const event = new Event('chordLoaded');
+                            document.dispatchEvent(event);
+                        });
+
+                        encodedAudio.addEventListener('error', () => {
+                            // All attempts failed, mark as failed
+                            console.error(`All loading attempts failed for chord: ${chord}`);
+                            setLoadingStatus(prev => new Map(prev).set(chord, false));
+                        });
+
+                        encodedAudio.load();
+                    }
+                });
+
+                // Start the initial loading attempt
+                audio.load();
+            };
+
+            // Load all audio files progressively when component mounts
+            React.useEffect(() => {
+                // Get unique chords from all progressions
+                const uniqueChords = new Set();
+                progressions.forEach(row => {
+                    row.chords.forEach(chord => {
+                        if (chord !== '') {
+                            uniqueChords.add(chord);
+                        }
                     });
+                });
 
-                    // Start loading
-                    audio.load();
+                const totalToLoad = uniqueChords.size;
+                console.log(`Found ${totalToLoad} unique chords to load`);
+                setDebugInfo(`Loading ${totalToLoad} audio files...`);
+
+                // Convert chords set to array for sequential loading
+                const chordsArray = Array.from(uniqueChords);
+
+                // Load chords sequentially with a small delay between each to prevent overloading
+                const loadChordSequentially = (index) => {
+                    if (index >= chordsArray.length) {
+                        console.log("Finished scheduling all chord loads");
+                        return;
+                    }
+
+                    // Load this chord
+                    loadAudio(chordsArray[index]);
+
+                    // Schedule next chord load
+                    setTimeout(() => loadChordSequentially(index + 1), 200);
                 };
 
-                // Load all audio files when component mounts
-                React.useEffect(() => {
-                    // Get a unique list of all chords
-                    const uniqueChords = new Set();
-                    progressions.forEach(row => {
-                        row.chords.forEach(chord => {
-                            if (chord !== '') {
-                                uniqueChords.add(chord);
-                            }
-                        });
-                    });
+                // Start loading the sequence
+                loadChordSequentially(0);
 
-                    // Load each unique chord
-                    uniqueChords.forEach(chord => {
-                        loadAudio(chord);
-                    });
-                }, []);
+                // Update the loading message periodically
+                const intervalId = setInterval(() => {
+                    setDebugInfo(`Loaded ${loadedCount} of ${totalToLoad} audio files`);
 
-                const handleChordClick = async (chord, rowIndex, colIndex) => {
-                    if (chord === '') return;
-
-                    const buttonId = `${rowIndex}-${colIndex}`;
-                    const audio = audioCache.get(chord);
-
-                    // If button is already active, stop playback
-                    if (activeButtons.has(buttonId)) {
-                        if (audio) {
-                            audio.pause();
-                            audio.currentTime = 0;
-                            setActiveButtons(prev => {
-                                const next = new Set(prev);
-                                next.delete(buttonId);
-                                return next;
-                            });
-                        }
-                        return;
+                    // If we've loaded all files (or made our best attempt), stop the interval
+                    if (loadedCount >= totalToLoad) {
+                        clearInterval(intervalId);
+                        setDebugInfo(loadedCount >= totalToLoad ?
+                            "All audio files loaded successfully" :
+                            `Loaded ${loadedCount} of ${totalToLoad} audio files. Some files may be unavailable.`);
                     }
+                }, 1000);
 
-                    // If audio isn't loaded, don't try to play
-                    if (!audio || loadingStatus.get(chord) !== true) {
-                        setDebugInfo(`Unable to play: ${chord} (Status: ${loadingStatus.get(chord)})`);
-                        return;
-                    }
+                // Clean up interval on unmount
+                return () => clearInterval(intervalId);
+            }, [loadedCount]);
 
-                    try {
-                        // Reset playback position
+            // Handle chord click (play/stop audio)
+            const handleChordClick = async (chord, rowIndex, colIndex) => {
+                if (chord === '') return;
+
+                const buttonId = `${rowIndex}-${colIndex}`;
+                const audio = audioCache.get(chord);
+
+                // If button is already active, stop playback
+                if (activeButtons.has(buttonId)) {
+                    if (audio) {
+                        audio.pause();
                         audio.currentTime = 0;
-
-                        // Mark button as active
-                        setActiveButtons(prev => {
-                            const next = new Set(prev);
-                            next.add(buttonId);
-                            return next;
-                        });
-
-                        // Play the audio
-                        await audio.play();
-
-                        // Set up ended event handler
-                        const handleEnded = () => {
-                            setActiveButtons(prev => {
-                                const next = new Set(prev);
-                                next.delete(buttonId);
-                                return next;
-                            });
-                            audio.removeEventListener('ended', handleEnded);
-                        };
-
-                        audio.addEventListener('ended', handleEnded);
-
-                        // Failsafe: ensure button gets deactivated even if audio event doesn't fire
-                        setTimeout(() => {
-                            if (activeButtons.has(buttonId)) {
-                                handleEnded();
-                            }
-                        }, (audio.duration ? Math.ceil(audio.duration * 1000) : 5000) + 1000);
-
-                    } catch (error) {
-                        console.error("Error playing audio:", error);
-                        setDebugInfo(`Error playing: ${chord}`);
-
-                        // Make sure button is deactivated on error
                         setActiveButtons(prev => {
                             const next = new Set(prev);
                             next.delete(buttonId);
                             return next;
                         });
                     }
-                };
+                    return;
+                }
 
-                return (
-                    <div className="p-6 bg-white rounded-lg shadow">
-                        <h2 className="text-2xl font-bold mb-4 text-blue-600">Modal Interchange Examples</h2>
-                        <div className="grid gap-1">
-                            {progressions.map((row, rowIndex) => (
-                                <div key={rowIndex} className={`flex gap-1 items-center ${row.label === '' ? 'h-8' : ''}`}>
-                                    {row.chords.map((chord, colIndex) => (
-                                        <button
-                                            key={`${rowIndex}-${colIndex}`}
-                                            onClick={() => handleChordClick(chord, rowIndex, colIndex)}
-                                            className={`p-2 rounded-xl flex-1 text-center transition-colors border border-gray-300
-                                ${chord === ''
-                                                    ? 'border-none'
-                                                    : activeButtons.has(`${rowIndex}-${colIndex}`)
-                                                        ? 'text-white'
-                                                        : loadingStatus.get(chord) === false
-                                                            ? 'bg-red-100 text-red-600'
-                                                            : 'bg-white hover:bg-gray-200'
-                                                }`}
-                                            style={{
-                                                backgroundColor: activeButtons.has(`${rowIndex}-${colIndex}`) ? 'var(--button-active)' : ''
-                                            }}
-                                            disabled={chord === '' || loadingStatus.get(chord) !== true}
-                                        >
-                                            {chord}
-                                        </button>
-                                    ))}
-                                    <div className="w-32 text-gray-600 font-medium">
-                                        {row.label}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                        <div className="mt-4 text-sm text-gray-500">
-                            Note: Click on any chord to hear it.
-                        </div>
-                        {debugInfo && (
-                            <div className="mt-2 p-2 bg-red-50 text-red-600 rounded text-sm">
-                                {debugInfo}
-                            </div>
-                        )}
-                    </div>
-                );
+                // If audio isn't loaded, don't try to play
+                if (!audio || loadingStatus.get(chord) !== true) {
+                    setDebugInfo(`Cannot play: ${chord} - audio not loaded`);
+                    return;
+                }
+
+                try {
+                    // Reset playback position
+                    audio.currentTime = 0;
+
+                    // Mark button as active
+                    setActiveButtons(prev => {
+                        const next = new Set(prev);
+                        next.add(buttonId);
+                        return next;
+                    });
+
+                    // Play the audio
+                    await audio.play();
+
+                    // Set up ended event handler
+                    const handleEnded = () => {
+                        setActiveButtons(prev => {
+                            const next = new Set(prev);
+                            next.delete(buttonId);
+                            return next;
+                        });
+                        audio.removeEventListener('ended', handleEnded);
+                    };
+
+                    audio.addEventListener('ended', handleEnded);
+
+                    // Failsafe: ensure button gets deactivated even if audio event doesn't fire
+                    setTimeout(() => {
+                        if (activeButtons.has(buttonId)) {
+                            handleEnded();
+                        }
+                    }, (audio.duration ? Math.ceil(audio.duration * 1000) : 5000) + 1000);
+
+                } catch (error) {
+                    console.error("Error playing audio:", error);
+                    setDebugInfo(`Error playing: ${chord}`);
+
+                    // Make sure button is deactivated on error
+                    setActiveButtons(prev => {
+                        const next = new Set(prev);
+                        next.delete(buttonId);
+                        return next;
+                    });
+                }
             };
-    
+
+            return (
+                <div className="p-6 bg-white rounded-lg shadow">
+                    <h2 className="text-2xl font-bold mb-4 text-blue-600">Modal Interchange Examples</h2>
+
+                    {/* Loading status message */}
+                    {debugInfo && (
+                        <div className="mb-4 p-2 bg-blue-50 text-blue-600 rounded">
+                            {debugInfo}
+                        </div>
+                    )}
+
+                    <div className="grid gap-1">
+                        {progressions.map((row, rowIndex) => (
+                            <div key={rowIndex} className={`flex gap-1 items-center ${row.label === '' ? 'h-8' : ''}`}>
+                                {row.chords.map((chord, colIndex) => (
+                                    <button
+                                        key={`${rowIndex}-${colIndex}`}
+                                        onClick={() => handleChordClick(chord, rowIndex, colIndex)}
+                                        className={`p-2 rounded-xl flex-1 text-center transition-colors border border-gray-300
+                                ${chord === ''
+                                                ? 'border-none'
+                                                : activeButtons.has(`${rowIndex}-${colIndex}`)
+                                                    ? 'text-white'
+                                                    : loadingStatus.get(chord) === false
+                                                        ? 'bg-red-100 text-red-600'
+                                                        : 'bg-white hover:bg-gray-200'
+                                            }`}
+                                        style={{
+                                            backgroundColor: activeButtons.has(`${rowIndex}-${colIndex}`) ? 'var(--button-active)' : ''
+                                        }}
+                                        disabled={chord === '' || loadingStatus.get(chord) !== true}
+                                    >
+                                        {chord}
+                                    </button>
+                                ))}
+                                <div className="w-32 text-gray-600 font-medium">
+                                    {row.label}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="mt-4 text-sm text-gray-500">
+                        Note: Click on any chord to hear it.
+                    </div>
+                    {debugInfo && debugInfo.includes("failed") && (
+                        <div className="mt-2 p-2 bg-red-50 text-red-600 rounded text-sm">
+                            Some audio files could not be loaded. This may be because they don't exist on the server.
+                        </div>
+                    )}
+                </div>
+            );
+        };
 
         // Mount the React component
         const root = ReactDOM.createRoot(document.getElementById('chord-progression-root'));
