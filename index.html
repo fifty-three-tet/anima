@@ -339,6 +339,7 @@
             );
         };
         // Chord Progression Grid Component
+    // Correctly fixed Chord Progression Grid Component
         const ChordProgressionGrid = () => {
             const [activeButtons, setActiveButtons] = React.useState(new Set());
             const [audioCache] = React.useState(new Map());
@@ -383,36 +384,36 @@
                 { chords: ['CvMvM7[I]', 'C#vMvM7/F[II]', 'F#vMvM7[V]', 'D#m7[III]', 'CvMvM9[I]'], label: 'R: Locrian' }
             ];
 
-            // Special mapping for chord names that don't follow the standard pattern
+            // Special mapping for chord names to their correct filenames
             const chordToFileMapping = {
-                // Special case mappings
+                // Special case from previous version
                 "^Gvmvm7[V]": "upGvmvm7[V].wav",
 
-                // New third set mappings with underscore prefix
+                // Third set chords with underscore prefix
                 "CvMvM7[I]": "_CvMvM7[I].wav",
                 "CvMvM9[I]": "_CvMvM9[I].wav",
+                "Dm7[II]": "_Dm7[II].wav",
                 "Cm7[I]": "_Cm7[I].wav",
+                "C#vMvM7[II]": "_C#vMvM7[II].wav",
+                "D#m7[III]": "_D#m7[III].wav",
+                "F#vMvM7[V]": "_F#vMvM7[V].wav",
                 "F^m^m7[IV]": "_F^m^m7[IV].wav",
                 "FvMm7[IV]": "_FvMm7[IV].wav",
                 "FvMvM7[IV]": "_FvMvM7[IV].wav",
-                "C#vMvM7[II]": "_C#vMvM7[II].wav",
-                "F#vMvM7[V]": "_F#vMvM7[V].wav",
                 "G#vMvM7[VI]": "_G#vMvM7[VI].wav",
-                "D#m7[III]": "_D#m7[III].wav",
-                "Dm7[II]": "_Dm7[II].wav",
-                "^Fm7[IV]": "_^Fm7[IV].wav",
                 "^Bbm7[VII]": "_^Bbm7[VII].wav",
+                "^Fm7[IV]": "_^Fm7[IV].wav",
                 "vD^m^m7[II]": "_vD^m^m7[II].wav",
                 "vD#vMvM7[III]": "_vD#vMvM7[III].wav",
 
-                // Slash chord mappings with special handling
+                // Slash chord mappings with underscore notation
                 "CvMvM7/vE[I]": "_CvMvM7_vE[I].wav",
-                "Cm7/vD#[I]": "*Cm7*vD#[I].wav",
-                "C^m^m7/D#[I]": "*C^m^m7*D#[I].wav",
-                "BbvMvM7/vD[VII]": "*BbvMvM7*vD[VII].wav",
-                "G#vMvM7/C[VI]": "*G#vMvM7*C[VI].wav",
-                "D#vMvM7/G[III]": "*D#vMvM7*G[III].wav",
-                "C#vMvM7/F[II]": "*C#vMvM7*F[II].wav"
+                "Cm7/vD#[I]": "Cm7_vD#[I].wav",
+                "C^m^m7/D#[I]": "C^m^m7_D#[I].wav",
+                "BbvMvM7/vD[VII]": "BbvMvM7_vD[VII].wav",
+                "G#vMvM7/C[VI]": "G#vMvM7_C[VI].wav",
+                "D#vMvM7/G[III]": "D#vMvM7_G[III].wav",
+                "C#vMvM7/F[II]": "C#vMvM7_F[II].wav"
             };
 
             // Function to get the correct filename for a chord
