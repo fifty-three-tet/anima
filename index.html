@@ -453,10 +453,19 @@
 
             // Special mapping for chord names to their correct filenames
             const chordToFileMapping = {
-                // Special case from previous version
+                // Special case
                 "^Gvmvm7[V]": "upGvmvm7[V].wav",
 
-                // Third set chords with underscore prefix
+                // Slash chord mappings with underscore notation
+                "BbvMvM7/vD[VII]": "BbvMvM7_vD[VII].wav",
+                "C#vMvM7/F[II]": "C#vMvM7_F[II].wav",
+                "C^m^m7/D#[I]": "C^m^m7_D#[I].wav",
+                "Cm7/vD#[I]": "Cm7_vD#[I].wav",
+                "CvMvM7/vE[I]": "CvMvM7_vE[I].wav",
+                "D#vMvM7/G[III]": "D#vMvM7_G[III].wav",
+                "G#vMvM7/C[VI]": "G#vMvM7_C[VI].wav",
+
+                // Files with underscore prefixes
                 "CvMvM7[I]": "_CvMvM7[I].wav",
                 "CvMvM9[I]": "_CvMvM9[I].wav",
                 "Dm7[II]": "_Dm7[II].wav",
@@ -470,17 +479,8 @@
                 "G#vMvM7[VI]": "_G#vMvM7[VI].wav",
                 "^Bbm7[VII]": "_^Bbm7[VII].wav",
                 "^Fm7[IV]": "_^Fm7[IV].wav",
-                "vD^m^m7[II]": "_vD^m^m7[II].wav",
                 "vD#vMvM7[III]": "_vD#vMvM7[III].wav",
-
-                // Slash chord mappings with underscore notation
-                "CvMvM7/vE[I]": "_CvMvM7_vE[I].wav",
-                "Cm7/vD#[I]": "_Cm7_vD#[I].wav",
-                "C^m^m7/D#[I]": "_C^m^m7_D#[I].wav",
-                "BbvMvM7/vD[VII]": "_BbvMvM7_vD[VII].wav",
-                "G#vMvM7/C[VI]": "_G#vMvM7_C[VI].wav",
-                "D#vMvM7/G[III]": "_D#vMvM7_G[III].wav",
-                "C#vMvM7/F[II]": "_C#vMvM7_F[II].wav"
+                "vD^m^m7[II]": "_vD^m^m7[II].wav"
             };
 
             // Function to get the correct filename for a chord
