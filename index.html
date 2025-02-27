@@ -41,7 +41,7 @@
         }
     
         .container {
-            max-width: 1200px;
+            max-width: 1300px;
             margin: 0 auto;
             padding: 2rem;
         }
@@ -194,6 +194,21 @@
             
             .progression-image {
                 width: 100%;
+            }
+        }
+        /* Add this to your CSS styles */
+        .chord-button {
+            font-size: 0.75rem; /* Smaller font size for chord buttons */
+            padding: 0.5rem 0.25rem; /* Adjusted padding */
+        }
+        /* Add this to your CSS styles */
+        .progression-image-container {
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .progression-image-container {
+                width: 40%; /* Larger percentage on desktop */
             }
         }
     </style>
@@ -654,7 +669,7 @@
 
                     {/* First progression group */}
                     <div className="mb-8">
-                        <div className="progression-note mb-4">
+                        <div className="progression-note mb-4 p-3 bg-white rounded-lg shadow-sm">
                             <p>{progressionNotes[0]}</p>
                         </div>
                         <div className="flex flex-col md:flex-row gap-4">
@@ -666,7 +681,7 @@
                                                 <button
                                                     key={`${rowIndex}-${colIndex}`}
                                                     onClick={() => handleChordClick(chord, rowIndex, colIndex)}
-                                                    className={`p-2 rounded-xl flex-1 text-center transition-colors border border-gray-300
+                                                    className={`chord-button p-1 rounded-xl flex-1 text-center transition-colors border border-gray-300
                                             ${chord === ''
                                                             ? 'border-none'
                                                             : activeButtons.has(`${rowIndex}-${colIndex}`)
@@ -683,14 +698,14 @@
                                                     {chord}
                                                 </button>
                                             ))}
-                                            <div className="w-32 text-gray-600 font-medium">
+                                            <div className="w-24 text-gray-600 font-medium text-sm">
                                                 {row.label}
                                             </div>
                                         </div>
                                     ))}
                                 </div>
                             </div>
-                            <div className="md:w-1/3 lg:w-1/4">
+                            <div className="progression-image-container">
                                 <img src="figures/first_example.png" alt="Scale visualization" className="w-full rounded-lg shadow-sm" />
                             </div>
                         </div>
@@ -698,7 +713,7 @@
 
                     {/* Second progression group */}
                     <div className="mb-8">
-                        <div className="progression-note mb-4">
+                        <div className="progression-note mb-4 p-3 bg-white rounded-lg shadow-sm">
                             <p>{progressionNotes[1]}</p>
                         </div>
                         <div className="flex flex-col md:flex-row gap-4">
@@ -712,7 +727,7 @@
                                                     <button
                                                         key={`${adjustedRowIndex}-${colIndex}`}
                                                         onClick={() => handleChordClick(chord, adjustedRowIndex, colIndex)}
-                                                        className={`p-2 rounded-xl flex-1 text-center transition-colors border border-gray-300
+                                                        className={`chord-button p-1 rounded-xl flex-1 text-center transition-colors border border-gray-300
                                                 ${chord === ''
                                                                 ? 'border-none'
                                                                 : activeButtons.has(`${adjustedRowIndex}-${colIndex}`)
@@ -729,7 +744,7 @@
                                                         {chord}
                                                     </button>
                                                 ))}
-                                                <div className="w-32 text-gray-600 font-medium">
+                                                <div className="w-24 text-gray-600 font-medium text-sm">
                                                     {row.label}
                                                 </div>
                                             </div>
@@ -737,7 +752,7 @@
                                     })}
                                 </div>
                             </div>
-                            <div className="md:w-1/3 lg:w-1/4">
+                            <div className="progression-image-container">
                                 <img src="figures/second_example.png" alt="Scale visualization" className="w-full rounded-lg shadow-sm" />
                             </div>
                         </div>
@@ -745,7 +760,7 @@
 
                     {/* Third progression group */}
                     <div>
-                        <div className="progression-note mb-4">
+                        <div className="progression-note mb-4 p-3 bg-white rounded-lg shadow-sm">
                             <p>{progressionNotes[2]}</p>
                         </div>
                         <div className="flex flex-col md:flex-row gap-4">
@@ -759,7 +774,7 @@
                                                     <button
                                                         key={`${adjustedRowIndex}-${colIndex}`}
                                                         onClick={() => handleChordClick(chord, adjustedRowIndex, colIndex)}
-                                                        className={`p-2 rounded-xl flex-1 text-center transition-colors border border-gray-300
+                                                        className={`chord-button p-1 rounded-xl flex-1 text-center transition-colors border border-gray-300
                                                 ${chord === ''
                                                                 ? 'border-none'
                                                                 : activeButtons.has(`${adjustedRowIndex}-${colIndex}`)
@@ -776,7 +791,7 @@
                                                         {chord}
                                                     </button>
                                                 ))}
-                                                <div className="w-32 text-gray-600 font-medium">
+                                                <div className="w-24 text-gray-600 font-medium text-sm">
                                                     {row.label}
                                                 </div>
                                             </div>
@@ -784,7 +799,7 @@
                                     })}
                                 </div>
                             </div>
-                            <div className="md:w-1/3 lg:w-1/4">
+                            <div className="progression-image-container">
                                 <img src="figures/third_example.png" alt="Scale visualization" className="w-full rounded-lg shadow-sm" />
                             </div>
                         </div>
