@@ -329,10 +329,12 @@
             );
         };
         // Chord Progression Grid Component
+        // Enhanced Chord Progression Grid Component with robust audio handling
         const ChordProgressionGrid = () => {
             const [activeButtons, setActiveButtons] = React.useState(new Set());
             const [audioCache] = React.useState(new Map());
             const [loadingStatus, setLoadingStatus] = React.useState(new Map());
+            const [debugInfo, setDebugInfo] = React.useState(null);
 
             const progressions = [
                 // First set of progressions (Ionian-based)
@@ -374,27 +376,23 @@
 
             // Function to get the correct filename for a chord
             const getFileName = (chord) => {
-                // Special case for the problematic chord
-                if (chord === "^Gvmvm7[V]") {
-                    return "upGvmvm7[V].wav";
-                }
+                if (chord === '') return '';
 
-                // For slash chords, replace / with _ first (before any other encoding)
+                // For slash chords, replace / with _
                 let fileName = chord;
                 if (chord.includes('/')) {
                     fileName = chord.replace(/\//g, '_');
                 }
 
-                // No need to URL encode the entire filename - the Audio element will handle that
-                // Just add the .wav extension
+                // Add .wav extension
                 return fileName + '.wav';
             };
 
-            // Enhanced audio loading function
+            // Enhanced audio loading function with better error handling
             const loadAudio = (chord) => {
                 if (chord === '') return;
 
-                // If we already have this chord in the cache, do nothing
+                // If we already have this chord in the cache and it's loaded, do nothing
                 if (audioCache.has(chord) && loadingStatus.get(chord) === true) {
                     return;
                 }
@@ -408,7 +406,7 @@
                 // For debugging - log the exact file being requested
                 console.log(`Loading audio for chord: ${chord}, file: ${fileName}`);
 
-                // Create the URL - this should trigger the browser's automatic URL encoding
+                // Create the URL
                 const baseUrl = 'https://fifty-three-tet.github.io/microtonal_explorer_project/audio/';
                 const audio = new Audio(baseUrl + fileName);
 
@@ -417,40 +415,34 @@
                     console.log(`Successfully loaded: ${fileName}`);
                     audioCache.set(chord, audio);
                     setLoadingStatus(prev => new Map(prev).set(chord, true));
+                    setDebugInfo(null); // Clear any previous error message
                 });
 
                 audio.addEventListener('error', (e) => {
-                    // Failed to load
-                    console.error(`Failed to load audio for chord: ${chord}, file: ${fileName}`);
+                    // Failed to load the audio
+                    console.error(`Failed to load audio for chord: ${chord}, file: ${fileName}`, e);
+                    setLoadingStatus(prev => new Map(prev).set(chord, false));
+                    setDebugInfo(`Failed to load: ${chord} -> ${fileName}`);
 
-                    // Try a fall-back approach for problematic chords
-                    if (chord.includes('#') || chord.includes('^')) {
-                        // Try with a special encoding for problematic characters
-                        const encodedFileName = fileName
-                            .replace(/#/g, '%23')
-                            .replace(/\^/g, '%5E')
-                            .replace(/\[/g, '%5B')
-                            .replace(/\]/g, '%5D');
+                    // Try to load with a URL-encoded filename as fallback
+                    const encodedFileName = encodeURIComponent(fileName);
+                    console.log(`Trying with encoded filename: ${encodedFileName}`);
 
-                        console.log(`Trying fallback: ${encodedFileName}`);
+                    const fallbackAudio = new Audio(baseUrl + encodedFileName);
 
-                        const fallbackAudio = new Audio(baseUrl + encodedFileName);
+                    fallbackAudio.addEventListener('canplaythrough', () => {
+                        console.log(`Successfully loaded with encoded filename: ${encodedFileName}`);
+                        audioCache.set(chord, fallbackAudio);
+                        setLoadingStatus(prev => new Map(prev).set(chord, true));
+                        setDebugInfo(null); // Clear error message on success
+                    });
 
-                        fallbackAudio.addEventListener('canplaythrough', () => {
-                            console.log(`Fallback succeeded: ${encodedFileName}`);
-                            audioCache.set(chord, fallbackAudio);
-                            setLoadingStatus(prev => new Map(prev).set(chord, true));
-                        });
+                    fallbackAudio.addEventListener('error', () => {
+                        console.error(`Fallback load also failed for: ${chord}`);
+                        // Keep the error status
+                    });
 
-                        fallbackAudio.addEventListener('error', () => {
-                            console.error(`Fallback also failed: ${encodedFileName}`);
-                            setLoadingStatus(prev => new Map(prev).set(chord, false));
-                        });
-
-                        fallbackAudio.load();
-                    } else {
-                        setLoadingStatus(prev => new Map(prev).set(chord, false));
-                    }
+                    fallbackAudio.load();
                 });
 
                 // Start loading
@@ -459,7 +451,17 @@
 
             // Load all audio files when component mounts
             React.useEffect(() => {
-                const uniqueChords = new Set(progressions.flatMap(row => row.chords.filter(chord => chord !== '')));
+                // Get a unique list of all chords
+                const uniqueChords = new Set();
+                progressions.forEach(row => {
+                    row.chords.forEach(chord => {
+                        if (chord !== '') {
+                            uniqueChords.add(chord);
+                        }
+                    });
+                });
+
+                // Load each unique chord
                 uniqueChords.forEach(chord => {
                     loadAudio(chord);
                 });
@@ -471,6 +473,7 @@
                 const buttonId = `${rowIndex}-${colIndex}`;
                 const audio = audioCache.get(chord);
 
+                // If button is already active, stop playback
                 if (activeButtons.has(buttonId)) {
                     if (audio) {
                         audio.pause();
@@ -484,22 +487,27 @@
                     return;
                 }
 
+                // If audio isn't loaded, don't try to play
                 if (!audio || loadingStatus.get(chord) !== true) {
-                    // Audio isn't loaded yet or failed to load
+                    setDebugInfo(`Unable to play: ${chord} (Status: ${loadingStatus.get(chord)})`);
                     return;
                 }
 
                 try {
+                    // Reset playback position
                     audio.currentTime = 0;
 
+                    // Mark button as active
                     setActiveButtons(prev => {
                         const next = new Set(prev);
                         next.add(buttonId);
                         return next;
                     });
 
+                    // Play the audio
                     await audio.play();
 
+                    // Set up ended event handler
                     const handleEnded = () => {
                         setActiveButtons(prev => {
                             const next = new Set(prev);
@@ -511,14 +519,18 @@
 
                     audio.addEventListener('ended', handleEnded);
 
-                    // Failsafe: clear button after audio duration + 1 second
+                    // Failsafe: ensure button gets deactivated even if audio event doesn't fire
                     setTimeout(() => {
                         if (activeButtons.has(buttonId)) {
                             handleEnded();
                         }
-                    }, Math.ceil(audio.duration * 1000) + 1000);
+                    }, (audio.duration ? Math.ceil(audio.duration * 1000) : 5000) + 1000);
 
                 } catch (error) {
+                    console.error("Error playing audio:", error);
+                    setDebugInfo(`Error playing: ${chord}`);
+
+                    // Make sure button is deactivated on error
                     setActiveButtons(prev => {
                         const next = new Set(prev);
                         next.delete(buttonId);
@@ -538,7 +550,7 @@
                                         key={`${rowIndex}-${colIndex}`}
                                         onClick={() => handleChordClick(chord, rowIndex, colIndex)}
                                         className={`p-2 rounded-xl flex-1 text-center transition-colors border border-gray-300
-                                    ${chord === ''
+                                ${chord === ''
                                                 ? 'border-none'
                                                 : activeButtons.has(`${rowIndex}-${colIndex}`)
                                                     ? 'text-white'
@@ -563,6 +575,11 @@
                     <div className="mt-4 text-sm text-gray-500">
                         Note: Click on any chord to hear it.
                     </div>
+                    {debugInfo && (
+                        <div className="mt-2 p-2 bg-red-50 text-red-600 rounded text-sm">
+                            {debugInfo}
+                        </div>
+                    )}
                 </div>
             );
         };
