@@ -329,7 +329,6 @@
             );
         };
         // Chord Progression Grid Component
-        // Enhanced Chord Progression Grid Component with robust audio handling
         const ChordProgressionGrid = () => {
             const [activeButtons, setActiveButtons] = React.useState(new Set());
             const [audioCache] = React.useState(new Map());
@@ -374,9 +373,19 @@
                 { chords: ['C^M^M7[I]', 'vvC#^M^M7/F[II]', 'vvF#M^M7[V]', 'vvG#^Mm7[VI]', 'C^M^M9[I]'], label: 'R: Locrian' }
             ];
 
+            // Special mapping for chord names that don't follow the standard pattern
+            const chordToFileMapping = {
+                "^Gvmvm7[V]": "upGvmvm7[V].wav"  // Uses 'up' prefix instead of ^ 
+            };
+
             // Function to get the correct filename for a chord
             const getFileName = (chord) => {
                 if (chord === '') return '';
+
+                // Check if this chord has a special mapping
+                if (chordToFileMapping[chord]) {
+                    return chordToFileMapping[chord];
+                }
 
                 // For slash chords, replace / with _
                 let fileName = chord;
