@@ -20,7 +20,7 @@ code,
 }
 
 body {
-    font-family: Monaco, 'Inter', Roboto, -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, sans-serif;
+    font-family: 'Inter', Monaco, Roboto, -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, sans-serif;
     line-height: 1.6;
     color: var(--text-color);
     background: var(--bg-color);
