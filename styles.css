@@ -59,9 +59,10 @@ header {
     border-radius: 10px;
 }
 
-header>p {
+header p {
+    margin-top: 0;
     font-size: 1.0rem;
-    /* or whatever size you want */
+    /* Remove any top margin on the subtitle */
 }
 
 .project-section p {
