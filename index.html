@@ -356,9 +356,9 @@
                 // Replace any slashes with underscores.
                 fileName = fileName.replace(/\//g, '_');
 
-                // For third-group chords, add leading underscore if needed
-                if (isThirdGroup && fileName[0] !== '_') {
-                    fileName = '_' + fileName;
+                // For third-group chords, add "new" prefix instead of underscore
+                if (isThirdGroup && !fileName.startsWith('new')) {
+                    fileName = 'new' + fileName;
                 }
 
                 return fileName + '.wav';
