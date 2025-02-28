@@ -59,6 +59,11 @@ header {
     border-radius: 10px;
 }
 
+header h1 {
+    margin-bottom: 0.3rem;
+    /* Reduce from 1rem to 0.3rem */
+}
+
 header p {
     margin-top: 0;
     font-size: 1.0rem;
