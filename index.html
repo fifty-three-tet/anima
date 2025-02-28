@@ -393,8 +393,8 @@
                 };
             }, []);
 
-        // Enhanced audio loading function using Web Audio API
-        const loadAudio = async (chord, isThirdGroup = false) => {
+            // Enhanced audio loading function using Web Audio API
+            const loadAudio = async (chord, isThirdGroup = false) => {
                 if (chord === '' || audioCache.has(chord)) return;
 
                 setLoadingStatus(prev => new Map(prev).set(chord, 'loading'));
@@ -402,14 +402,23 @@
                 try {
                     const fileName = getFileName(chord, isThirdGroup);
                     const baseUrl = 'https://fifty-three-tet.github.io/microtonal_explorer_project/audio/';
-                    const finalUrl = baseUrl + encodeURIComponent(fileName);
 
-                    console.log(`Trying to load: ${chord} → ${fileName}`); // Debug info
+                    // Try a different URL encoding approach
+                    // First encode each special character individually
+                    let encodedFileName = fileName
+                        .replace(/\[/g, '%5B')
+                        .replace(/\]/g, '%5D')
+                        .replace(/\^/g, '%5E')
+                        .replace(/#/g, '%23');
+
+                    const finalUrl = baseUrl + encodedFileName;
+
+                    console.log(`Trying to load: ${chord} → ${fileName} (URL: ${finalUrl})`);
 
                     // Fetch the audio file
                     const response = await fetch(finalUrl);
                     if (!response.ok) {
-                        console.error(`File not found: ${fileName}`); // Log exact filename that's missing
+                        console.error(`File not found: ${fileName} (Status: ${response.status})`);
                         setLoadingStatus(prev => new Map(prev).set(chord, false));
                         return;
                     }
@@ -433,7 +442,6 @@
                 } catch (error) {
                     console.error(`Failed to load audio for chord: ${chord}`, error);
                     setLoadingStatus(prev => new Map(prev).set(chord, false));
-                    // Don't update debugInfo with an error message
                 }
             };
 
