@@ -399,28 +399,26 @@
 
                 setLoadingStatus(prev => new Map(prev).set(chord, 'loading'));
 
-                // Get the filename from mapping
-                const fileName = getFileName(chord, isThirdGroup);
-                const baseUrl = 'https://fifty-three-tet.github.io/microtonal_explorer_project/audio/';
-                const finalUrl = baseUrl + encodeURIComponent(fileName);
-
                 try {
-                    // Try to fetch the audio file
-                    const response = await fetch(finalUrl);
+                    const fileName = getFileName(chord, isThirdGroup);
+                    const baseUrl = 'https://fifty-three-tet.github.io/microtonal_explorer_project/audio/';
+                    const finalUrl = baseUrl + encodeURIComponent(fileName);
 
+                    // Fetch the audio file
+                    const response = await fetch(finalUrl);
                     if (!response.ok) {
-                        // If the file doesn't exist, try a fallback
-                        // For example, use a generic chord sound or similar chord
-                        throw new Error(`HTTP error! status: ${response.status}`);
+                        // Instead of showing an error, just mark as "not available"
+                        setLoadingStatus(prev => new Map(prev).set(chord, false));
+
+                        // A more subtle message or no message at all
+                        // setDebugInfo("Some chords unavailable - visualization only");
+                        return; // Exit early
                     }
 
-                    // Get the audio data as an ArrayBuffer
+                    // Rest of the function stays the same...
                     const arrayBuffer = await response.arrayBuffer();
-
-                    // Decode the audio data
                     const audioBuffer = await audioContext.current.decodeAudioData(arrayBuffer);
 
-                    // Store the decoded buffer in our cache
                     setAudioCache(prev => {
                         const newCache = new Map(prev);
                         newCache.set(chord, audioBuffer);
@@ -432,15 +430,8 @@
 
                 } catch (error) {
                     console.error(`Failed to load audio for chord: ${chord}`, error);
-
-                    // Set loading status to false but don't show error in UI
                     setLoadingStatus(prev => new Map(prev).set(chord, false));
-
-                    // Optional: Try loading a fallback sound instead
-                    // tryLoadFallbackSound(chord);
-
-                    // Or simply show a less alarming message
-                    setDebugInfo(`Some chord audio unavailable - using visual mode only`);
+                    // Don't update debugInfo with an error message
                 }
             };
 
