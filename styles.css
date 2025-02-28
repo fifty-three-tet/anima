@@ -47,12 +47,12 @@ h1 {
 }
 
 header>p {
-    font-size: 1.5rem;
+    font-size: 1.0rem;
     /* or whatever size you want */
 }
 
 .project-section p {
-    font-size: 1.5rem;
+    font-size: 1.0rem;
     /* Adjust this value to the size you want */
 }
 
@@ -91,16 +91,16 @@ h3 {
 .features-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-    margin-top: 1.5rem;
+    gap: 1.0rem;
+    margin-top: 1.0rem;
 }
 
 .feature-card {
     background: var(--bg-color);
-    padding: 1.5rem;
+    padding: 1.0rem;
     border-radius: 6px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin: 1.5rem 0;
+    margin: 1.0rem 0;
 }
 
 .instruction-item {
@@ -138,14 +138,14 @@ code {
 .feature-card ol li,
 .feature-card ul li,
 .feature-card p {
-    font-size: 1.5rem;
+    font-size: 1.0rem;
     /* Match this to your other content text size */
 }
 
 .project-section li,
 .project-section ul,
 .project-section ol {
-    font-size: 1.5rem;
+    font-size: 1.0rem;
     /* Match this to your project-section p font size */
 }
 
@@ -162,8 +162,8 @@ code {
 .progression-header {
     display: flex;
     align-items: flex-start;
-    margin-bottom: 1.5rem;
-    gap: 1.5rem;
+    margin-bottom: 1.0rem;
+    gap: 1.0rem;
 }
 
 .progression-note {
@@ -172,7 +172,7 @@ code {
     background-color: var(--bg-color);
     border-radius: 6px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-size: 1.5rem;
+    font-size: 1.0rem;
 }
 
 .progression-image {
