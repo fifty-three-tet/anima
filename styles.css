@@ -47,12 +47,12 @@ h1 {
 }
 
 header>p {
-    font-size: 1.0rem;
+    font-size: 1.5rem;
     /* or whatever size you want */
 }
 
 .project-section p {
-    font-size: 1.0rem;
+    font-size: 1.5rem;
     /* Adjust this value to the size you want */
 }
 
@@ -138,14 +138,14 @@ code {
 .feature-card ol li,
 .feature-card ul li,
 .feature-card p {
-    font-size: 1.0rem;
+    font-size: 1.5rem;
     /* Match this to your other content text size */
 }
 
 .project-section li,
 .project-section ul,
 .project-section ol {
-    font-size: 1.0rem;
+    font-size: 1.5rem;
     /* Match this to your project-section p font size */
 }
 
@@ -172,7 +172,7 @@ code {
     background-color: var(--bg-color);
     border-radius: 6px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-size: 1.0rem;
+    font-size: 1.5rem;
 }
 
 .progression-image {
