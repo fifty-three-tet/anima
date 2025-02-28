@@ -12,6 +12,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@xz/fonts@1/serve/monaco.min.css" rel="stylesheet">
     <link href="styles.css" rel="stylesheet">
 </head>
 
@@ -526,7 +527,7 @@
                                                 <button
                                                     key={`${rowIndex}-${colIndex}`}
                                                     onClick={() => handleChordClick(chord, rowIndex, colIndex)}
-                                                    className={`text-xs p-3 rounded-xl flex-1 text-center transition-colors border border-gray-300
+                                                    className={`text-xs p-3 rounded-xl flex-1 text-center transition-colors border border-gray-300 chord-button
                                             ${chord === ''
                                                             ? 'border-none'
                                                             : activeButtons.has(`${rowIndex}-${colIndex}`)
@@ -572,7 +573,7 @@
                                                     <button
                                                         key={`${adjustedRowIndex}-${colIndex}`}
                                                         onClick={() => handleChordClick(chord, adjustedRowIndex, colIndex)}
-                                                        className={`text-xs p-3 rounded-xl flex-1 text-center transition-colors border border-gray-300
+                                                        className={`text-xs p-3 rounded-xl flex-1 text-center transition-colors border border-gray-300 chord-button
                                                 ${chord === ''
                                                                 ? 'border-none'
                                                                 : activeButtons.has(`${adjustedRowIndex}-${colIndex}`)
@@ -619,7 +620,7 @@
                                                     <button
                                                         key={`${adjustedRowIndex}-${colIndex}`}
                                                         onClick={() => handleChordClick(chord, adjustedRowIndex, colIndex)}
-                                                        className={`text-xs p-3 rounded-xl flex-1 text-center transition-colors border border-gray-300
+                                                        className={`text-xs p-3 rounded-xl flex-1 text-center transition-colors border border-gray-300 chord-button
                                                 ${chord === ''
                                                                 ? 'border-none'
                                                                 : activeButtons.has(`${adjustedRowIndex}-${colIndex}`)

@@ -6,6 +6,7 @@
     --bg-color: #ffffff;
     --section-bg: #f3f4f6;
     --button-active: #f9b116;
+    --font-chord: 'Monaco', monospace;
 }
 
 * {
@@ -24,6 +25,14 @@ body {
     line-height: 1.6;
     color: var(--text-color);
     background: var(--bg-color);
+}
+
+.chord-button {
+    font-family: 'Monaco', monospace;
+    font-size: 0.75rem;
+    /* Adjust as needed */
+    letter-spacing: -0.02em;
+    /* Optional: fine-tune the letter spacing */
 }
 
 .container {
