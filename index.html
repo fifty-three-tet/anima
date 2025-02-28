@@ -399,14 +399,18 @@
 
                 setLoadingStatus(prev => new Map(prev).set(chord, 'loading'));
 
-                try {
-                    const fileName = getFileName(chord, isThirdGroup);
-                    const baseUrl = 'https://fifty-three-tet.github.io/microtonal_explorer_project/audio/';
-                    const finalUrl = baseUrl + encodeURIComponent(fileName);
+                // Get the filename from mapping
+                const fileName = getFileName(chord, isThirdGroup);
+                const baseUrl = 'https://fifty-three-tet.github.io/microtonal_explorer_project/audio/';
+                const finalUrl = baseUrl + encodeURIComponent(fileName);
 
-                    // Fetch the audio file
+                try {
+                    // Try to fetch the audio file
                     const response = await fetch(finalUrl);
+
                     if (!response.ok) {
+                        // If the file doesn't exist, try a fallback
+                        // For example, use a generic chord sound or similar chord
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
 
@@ -428,8 +432,15 @@
 
                 } catch (error) {
                     console.error(`Failed to load audio for chord: ${chord}`, error);
+
+                    // Set loading status to false but don't show error in UI
                     setLoadingStatus(prev => new Map(prev).set(chord, false));
-                    setDebugInfo(`Failed to load: ${chord} - ${error.message}`);
+
+                    // Optional: Try loading a fallback sound instead
+                    // tryLoadFallbackSound(chord);
+
+                    // Or simply show a less alarming message
+                    setDebugInfo(`Some chord audio unavailable - using visual mode only`);
                 }
             };
 
