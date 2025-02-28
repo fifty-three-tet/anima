@@ -231,7 +231,7 @@ code {
 
 @media (min-width: 768px) {
     .image-container {
-        width: 32%;
+        width: 25%;
         /* You can adjust this percentage to your liking */
     }
 }
