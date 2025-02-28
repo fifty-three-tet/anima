@@ -15,6 +15,16 @@
     box-sizing: border-box;
 }
 
+@media (max-width: 1095px) {
+    .chord-progressions {
+        flex-direction: column !important;
+    }
+
+    .image-container {
+        width: 100%;
+    }
+}
+
 code,
 .installation {
     font-family: Monaco, Consolas, 'Courier New', monospace;
