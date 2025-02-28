@@ -353,13 +353,13 @@
                 // Otherwise, start with the original chord name.
                 let fileName = chord;
 
-                // For third-group chords, decide if you need to add a leading underscore.
-                if (isThirdGroup && fileName[0] !== '_' && !fileName.includes('ø')) {
-                    fileName = '_' + fileName;
-                }
-
                 // Replace any slashes with underscores.
                 fileName = fileName.replace(/\//g, '_');
+
+                // For third-group chords, add leading underscore if needed
+                if (isThirdGroup && fileName[0] !== '_') {
+                    fileName = '_' + fileName;
+                }
 
                 return fileName + '.wav';
             };
@@ -393,8 +393,8 @@
                 };
             }, []);
 
-            // Enhanced audio loading function using Web Audio API
-            const loadAudio = async (chord, isThirdGroup = false) => {
+        // Enhanced audio loading function using Web Audio API
+        const loadAudio = async (chord, isThirdGroup = false) => {
                 if (chord === '' || audioCache.has(chord)) return;
 
                 setLoadingStatus(prev => new Map(prev).set(chord, 'loading'));
@@ -404,21 +404,23 @@
                     const baseUrl = 'https://fifty-three-tet.github.io/microtonal_explorer_project/audio/';
                     const finalUrl = baseUrl + encodeURIComponent(fileName);
 
+                    console.log(`Trying to load: ${chord} → ${fileName}`); // Debug info
+
                     // Fetch the audio file
                     const response = await fetch(finalUrl);
                     if (!response.ok) {
-                        // Instead of showing an error, just mark as "not available"
+                        console.error(`File not found: ${fileName}`); // Log exact filename that's missing
                         setLoadingStatus(prev => new Map(prev).set(chord, false));
-
-                        // A more subtle message or no message at all
-                        // setDebugInfo("Some chords unavailable - visualization only");
-                        return; // Exit early
+                        return;
                     }
 
-                    // Rest of the function stays the same...
+                    // Get the audio data as an ArrayBuffer
                     const arrayBuffer = await response.arrayBuffer();
+
+                    // Decode the audio data
                     const audioBuffer = await audioContext.current.decodeAudioData(arrayBuffer);
 
+                    // Store the decoded buffer in our cache
                     setAudioCache(prev => {
                         const newCache = new Map(prev);
                         newCache.set(chord, audioBuffer);
