@@ -101,7 +101,7 @@ h3 {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 1.0rem;
-    margin-top: 1.0rem;
+    margin-top: 0.0rem;
 }
 
 .feature-card {
