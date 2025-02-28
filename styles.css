@@ -43,16 +43,10 @@ body {
 
 header {
     text-align: center;
-    margin-bottom: 0rem;
+    margin-bottom: 1rem;
     padding: 1rem;
     background: var(--section-bg);
     border-radius: 8px;
-}
-
-h1 {
-    font-size: 2.5rem;
-    color: var(--primary-color);
-    margin-bottom: 1rem;
 }
 
 header>p {
@@ -84,6 +78,12 @@ ol>li {
     /* This controls the space above and below each numbered */
     padding-left: 1rem;
     /* Space after the number */
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
 }
 
 h2 {
