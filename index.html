@@ -434,6 +434,7 @@
             };
 
             // Function to play a chord using Web Audio API
+            // Function to play a chord using Web Audio API
             const playChord = (chord, buttonId) => {
                 // Get the audio buffer from cache
                 const buffer = audioCache.get(chord);
@@ -453,7 +454,7 @@
 
                 // Create a gain node for volume control
                 const gainNode = audioContext.current.createGain();
-                gainNode.gain.value = 1.0; // Full volume
+                gainNode.gain.value = 0.6; // Set to 60% volume
 
                 // Connect source to gain, then to destination (speakers)
                 source.connect(gainNode);
