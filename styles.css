@@ -266,7 +266,12 @@ code {
 .resource-button:hover {
     background: var(--secondary-color, #2563EB);
 }
-.back-button {
+
+.button-container {
+    text-align: center;
+    margin-top: 12px;
+}
+
     display: inline-block;
     background: var(--primary-color);
     color: white;
