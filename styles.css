@@ -250,4 +250,19 @@ code {
         width: 29%;
         /* You can adjust this percentage to your liking */
     }
+}.resource-button {
+    display: inline-block;
+    background: var(--primary-color, #3B82F6);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    margin-top: 12px;
+    font-weight: 500;
+    transition: background-color 0.2s;
 }
+
+.resource-button:hover {
+    background: var(--secondary-color, #2563EB);
+}
+
