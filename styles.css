@@ -265,4 +265,77 @@ code {
 .resource-button:hover {
     background: var(--secondary-color, #2563EB);
 }
+.back-button {
+    display: inline-block;
+    background: var(--primary-color);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.back-button:hover {
+    background: var(--secondary-color);
+}
+
+.chord-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    background: var(--bg-color);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.chord-table th {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.chord-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+.chord-table tr:nth-child(even) {
+    background-color: #F3F4F6;
+}
+
+.chord-table tr.category-heading {
+    background-color: #EFF6FF;
+    font-weight: 600;
+}
+
+.table-container {
+    max-height: 600px;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+}
+
+.notation-list {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.notation-list li {
+    margin-bottom: 0.5rem;
+}
+
+.figure-caption {
+    font-size: 0.9rem;
+    color: #4B5563;
+    margin-top: 0.5rem;
+    font-style: italic;
+}
 
