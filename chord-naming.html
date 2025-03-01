@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chord Naming Convention - Microtonal Explorer Project</title>
-    <!-- Add React and other dependencies -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
@@ -13,7 +12,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href="styles.css" rel="stylesheet">
-    
 </head>
 
 <body>
@@ -23,10 +21,12 @@
             <p>53-Tone Equal Temperament (53-TET) Chord Classification System</p>
         </header>
 
-        <a href="index.html" class="back-button">← Back to Main Page</a>
+        <div class="mb-4">
+            <a href="index.html" class="resource-button">← Back to Main Page</a>
+        </div>
 
-        <section class="content-section">
-            <h2 class="section-heading">Understanding 53-TET Chord Notation</h2>
+        <section class="project-section">
+            <h2 class="text-2xl font-bold mb-4 text-blue-600">Understanding 53-TET Chord Notation</h2>
 
             <p>The Microtonal Explorer Project uses an extended chord naming convention that captures the nuanced
                 interval qualities available in 53-tone equal temperament. This naming system builds upon traditional
@@ -37,7 +37,7 @@
                 with specific symbols indicating the precise tuning of each interval. This notation allows for clear
                 communication of chord structures that extend beyond the 12-TET system.</p>
 
-            <div class="notation-guide">
+            <div class="feature-card">
                 <h3>Interval Quality Prefixes</h3>
                 <p>The following prefixes are used to indicate the quality of intervals:</p>
 
@@ -61,7 +61,7 @@
                 </ul>
             </div>
 
-            <div class="figure-section">
+            <div class="feature-card">
                 <h3>Interval Distribution in 53-TET</h3>
                 <p>The 53-TET system divides the octave into 53 equal parts, providing a rich palette of intervals that
                     closely approximate just intonation ratios while maintaining the flexibility of equal temperament.
@@ -73,8 +73,8 @@
             </div>
         </section>
 
-        <section class="content-section">
-            <h2 class="section-heading">Chord Naming Reference Table</h2>
+        <section class="project-section">
+            <h2 class="text-2xl font-bold mb-4 text-blue-600">Chord Naming Reference Table</h2>
 
             <p>The following table presents a comprehensive reference of chord names based on the quality of their
                 thirds, fifths, and sevenths:</p>
@@ -98,61 +98,61 @@
                             <td>supermajor</td>
                             <td>perfect</td>
                             <td>supermajor</td>
-                            <td class="chord-name">S^S^7</td>
+                            <td class="chord-button">S^S^7</td>
                         </tr>
                         <tr>
                             <td>supermajor</td>
                             <td>perfect</td>
                             <td>upmajor</td>
-                            <td class="chord-name">S^^7</td>
+                            <td class="chord-button">S^^7</td>
                         </tr>
                         <tr>
                             <td>supermajor</td>
                             <td>perfect</td>
                             <td>major</td>
-                            <td class="chord-name">S^M7</td>
+                            <td class="chord-button">S^M7</td>
                         </tr>
                         <tr>
                             <td>supermajor</td>
                             <td>perfect</td>
                             <td>downmajor</td>
-                            <td class="chord-name">S^^7</td>
+                            <td class="chord-button">S^^7</td>
                         </tr>
                         <tr>
                             <td>supermajor</td>
                             <td>perfect</td>
                             <td>neutral-major</td>
-                            <td class="chord-name">S^NM7</td>
+                            <td class="chord-button">S^NM7</td>
                         </tr>
                         <tr>
                             <td>supermajor</td>
                             <td>perfect</td>
                             <td>neutral</td>
-                            <td class="chord-name">S^N7</td>
+                            <td class="chord-button">S^N7</td>
                         </tr>
                         <tr>
                             <td>supermajor</td>
                             <td>perfect</td>
                             <td>neutral-minor</td>
-                            <td class="chord-name">S^Nm7</td>
+                            <td class="chord-button">S^Nm7</td>
                         </tr>
                         <tr>
                             <td>supermajor</td>
                             <td>perfect</td>
                             <td>minor</td>
-                            <td class="chord-name">S^m7</td>
+                            <td class="chord-button">S^m7</td>
                         </tr>
                         <tr>
                             <td>supermajor</td>
                             <td>perfect</td>
                             <td>downminor</td>
-                            <td class="chord-name">S^vm7</td>
+                            <td class="chord-button">S^vm7</td>
                         </tr>
                         <tr>
                             <td>supermajor</td>
                             <td>perfect</td>
                             <td>subminor</td>
-                            <td class="chord-name">S^sm7</td>
+                            <td class="chord-button">S^sm7</td>
                         </tr>
 
                         <!-- Upmajor Third Chords -->
@@ -163,61 +163,61 @@
                             <td>upmajor</td>
                             <td>perfect</td>
                             <td>supermajor</td>
-                            <td class="chord-name">^S^7</td>
+                            <td class="chord-button">^S^7</td>
                         </tr>
                         <tr>
                             <td>upmajor</td>
                             <td>perfect</td>
                             <td>upmajor</td>
-                            <td class="chord-name">^^7</td>
+                            <td class="chord-button">^^7</td>
                         </tr>
                         <tr>
                             <td>upmajor</td>
                             <td>perfect</td>
                             <td>major</td>
-                            <td class="chord-name">^M7</td>
+                            <td class="chord-button">^M7</td>
                         </tr>
                         <tr>
                             <td>upmajor</td>
                             <td>perfect</td>
                             <td>downmajor</td>
-                            <td class="chord-name">^v7</td>
+                            <td class="chord-button">^v7</td>
                         </tr>
                         <tr>
                             <td>upmajor</td>
                             <td>perfect</td>
                             <td>neutral-major</td>
-                            <td class="chord-name">^NM7</td>
+                            <td class="chord-button">^NM7</td>
                         </tr>
                         <tr>
                             <td>upmajor</td>
                             <td>perfect</td>
                             <td>neutral</td>
-                            <td class="chord-name">^N7</td>
+                            <td class="chord-button">^N7</td>
                         </tr>
                         <tr>
                             <td>upmajor</td>
                             <td>perfect</td>
                             <td>neutral-minor</td>
-                            <td class="chord-name">^Nm7</td>
+                            <td class="chord-button">^Nm7</td>
                         </tr>
                         <tr>
                             <td>upmajor</td>
                             <td>perfect</td>
                             <td>minor</td>
-                            <td class="chord-name">^m7</td>
+                            <td class="chord-button">^m7</td>
                         </tr>
                         <tr>
                             <td>upmajor</td>
                             <td>perfect</td>
                             <td>downminor</td>
-                            <td class="chord-name">^vm7</td>
+                            <td class="chord-button">^vm7</td>
                         </tr>
                         <tr>
                             <td>upmajor</td>
                             <td>perfect</td>
                             <td>subminor</td>
-                            <td class="chord-name">^sm7</td>
+                            <td class="chord-button">^sm7</td>
                         </tr>
 
                         <!-- Major Third Chords -->
@@ -228,61 +228,61 @@
                             <td>major</td>
                             <td>perfect</td>
                             <td>supermajor</td>
-                            <td class="chord-name">S^7</td>
+                            <td class="chord-button">S^7</td>
                         </tr>
                         <tr>
                             <td>major</td>
                             <td>perfect</td>
                             <td>upmajor</td>
-                            <td class="chord-name">^M7</td>
+                            <td class="chord-button">^M7</td>
                         </tr>
                         <tr>
                             <td>major</td>
                             <td>perfect</td>
                             <td>major</td>
-                            <td class="chord-name">maj7</td>
+                            <td class="chord-button">maj7</td>
                         </tr>
                         <tr>
                             <td>major</td>
                             <td>perfect</td>
                             <td>downmajor</td>
-                            <td class="chord-name">vM7</td>
+                            <td class="chord-button">vM7</td>
                         </tr>
                         <tr>
                             <td>major</td>
                             <td>perfect</td>
                             <td>neutral-major</td>
-                            <td class="chord-name">NM7</td>
+                            <td class="chord-button">NM7</td>
                         </tr>
                         <tr>
                             <td>major</td>
                             <td>perfect</td>
                             <td>neutral</td>
-                            <td class="chord-name">N7</td>
+                            <td class="chord-button">N7</td>
                         </tr>
                         <tr>
                             <td>major</td>
                             <td>perfect</td>
                             <td>neutral-minor</td>
-                            <td class="chord-name">Nm7</td>
+                            <td class="chord-button">Nm7</td>
                         </tr>
                         <tr>
                             <td>major</td>
                             <td>perfect</td>
                             <td>minor</td>
-                            <td class="chord-name">7</td>
+                            <td class="chord-button">7</td>
                         </tr>
                         <tr>
                             <td>major</td>
                             <td>perfect</td>
                             <td>downminor</td>
-                            <td class="chord-name">vm7</td>
+                            <td class="chord-button">vm7</td>
                         </tr>
                         <tr>
                             <td>major</td>
                             <td>perfect</td>
                             <td>subminor</td>
-                            <td class="chord-name">sm7</td>
+                            <td class="chord-button">sm7</td>
                         </tr>
 
                         <!-- Downmajor Third Chords -->
@@ -293,61 +293,61 @@
                             <td>downmajor</td>
                             <td>perfect</td>
                             <td>supermajor</td>
-                            <td class="chord-name">vMS^7</td>
+                            <td class="chord-button">vMS^7</td>
                         </tr>
                         <tr>
                             <td>downmajor</td>
                             <td>perfect</td>
                             <td>upmajor</td>
-                            <td class="chord-name">vM^M7</td>
+                            <td class="chord-button">vM^M7</td>
                         </tr>
                         <tr>
                             <td>downmajor</td>
                             <td>perfect</td>
                             <td>major</td>
-                            <td class="chord-name">vMM7</td>
+                            <td class="chord-button">vMM7</td>
                         </tr>
                         <tr>
                             <td>downmajor</td>
                             <td>perfect</td>
                             <td>downmajor</td>
-                            <td class="chord-name">vMvM7</td>
+                            <td class="chord-button">vMvM7</td>
                         </tr>
                         <tr>
                             <td>downmajor</td>
                             <td>perfect</td>
                             <td>neutral-major</td>
-                            <td class="chord-name">vMNM7</td>
+                            <td class="chord-button">vMNM7</td>
                         </tr>
                         <tr>
                             <td>downmajor</td>
                             <td>perfect</td>
                             <td>neutral</td>
-                            <td class="chord-name">vMN7</td>
+                            <td class="chord-button">vMN7</td>
                         </tr>
                         <tr>
                             <td>downmajor</td>
                             <td>perfect</td>
                             <td>neutral-minor</td>
-                            <td class="chord-name">vMNm7</td>
+                            <td class="chord-button">vMNm7</td>
                         </tr>
                         <tr>
                             <td>downmajor</td>
                             <td>perfect</td>
                             <td>minor</td>
-                            <td class="chord-name">vMm7</td>
+                            <td class="chord-button">vMm7</td>
                         </tr>
                         <tr>
                             <td>downmajor</td>
                             <td>perfect</td>
                             <td>downminor</td>
-                            <td class="chord-name">vMvm7</td>
+                            <td class="chord-button">vMvm7</td>
                         </tr>
                         <tr>
                             <td>downmajor</td>
                             <td>perfect</td>
                             <td>subminor</td>
-                            <td class="chord-name">vMsm7</td>
+                            <td class="chord-button">vMsm7</td>
                         </tr>
 
                         <!-- Neutral-Major Third Chords -->
@@ -358,61 +358,61 @@
                             <td>neutral-major</td>
                             <td>perfect</td>
                             <td>supermajor</td>
-                            <td class="chord-name">NMS^7</td>
+                            <td class="chord-button">NMS^7</td>
                         </tr>
                         <tr>
                             <td>neutral-major</td>
                             <td>perfect</td>
                             <td>upmajor</td>
-                            <td class="chord-name">NM^7</td>
+                            <td class="chord-button">NM^7</td>
                         </tr>
                         <tr>
                             <td>neutral-major</td>
                             <td>perfect</td>
                             <td>major</td>
-                            <td class="chord-name">NMM7</td>
+                            <td class="chord-button">NMM7</td>
                         </tr>
                         <tr>
                             <td>neutral-major</td>
                             <td>perfect</td>
                             <td>downmajor</td>
-                            <td class="chord-name">NMvM7</td>
+                            <td class="chord-button">NMvM7</td>
                         </tr>
                         <tr>
                             <td>neutral-major</td>
                             <td>perfect</td>
                             <td>neutral-major</td>
-                            <td class="chord-name">NMNM7</td>
+                            <td class="chord-button">NMNM7</td>
                         </tr>
                         <tr>
                             <td>neutral-major</td>
                             <td>perfect</td>
                             <td>neutral</td>
-                            <td class="chord-name">NMN7</td>
+                            <td class="chord-button">NMN7</td>
                         </tr>
                         <tr>
                             <td>neutral-major</td>
                             <td>perfect</td>
                             <td>neutral-minor</td>
-                            <td class="chord-name">NMNm7</td>
+                            <td class="chord-button">NMNm7</td>
                         </tr>
                         <tr>
                             <td>neutral-major</td>
                             <td>perfect</td>
                             <td>minor</td>
-                            <td class="chord-name">NMm7</td>
+                            <td class="chord-button">NMm7</td>
                         </tr>
                         <tr>
                             <td>neutral-major</td>
                             <td>perfect</td>
                             <td>downminor</td>
-                            <td class="chord-name">NMvm7</td>
+                            <td class="chord-button">NMvm7</td>
                         </tr>
                         <tr>
                             <td>neutral-major</td>
                             <td>perfect</td>
                             <td>subminor</td>
-                            <td class="chord-name">NMsm7</td>
+                            <td class="chord-button">NMsm7</td>
                         </tr>
 
                         <!-- Neutral Third Chords -->
@@ -423,61 +423,61 @@
                             <td>neutral</td>
                             <td>perfect</td>
                             <td>supermajor</td>
-                            <td class="chord-name">NS^7</td>
+                            <td class="chord-button">NS^7</td>
                         </tr>
                         <tr>
                             <td>neutral</td>
                             <td>perfect</td>
                             <td>upmajor</td>
-                            <td class="chord-name">N^7</td>
+                            <td class="chord-button">N^7</td>
                         </tr>
                         <tr>
                             <td>neutral</td>
                             <td>perfect</td>
                             <td>major</td>
-                            <td class="chord-name">NM7</td>
+                            <td class="chord-button">NM7</td>
                         </tr>
                         <tr>
                             <td>neutral</td>
                             <td>perfect</td>
                             <td>downmajor</td>
-                            <td class="chord-name">NvM7</td>
+                            <td class="chord-button">NvM7</td>
                         </tr>
                         <tr>
                             <td>neutral</td>
                             <td>perfect</td>
                             <td>neutral-major</td>
-                            <td class="chord-name">NNM7</td>
+                            <td class="chord-button">NNM7</td>
                         </tr>
                         <tr>
                             <td>neutral</td>
                             <td>perfect</td>
                             <td>neutral</td>
-                            <td class="chord-name">NN7</td>
+                            <td class="chord-button">NN7</td>
                         </tr>
                         <tr>
                             <td>neutral</td>
                             <td>perfect</td>
                             <td>neutral-minor</td>
-                            <td class="chord-name">NNm7</td>
+                            <td class="chord-button">NNm7</td>
                         </tr>
                         <tr>
                             <td>neutral</td>
                             <td>perfect</td>
                             <td>minor</td>
-                            <td class="chord-name">Nm7</td>
+                            <td class="chord-button">Nm7</td>
                         </tr>
                         <tr>
                             <td>neutral</td>
                             <td>perfect</td>
                             <td>downminor</td>
-                            <td class="chord-name">Nvm7</td>
+                            <td class="chord-button">Nvm7</td>
                         </tr>
                         <tr>
                             <td>neutral</td>
                             <td>perfect</td>
                             <td>subminor</td>
-                            <td class="chord-name">Nsm7</td>
+                            <td class="chord-button">Nsm7</td>
                         </tr>
 
                         <!-- Neutral-Minor Third Chords -->
@@ -488,61 +488,61 @@
                             <td>neutral-minor</td>
                             <td>perfect</td>
                             <td>supermajor</td>
-                            <td class="chord-name">NmS^7</td>
+                            <td class="chord-button">NmS^7</td>
                         </tr>
                         <tr>
                             <td>neutral-minor</td>
                             <td>perfect</td>
                             <td>upmajor</td>
-                            <td class="chord-name">Nm^7</td>
+                            <td class="chord-button">Nm^7</td>
                         </tr>
                         <tr>
                             <td>neutral-minor</td>
                             <td>perfect</td>
                             <td>major</td>
-                            <td class="chord-name">NmM7</td>
+                            <td class="chord-button">NmM7</td>
                         </tr>
                         <tr>
                             <td>neutral-minor</td>
                             <td>perfect</td>
                             <td>downmajor</td>
-                            <td class="chord-name">NmvM7</td>
+                            <td class="chord-button">NmvM7</td>
                         </tr>
                         <tr>
                             <td>neutral-minor</td>
                             <td>perfect</td>
                             <td>neutral-major</td>
-                            <td class="chord-name">NmNM7</td>
+                            <td class="chord-button">NmNM7</td>
                         </tr>
                         <tr>
                             <td>neutral-minor</td>
                             <td>perfect</td>
                             <td>neutral</td>
-                            <td class="chord-name">NmN7</td>
+                            <td class="chord-button">NmN7</td>
                         </tr>
                         <tr>
                             <td>neutral-minor</td>
                             <td>perfect</td>
                             <td>neutral-minor</td>
-                            <td class="chord-name">NmNm7</td>
+                            <td class="chord-button">NmNm7</td>
                         </tr>
                         <tr>
                             <td>neutral-minor</td>
                             <td>perfect</td>
                             <td>minor</td>
-                            <td class="chord-name">Nmm7</td>
+                            <td class="chord-button">Nmm7</td>
                         </tr>
                         <tr>
                             <td>neutral-minor</td>
                             <td>perfect</td>
                             <td>downminor</td>
-                            <td class="chord-name">Nmvm7</td>
+                            <td class="chord-button">Nmvm7</td>
                         </tr>
                         <tr>
                             <td>neutral-minor</td>
                             <td>perfect</td>
                             <td>subminor</td>
-                            <td class="chord-name">Nmsm7</td>
+                            <td class="chord-button">Nmsm7</td>
                         </tr>
 
                         <!-- Minor Third Chords -->
@@ -553,61 +553,61 @@
                             <td>minor</td>
                             <td>perfect</td>
                             <td>supermajor</td>
-                            <td class="chord-name">mS^7</td>
+                            <td class="chord-button">mS^7</td>
                         </tr>
                         <tr>
                             <td>minor</td>
                             <td>perfect</td>
                             <td>upmajor</td>
-                            <td class="chord-name">m^7</td>
+                            <td class="chord-button">m^7</td>
                         </tr>
                         <tr>
                             <td>minor</td>
                             <td>perfect</td>
                             <td>major</td>
-                            <td class="chord-name">mM7</td>
+                            <td class="chord-button">mM7</td>
                         </tr>
                         <tr>
                             <td>minor</td>
                             <td>perfect</td>
                             <td>downmajor</td>
-                            <td class="chord-name">mvM7</td>
+                            <td class="chord-button">mvM7</td>
                         </tr>
                         <tr>
                             <td>minor</td>
                             <td>perfect</td>
                             <td>neutral-major</td>
-                            <td class="chord-name">mNM7</td>
+                            <td class="chord-button">mNM7</td>
                         </tr>
                         <tr>
                             <td>minor</td>
                             <td>perfect</td>
                             <td>neutral</td>
-                            <td class="chord-name">mN7</td>
+                            <td class="chord-button">mN7</td>
                         </tr>
                         <tr>
                             <td>minor</td>
                             <td>perfect</td>
                             <td>neutral-minor</td>
-                            <td class="chord-name">mNm7</td>
+                            <td class="chord-button">mNm7</td>
                         </tr>
                         <tr>
                             <td>minor</td>
                             <td>perfect</td>
                             <td>minor</td>
-                            <td class="chord-name">m7</td>
+                            <td class="chord-button">m7</td>
                         </tr>
                         <tr>
                             <td>minor</td>
                             <td>perfect</td>
                             <td>downminor</td>
-                            <td class="chord-name">mvm7</td>
+                            <td class="chord-button">mvm7</td>
                         </tr>
                         <tr>
                             <td>minor</td>
                             <td>perfect</td>
                             <td>subminor</td>
-                            <td class="chord-name">msm7</td>
+                            <td class="chord-button">msm7</td>
                         </tr>
 
                         <!-- Downminor Third Chords -->
@@ -618,133 +618,131 @@
                             <td>downminor</td>
                             <td>perfect</td>
                             <td>supermajor</td>
-                            <td class="chord-name">vmS^7</td>
+                            <td class="chord-button">vmS^7</td>
                         </tr>
                         <tr>
                             <td>downminor</td>
-                            <tr>
-                                <td>downminor</td>
-                                <td>perfect</td>
-                                <td>upmajor</td>
-                                <td class="chord-name">vm^7</td>
-                            </tr>
-                            <tr>
-                                <td>downminor</td>
-                                <td>perfect</td>
-                                <td>major</td>
-                                <td class="chord-name">vmM7</td>
-                            </tr>
-                            <tr>
-                                <td>downminor</td>
-                                <td>perfect</td>
-                                <td>downmajor</td>
-                                <td class="chord-name">vmvM7</td>
-                            </tr>
-                            <tr>
-                                <td>downminor</td>
-                                <td>perfect</td>
-                                <td>neutral-major</td>
-                                <td class="chord-name">vmNM7</td>
-                            </tr>
-                            <tr>
-                                <td>downminor</td>
-                                <td>perfect</td>
-                                <td>neutral</td>
-                                <td class="chord-name">vmN7</td>
-                            </tr>
-                            <tr>
-                                <td>downminor</td>
-                                <td>perfect</td>
-                                <td>neutral-minor</td>
-                                <td class="chord-name">vmNm7</td>
-                            </tr>
-                            <tr>
-                                <td>downminor</td>
-                                <td>perfect</td>
-                                <td>minor</td>
-                                <td class="chord-name">vmm7</td>
-                            </tr>
-                            <tr>
-                                <td>downminor</td>
-                                <td>perfect</td>
-                                <td>downminor</td>
-                                <td class="chord-name">vmvm7</td>
-                            </tr>
-                            <tr>
-                                <td>downminor</td>
-                                <td>perfect</td>
-                                <td>subminor</td>
-                                <td class="chord-name">vmsm7</td>
-                            </tr>
-                            
-                            <!-- Subminor Third Chords -->
-                            <tr class="category-heading">
-                                <td colspan="4">Subminor Third Chords</td>
-                            </tr>
-                            <tr>
-                                <td>subminor</td>
-                                <td>perfect</td>
-                                <td>subminor</td>
-                                <td class="chord-name">smsm7</td>
-                            </tr>
-                            <tr>
-                                <td>subminor</td>
-                                <td>perfect</td>
-                                <td>minor</td>
-                                <td class="chord-name">smm7</td>
-                            </tr>
-                            <tr>
-                                <td>subminor</td>
-                                <td>perfect</td>
-                                <td>neutral</td>
-                                <td class="chord-name">smN7</td>
-                            </tr>
-                            <tr>
-                                <td>subminor</td>
-                                <td>perfect</td>
-                                <td>major</td>
-                                <td class="chord-name">smM7</td>
-                            </tr>
-                            <tr>
-                                <td>subminor</td>
-                                <td>perfect</td>
-                                <td>super-major</td>
-                                <td class="chord-name">smS^7</td>
-                            </tr>
-                            
-                            <!-- Diminished Fifth Chords -->
-                            <tr class="category-heading">
-                                <td colspan="4">Diminished Fifth Chords</td>
-                            </tr>
-                            <tr>
-                                <td>minor</td>
-                                <td>diminished</td>
-                                <td>subminor</td>
-                                <td class="chord-name">smø7</td>
-                            </tr>
-                            <tr>
-                                <td>minor</td>
-                                <td>diminished</td>
-                                <td>minor</td>
-                                <td class="chord-name">ø7</td>
-                            </tr>
-                            <tr>
-                                <td>minor</td>
-                                <td>diminished</td>
-                                <td>neutral</td>
-                                <td class="chord-name">øN7</td>
+                            <td>perfect</td>
+                            <td>upmajor</td>
+                            <td class="chord-button">vm^7</td>
+                        </tr>
+                        <tr>
+                            <td>downminor</td>
+                            <td>perfect</td>
+                            <td>major</td>
+                            <td class="chord-button">vmM7</td>
+                        </tr>
+                        <tr>
+                            <td>downminor</td>
+                            <td>perfect</td>
+                            <td>downmajor</td>
+                            <td class="chord-button">vmvM7</td>
+                        </tr>
+                        <tr>
+                            <td>downminor</td>
+                            <td>perfect</td>
+                            <td>neutral-major</td>
+                            <td class="chord-button">vmNM7</td>
+                        </tr>
+                        <tr>
+                            <td>downminor</td>
+                            <td>perfect</td>
+                            <td>neutral</td>
+                            <td class="chord-button">vmN7</td>
+                        </tr>
+                        <tr>
+                            <td>downminor</td>
+                            <td>perfect</td>
+                            <td>neutral-minor</td>
+                            <td class="chord-button">vmNm7</td>
+                        </tr>
+                        <tr>
+                            <td>downminor</td>
+                            <td>perfect</td>
+                            <td>minor</td>
+                            <td class="chord-button">vmm7</td>
+                        </tr>
+                        <tr>
+                            <td>downminor</td>
+                            <td>perfect</td>
+                            <td>downminor</td>
+                            <td class="chord-button">vmvm7</td>
+                        </tr>
+                        <tr>
+                            <td>downminor</td>
+                            <td>perfect</td>
+                            <td>subminor</td>
+                            <td class="chord-button">vmsm7</td>
+                        </tr>
+
+                        <!-- Subminor Third Chords -->
+                        <tr class="category-heading">
+                            <td colspan="4">Subminor Third Chords</td>
+                        </tr>
+                        <tr>
+                            <td>subminor</td>
+                            <td>perfect</td>
+                            <td>subminor</td>
+                            <td class="chord-button">smsm7</td>
+                        </tr>
+                        <tr>
+                            <td>subminor</td>
+                            <td>perfect</td>
+                            <td>minor</td>
+                            <td class="chord-button">smm7</td>
+                        </tr>
+                        <tr>
+                            <td>subminor</td>
+                            <td>perfect</td>
+                            <td>neutral</td>
+                            <td class="chord-button">smN7</td>
+                        </tr>
+                        <tr>
+                            <td>subminor</td>
+                            <td>perfect</td>
+                            <td>major</td>
+                            <td class="chord-button">smM7</td>
+                        </tr>
+                        <tr>
+                            <td>subminor</td>
+                            <td>perfect</td>
+                            <td>super-major</td>
+                            <td class="chord-button">smS^7</td>
+                        </tr>
+
+                        <!-- Diminished Fifth Chords -->
+                        <tr class="category-heading">
+                            <td colspan="4">Diminished Fifth Chords</td>
+                        </tr>
+                        <tr>
+                            <td>minor</td>
+                            <td>diminished</td>
+                            <td>subminor</td>
+                            <td class="chord-button">smø7</td>
+                        </tr>
+                        <tr>
+                            <td>minor</td>
+                            <td>diminished</td>
+                            <td>minor</td>
+                            <td class="chord-button">ø7</td>
+                        </tr>
+                        <tr>
+                            <td>minor</td>
+                            <td>diminished</td>
+                            <td>neutral</td>
+                            <td class="chord-button">øN7</td>
                             </tr>
                             <tr>
                                 <td>minor</td>
                                 <td>diminished</td>
                                 <td>major</td>
-                                <td class="chord-name">øM7</td>
+                                <td class="chord-button">øM7</td>
                             </tr>
                             <tr>
                                 <td>minor</td>
                                 <td>diminished</td>
                                 <td>super-major</td>
-                                <td class="chord-name">øS^7</td>
+                                <td class="chord-button">øS^7</td>
                             </tr>
                             
                             <!-- Augmented Fifth Chords -->
@@ -755,47 +753,47 @@
                                 <td>major</td>
                                 <td>augmented</td>
                                 <td>subminor</td>
-                                <td class="chord-name">M+sm7</td>
+                                <td class="chord-button">M+sm7</td>
                             </tr>
                             <tr>
                                 <td>major</td>
                                 <td>augmented</td>
                                 <td>minor</td>
-                                <td class="chord-name">M+m7</td>
+                                <td class="chord-button">M+m7</td>
                             </tr>
                             <tr>
                                 <td>major</td>
                                 <td>augmented</td>
                                 <td>neutral</td>
-                                <td class="chord-name">M+N7</td>
+                                <td class="chord-button">M+N7</td>
                             </tr>
                             <tr>
                                 <td>major</td>
                                 <td>augmented</td>
                                 <td>major</td>
-                                <td class="chord-name">M+7</td>
+                                <td class="chord-button">M+7</td>
                             </tr>
                             <tr>
                                 <td>major</td>
                                 <td>augmented</td>
                                 <td>super-major</td>
-                                <td class="chord-name">M+S^7</td>
+                                <td class="chord-button">M+S^7</td>
                             </tr>
                             </tbody>
                             </table>
                             </div>
                             </section>
                             
-                            <section class="content-section">
-                                <h2 class="section-heading">Interval Quality Relationships</h2>
+                            <section class="project-section">
+                                <h2 class="text-2xl font-bold mb-4 text-blue-600">Interval Quality Relationships</h2>
                             
                                 <p>The 53-TET system enables precise expression of interval qualities that fall between the traditional major and
                                     minor distinctions. The naming system follows a logical hierarchy of interval qualities, from largest to
                                     smallest:</p>
                             
-                                <div class="notation-guide">
+                                <div class="feature-card">
                                     <h3>Interval Hierarchy (Third, Fifth, Seventh)</h3>
-                                    <ol class="notation-list">
+                                    <ol>
                                         <li><strong>Supermajor (S^)</strong> - The largest interval quality, more expanded than a standard major
                                             interval</li>
                                         <li><strong>Upmajor (^)</strong> - Slightly larger than a standard major interval</li>
@@ -813,7 +811,7 @@
                                     <p>This hierarchy allows for subtle expressive shadings that are unavailable in 12-TET systems.</p>
                                 </div>
                             
-                                <div class="figure-section">
+                                <div class="feature-card">
                                     <h3>Application in Composition</h3>
                                     <p>These extended interval qualities offer composers unprecedented control over harmonic color and expression.
                                         When applied to modal interchange, they create a rich palette of chord relationships that extends far beyond
@@ -821,7 +819,7 @@
                             
                                     <p>The following are some practical applications of this extended chord system:</p>
                             
-                                    <ul class="notation-list">
+                                    <ul>
                                         <li><strong>Microtonal Voice Leading</strong> - Smoother voice leading through adjacent harmonic spaces</li>
                                         <li><strong>Extended Modal Expressivity</strong> - More precise expression of modal characteristics from
                                             global musical traditions</li>
@@ -832,14 +830,30 @@
                                 </div>
                             </section>
                             
-                            </div>
+                            <section class="project-section">
+                                <h2 class="text-2xl font-bold mb-4 text-blue-600">Understanding Chord Notation in Context</h2>
                             
-                            <script>
-                                // Optional JavaScript for enhanced table functionality
-                                document.addEventListener('DOMContentLoaded', function () {
-                                    // Add any interactive elements if needed
-                                });
-                            </script>
+                                <p>To illustrate the notation system in practical use, consider the following examples of chord progressions in
+                                    different microtonal contexts:</p>
+                            
+                                <div class="feature-card">
+                                    <h3>Example 1: Standard 12-TET Equivalent Progression</h3>
+                                    <p>I - IV - V - I in C major (53-TET notation):</p>
+                                    <p class="chord-button">Cmaj7 - Fmaj7 - G7 - Cmaj7</p>
+                            
+                                    <h3>Example 2: Microtonal Extension with Neutral Third</h3>
+                                    <p>I - IV - V - I using neutral thirds:</p>
+                                    <p class="chord-button">CN7 - FN7 - GN7 - CN7</p>
+                            
+                                    <h3>Example 3: Complex Modal Interchange</h3>
+                                    <p>Modal interchange borrowing between parallel modes:</p>
+                                    <p class="chord-button">Cmaj7 - AbvMm7 - Fmaj7 - G^m7 - Cmaj7</p>
+                            
+                                    <p>These examples demonstrate how the notation system can clearly communicate microtonal chord structures in a
+                                        way that extends logically from traditional Western notation.</p>
+                                </div>
+                            </section>
+                            </div>
                             </body>
                             
                             </html>
