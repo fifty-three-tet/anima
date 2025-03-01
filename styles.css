@@ -252,6 +252,7 @@ code {
     }
 }.resource-button {
     display: inline-block;
+    margin: 0 auto;
     background: var(--primary-color, #3B82F6);
     color: white;
     padding: 8px 16px;
