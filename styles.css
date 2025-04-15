@@ -3,6 +3,7 @@
     --secondary-color: #373737;
     --hover-color: #0077f5;
     --title-color: #707070;
+    --softer-color: #a0a0a0;
     --text-color: #313131;
     --bg-color: #ffffff;
     --section-bg: #f7f7f7;
@@ -111,7 +112,7 @@ h2 {
 }
 
 h3 {
-    color: var(--secondary-color);
+    color: var(--softer-color);
     font-weight: bold;
     margin-bottom: 1rem;
 }
