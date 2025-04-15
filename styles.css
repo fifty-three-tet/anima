@@ -33,6 +33,7 @@ code,
 body {
     font-family: "JetBrains Mono", Roboto, 'Inter', Monaco, -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Cantarell, sans-serif;
     line-height: 1.6;
+    font-optical-sizing: auto;
     color: var(--text-color);
     background: var(--bg-color);
 }
