@@ -144,25 +144,59 @@
     </div>
     <!-- Add the React component script -->
     <script type="text/babel">
-        // Add Modal Interchange Info Component
-        const ModalInterchangeInfo = () => {
+    // Add Modal Interchange Info Component
+    const ModalInterchangeInfo = () => {
             return (
                 <div className="mb-8 p-6 bg-gray-50 rounded-lg">
-                    <h2 className="text-2xl font-bold mb-4">Understanding Modal Interchange</h2>
-                    <p className="mb-4">
-                        Modal interchange expands harmonic possibilities by borrowing chords from parallel
-                        or relative modes while maintaining connection to the original mode.
-                    </p>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="p-3 bg-white rounded shadow-sm">
-                            <h3 className="font-bold">Parallel Interchange</h3>
-                            <p>This involves borrowing chords from a mode sharing the same root as the original one. For instance, if we are in C major/Ionian, we can borrow from C Aeolian.</p>
+                    <h2 className="text-2xl font-bold mb-4 text-blue-600">Understanding Modal Interchange</h2>
+
+                    <div className="flex flex-col md:flex-row gap-6 mb-4">
+                        <div className="md:w-3/5">
+                            <p className="mb-4">
+                                Although harmonic exploration can be made through singular modes,
+                                a compelling method for expanding research to other chords is through modal interchanges.
+                                Modal interchange involves borrowing chords from parallel or relative modes
+                                to introduce new harmonic colors while maintaining a connection to the original mode.
+                            </p>
+
+                            <div className="p-3 bg-white rounded shadow-sm mb-4">
+                                <h3 className="font-bold text-blue-500 mb-2">Parallel Interchange</h3>
+                                <p>This involves borrowing chords from a mode sharing the same root as the original one.
+                                    For instance, if we are in C major/Ionian, we can borrow from C Aeolian.</p>
+                            </div>
+
+                            <div className="p-3 bg-white rounded shadow-sm mb-4">
+                                <h3 className="font-bold text-blue-500 mb-2">Relative Interchange</h3>
+                                <p>This involves shifting to a mode where the original root
+                                    functions as a different degree of the scale and borrowing chords from the obtained mode.
+                                    For instance, starting from C major/Ionian, an Aeolian relative modal interchange
+                                    would place C at the 6th degree of E♭ major/Ionian.
+                                    Therefore, we can borrow from E♭ major.</p>
+                            </div>
+
+                            <p className="mt-2">
+                                The distinction between parallel and relative modal interchanges appears more clearly
+                                when applied to chord progressions. The figure shows a simple "I vi ii V I" 12-TET progression in C major,
+                                and the parallel and relative Aeolian interchanges for the middle chords.
+                            </p>
+
+                            <p className="mt-2">
+                                The move from Ionian to Aeolian means adding a ♭3 (E♭), ♭6 (A♭), and ♭7 (B♭).
+                                In the parallel interchange, the chords are still based on the root of C.
+                                Am7 becomes A♭maj7 to correspond to the new bag of notes of C Aeolian. Similarly, we obtain Dm7♭5 and Gm7.
+                            </p>
+
+                            <p className="mt-2">
+                                In the relative interchange, the chords are now based on the root of E♭.
+                                The vi is, therefore, the 6th degree of E♭ major, i.e., Cm7. Similarly, we obtain Fm7 and B♭7.
+                            </p>
                         </div>
-                        <div className="p-3 bg-white rounded shadow-sm">
-                            <h3 className="font-bold">Relative Interchange</h3>
-                            <p>This involves shifting to a mode where the original root functions as a different degree of the scale and 
-                                borrowing chords from the obtained mode. For instance, starting from C major/Ionian, an Aeolian relative modal interchange 
-                                would place C at the 6th degree of E♭ major/Ionian. Therefore, we can borrow from E♭ major.</p>
+
+                        <div className="md:w-2/5">
+                            <div className="bg-white p-3 rounded shadow-sm">
+                                <img src="figures/modal_interchanges.png" alt="Modal Interchange Diagram" className="w-full rounded-lg" />
+                                <p className="text-sm text-gray-600 mt-2 italic">Figure: Modal interchange examples showing parallel and relative Aeolian interchanges on a C major progression.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
