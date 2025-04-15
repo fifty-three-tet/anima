@@ -281,7 +281,7 @@ code {
 }
 
 .download-button:hover {
-    background: var(--secondary-color);
+    background: var(--hover-color);
 }
 
 .button-container {
