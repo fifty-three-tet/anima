@@ -1,13 +1,13 @@
 :root {
     --primary-color: #509cff;
-    --secondary-color: #0077f5;
+    --secondary-color: #333333;
     --title-color: #707070;
     --text-color: #313131;
     --bg-color: #ffffff;
     --section-bg: #f7f7f7;
     --button-active: #f9b116;
     --font-chord: 'Monaco', monospace;
-    --normalTextSize: 0.85rem;
+    --normalTextSize: 0.85rem; 
 }
 
 * {
