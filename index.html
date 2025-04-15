@@ -151,8 +151,8 @@
                 <div className="mb-8 p-6 bg-gray-50 rounded-lg">
                     <h2 className="text-2xl font-bold mb-4 text-blue-600">Understanding Modal Interchange</h2>
 
-                    <div className="flex flex-col gap-6 mb-4">
-                        <div>
+                    <div className="flex flex-col md:flex-row gap-6 mb-4">
+                        <div className="md:w-3/5">
                             <p className="mb-4">
                                 Although harmonic exploration can be made through singular modes,
                                 a compelling method for expanding research to other chords is through modal interchanges.
@@ -160,14 +160,14 @@
                                 to introduce new harmonic colors while maintaining a connection to the original mode.
                             </p>
 
-                            <div className="flex flex-col md:flex-row gap-4 mb-4">
-                                <div className="md:w-1/2 p-3 bg-white rounded-lg shadow-sm" style={{ borderRadius: "10px" }}>
+                            <div className="flex flex-col gap-4 mb-4">
+                                <div className="p-3 bg-white rounded-lg shadow-sm" style={{ borderRadius: "10px" }}>
                                     <h3 className="font-bold text-blue-500 mb-2">Parallel Interchange</h3>
                                     <p>This involves borrowing chords from a mode sharing the same root as the original one.
                                         For instance, if we are in C major/Ionian, we can borrow from C Aeolian.</p>
                                 </div>
 
-                                <div className="md:w-1/2 p-3 bg-white rounded-lg shadow-sm" style={{ borderRadius: "10px" }}>
+                                <div className="p-3 bg-white rounded-lg shadow-sm" style={{ borderRadius: "10px" }}>
                                     <h3 className="font-bold text-blue-500 mb-2">Relative Interchange</h3>
                                     <p>This involves shifting to a mode where the original root
                                         functions as a different degree of the scale and borrowing chords from the obtained mode.
@@ -177,7 +177,7 @@
                                 </div>
                             </div>
 
-                            <div className="p-3 bg-white rounded-lg shadow-sm mb-4" style={{ borderRadius: "10px" }}>
+                            <div className="p-3 bg-white rounded-lg shadow-sm" style={{ borderRadius: "10px" }}>
                                 <p>
                                     The distinction between parallel and relative modal interchanges appears more clearly
                                     when applied to chord progressions. The figure shows a simple "I vi ii V I" 12-TET progression in C major,
@@ -197,7 +197,7 @@
                             </div>
                         </div>
 
-                        <div className="w-full">
+                        <div className="md:w-2/5">
                             <div className="bg-white p-3 rounded-lg shadow-sm" style={{ borderRadius: "10px" }}>
                                 <img src="figures/modal_interchanges.png" alt="Modal Interchange Diagram" className="w-full rounded-lg" />
                                 <p className="text-sm text-gray-600 mt-2 italic">Figure: Modal interchange examples showing parallel and relative Aeolian interchanges on a C major progression.</p>
@@ -207,23 +207,8 @@
                 </div>
             );
         };
-        
-        // ProgressionHeader Component for displaying explanation and image
-        const ProgressionHeader = ({ imageUrl, noteText }) => {
-            return (
-                <div className="progression-header">
-                    <div className="progression-note">
-                        <p>{noteText}</p>
-                    </div>
-                    <img src={imageUrl} alt="Scale visualization" className="progression-image" />
-                </div>
-            );
-        };
 
         // Chord Progression Grid Component
-        // Correctly fixed Chord Progression Grid Component
-       // Web Audio API implementation for the ChordProgressionGrid component
-        // Replace the existing implementation with this code
 
         const ChordProgressionGrid = () => {
             const [activeButtons, setActiveButtons] = React.useState(new Set());
