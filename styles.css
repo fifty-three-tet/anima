@@ -362,4 +362,7 @@ code {
     margin-top: 0.5rem;
     font-style: italic;
 }
-
+.version-info {
+    color: #666;
+    font-size: 0.9em;
+}
