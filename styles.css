@@ -270,6 +270,20 @@ code {
     background: var(--hover-color, #2563EB);
 }
 
+.download-button {
+    display: inline-block;
+    background: var(--primary-color);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 10px;
+    text-decoration: none;
+    margin: 10px 0;
+}
+
+.download-button:hover {
+    background: var(--secondary-color);
+}
+
 .button-container {
     text-align: center;
     margin-top: 12px;
