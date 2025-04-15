@@ -7,6 +7,7 @@
     --section-bg: #f7f7f7;
     --button-active: #f9b116;
     --font-chord: 'Monaco', monospace;
+    --normalTextSize: 0.85rem;
 }
 
 * {
@@ -72,7 +73,7 @@ header p {
 }
 
 .project-section p {
-    font-size: 0.85rem;
+    font-size: var(--normalTextSize);
     /* Adjust this value to the size you want */
 }
 
@@ -168,14 +169,14 @@ code {
 .feature-card ol li,
 .feature-card ul li,
 .feature-card p {
-    font-size: 1.0rem;
+    font-size: var(--normalTextSize);
     /* Match this to your other content text size */
 }
 
 .project-section li,
 .project-section ul,
 .project-section ol {
-    font-size: 1.0rem;
+    font-size: var(--normalTextSize);
     /* Match this to your project-section p font size */
 }
 
@@ -202,7 +203,7 @@ code {
     background-color: var(--bg-color);
     border-radius: 6px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-size: 1.0rem;
+    font-size: var(--normalTextSize);
 }
 
 .progression-image {
